@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Escape Room</title>
+   <link rel="stylesheet" href="/css/main.css" />
+   <link rel="stylesheet" href="/css/room1.css" />
+   <link rel="stylesheet" href="/css/room2.css" />
+   <link rel="shortcut icon" href="#" type="image/x-icon" />
+</head>
+
+<body>
+   <div id="escaperoom">
+      <div class="jumbotron">
+
+      </div>
+      <div id="mirror">
+         <div id="player-background"></div>
+         <p>PW2<br />trowssap</p>
+      </div>
+
+      <div id="room1" class="room small-room">
+         <div class="door door-1" data-state="open"></div>
+         <div id="mirrorLine"></div>
+      </div>
+      <div id="computer">
+         <div class="pc"></div>
+      </div>
+      <div id="morse-code"></div>
+
+
+      <div id="room2" class="room small-room">
+         <div class="door door-2" data-state="open"></div>
+      </div>
+      <div id="morse-code-device"></div>
+
+
+      <div id="room3" class="room big-room">
+         <div class="door door-3" data-state="open"></div>
+      </div>
+
+      <div id="hexagon1"></div>
+      <div id="hexagon2"></div>
+      <div id="hexagon3"></div>
+
+      <div id="player"></div>
+   </div>
+
+   <div id="control">
+      <div id="control-box">
+         <h2>Steuerung</h2>
+
+         <p class="control-text">
+            <img src="images/control/arrow-keys-left.png" width="30" alt="" />
+            - Links
+         </p>
+
+         <p class="control-text">
+            <img src="images/control/arrow-keys-right.png" width="30" alt="" />
+            - Rechts
+         </p>
+
+         <p class="control-text">
+            <img src="images/control/arrow-keys-up.png" width="30" alt="" />
+            - Oben
+         </p>
+
+         <p class="control-text">
+            <img src="images/control/arrow-keys-down.png" width="30" alt="" />
+            - Unten
+         </p>
+
+         <hr />
+
+         <p class="control-text">
+            <img src="images/control/enter-key.png" height="30" alt="" /> -
+            Aktion
+         </p>
+
+         <p class="control-text"></p>
+      </div>
+
+      <div id="items">
+         <hr />
+         <h2>Rucksack</h2>
+         <div id="morse-code-bag">
+            <div class="morse-code-image"></div>
+         </div>
+      </div>
+   </div>
+   <script src="js/mqttws31.js"></script>
+   <script src="js/mqtt.js" defer></script>
+
+   <script src="js/main.js" defer></script>
+   <script src="js/room1.js" defer></script>
+   <script src="js/room2.js" defer></script>
+   <script src="js/room3.js" defer></script>
+   <script src="js/escaperoom_1.js" defer></script>
+</body>
+
+</html>

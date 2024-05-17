@@ -1,0 +1,10 @@
+#morse-code-device {
+   position: absolute;
+   background-image: url("../images/room2/morse-code-device.png");
+   background-repeat: no-repeat;
+   background-size: cover;
+   top: 400px;
+   left: 200px;
+   width: 36px;
+   height: 57px;
+}
