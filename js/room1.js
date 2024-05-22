@@ -106,7 +106,7 @@ function checkHumidityAndAnimate() {
         .querySelector("#player-background")
         .classList.add("animate-layer-background");
     }
-  }, 300);
+  }, 200);
 }
 
 function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
