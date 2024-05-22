@@ -22,11 +22,27 @@ let jumbotronElem = document.querySelector(".jumbotron");
 jumbotronElem.innerHTML = `
    <h2>Willkommen</h2>
    <p>Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger Rätsel lösen. Nutze die versteckten Hinweise und zeige, 
-   dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?</p>
+   dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?</p><p>Tipp: Nutze den ESP und den Computersound um die Rätsel zu lösen.</p>
    <p style="display: flex; gap: 10px;"><img src="images/control/enter-key.png" height="20" alt=""><span>Drücke die Enter Taste zum Starten</span></p>
 `;
 jumbotronElem.style.display = "flex"; // Jumbotron sichtbar machen
 jumbotronVisible = true; // Jumbotron ist sichtbar
+
+function hideJumbotron() {
+   // Verstecke das Jumbotron-Element
+   const jumbotron = document.querySelector(".jumbotron");
+   if (jumbotron) {
+     jumbotron.style.display = "none";
+     jumbotronVisible = false; // Aktualisiere den Zustand auf unsichtbar
+ 
+     // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
+     document.removeEventListener("keydown", hideJumbotron);
+   }
+ }
+ 
+ // Füge den Event-Listener hinzu
+ document.addEventListener("keydown", hideJumbotron);
+    
 
 // Event-Listener für Tastatureingaben hinzufügen
 document.addEventListener("keydown", function (event) {
@@ -85,7 +101,7 @@ document.addEventListener("keydown", function (event) {
    checkRoom1MirrorPos(playerPosition, playerPositionBefore);
 
    // Kollision mit der Tür in Raum 2 überprüfen
-   checkRoom2DoorPos(playerPosition);
+   checkRoom2DoorPos(playerPosition, playerPositionBefore);
 
    // Kollision mit dem Morse-Code in Raum 2 überprüfen
    checkRoom2MorseCodePos(playerPosition, playerPositionBefore)

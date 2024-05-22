@@ -80,14 +80,14 @@ function checkMoveRoom2RightWall(playerPositionBefore, playerPosition) {
 }
 
 // Funktion zur Überprüfung der Position der Tür im Raum 2
-function checkRoom2DoorPos(playerPosition) {
+function checkRoom2DoorPos(playerPosition, playerPositionBefore) {
   const playerElement = document.getElementById("player");
   if ( playerPosition.left > 75 && playerPosition.left < 125 && playerPosition.top > 270 && playerPosition.top <= 306 && !canMoveThroughDoor(2)) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showDoor2PwDialog);
-  } else if (actualRoom == 0) {
+  } else if (playerPositionBefore.left > 75 && playerPositionBefore.left < 125 && playerPositionBefore.top > 270 && playerPositionBefore.top <= 306 && (playerPosition.left < 75 || playerPosition.left > 125 || playerPosition.top < 270 || playerPosition.top > 306)) {
     playerElement.classList.remove("show-after"); // Entferne die Klasse, um das zusätzliche Bild auszublenden
 
     // Entferne den Event-Listener
@@ -145,7 +145,7 @@ let messageSent = false;
 // Funktion zur Überprüfung der Position des Morsecode-Geräts im Raum 2
 function checkRoom2MorseCodePos(playerPosition, playerPositionBefore) {
   const playerElement = document.querySelector("#player");
-  if (playerPosition.left > 140 && playerPosition.left <= 175 && playerPosition.top > 395 && playerPosition.top < 428) {
+  if (actualRoom == 2 && playerPosition.left > 150 && playerPosition.left <= 170 && playerPosition.top > 395 && playerPosition.top < 428) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Überprüfe, ob die Nachricht noch nicht gesendet wurde
@@ -163,7 +163,7 @@ function checkRoom2MorseCodePos(playerPosition, playerPositionBefore) {
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showRoom2MorseCodeDialog);
-  } else if (actualRoom == 2 && playerPositionBefore.left > 140 && playerPositionBefore.left <= 175 && playerPositionBefore.top > 395 && playerPositionBefore.top < 428 && (playerPosition.left < 140 || playerPosition.top < 395 || playerPosition.top > 428)) {
+  } else if (actualRoom == 2 && playerPositionBefore.left > 150 && playerPositionBefore.left <= 170 && playerPositionBefore.top > 395 && playerPositionBefore.top < 428 && (playerPosition.left < 150 || playerPosition.top < 395 || playerPosition.top > 428)) {
     playerElement.classList.remove("show-after"); // Entferne die Klasse, um das zusätzliche Bild auszublenden
 
     // Sende Nachricht mit Wert 0
@@ -190,7 +190,6 @@ function showRoom2MorseCodeDialog(event) {
     if (jumbotronVisible) {
       jumbotronElem.style.display = "none";
       jumbotronVisible = false;
-      console.log("Jumbotron is now hidden");
     } else {
       jumbotronElem.innerHTML = `
         <h2>Nachricht?</h2>
@@ -208,6 +207,7 @@ function showRoom2MorseCodeDialog(event) {
         inputElem.addEventListener("change", (e) => {
           let inputValue = e.target.value;
           if (inputValue == morseCodeMessage[randomMorseCodeNumber - 1]) {
+            hexagonOffSound.play();
             document.getElementById("hexagon1").style.display = "block";
             document.getElementById("hexagon2").style.display = "block";
             document.getElementById("hexagon3").style.display = "block";

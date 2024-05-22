@@ -4,6 +4,8 @@ const room3Objects = [
    { id: "schrank", top: 0, left: 435, width: 99, height: 28 },
 ];
 
+let subButton = false;
+
 // Funktion zur Überprüfung der Bewegung an der linken Wand des Raums 3
 function checkMoveRoom3LeftWall(playerPositionBefore, playerPosition) {
    // Überprüfung der linken Wand im Raum 3
@@ -37,28 +39,25 @@ function checkRoom3LightSwitchPos(playerPosition, playerPositionBefore) {
       playerElement.classList.add("show-after"); // Klasse hinzufügen, um zusätzliches Bild anzuzeigen
 
       // Event-Listener für das Tastaturereignis "keydown" hinzufügen, um die Taste zu lesen
-      document.addEventListener("keydown", readButton);
+      readButton(true);
    } else if (actualRoom == 0 && playerPositionBefore.left > 300 && playerPositionBefore.left <= 305 && playerPositionBefore.top > 320 && playerPositionBefore.top < 340) {
       playerElement.classList.remove("show-after"); // Klasse entfernen, um zusätzliches Bild auszublenden
 
-      // Event-Listener entfernen
-      document.removeEventListener("keydown", readButton);
+      readButton(false);
    }
 }
 
 // Funktion zum Lesen der Taste
 function readButton(event) {
-   if (event.key === "Enter") {
-      if (subButton == false) {
-         subscribe_topic("esp/btn1"); // Funktion zum Abonnieren des Themas aufrufen
-         subButton = true;
-      } else {
-         // Abonnement vom Thema "esp/btn1" kündigen
-         client.unsubscribe("esp/btn1", {
-            onSuccess: function () {
-               console.log("Abonnement von " + "esp/btn1" + " gekündigt");
-            }
-         });
-      }
+   if (subButton == false) {
+      subscribe_topic("esp/btn1"); // Funktion zum Abonnieren des Themas aufrufen
+      subButton = true;
+   } else {
+      // Abonnement vom Thema "esp/btn1" kündigen
+      client.unsubscribe("esp/btn1", {
+         onSuccess: function () {
+            console.log("Abonnement von " + "esp/btn1" + " gekündigt");
+         }
+      });
    }
 }
