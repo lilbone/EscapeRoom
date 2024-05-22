@@ -4,8 +4,6 @@ const room3Objects = [
    { id: "schrank", top: 0, left: 435, width: 99, height: 28 },
 ];
 
-let subButton = false;
-
 // Funktion zur Überprüfung der Bewegung an der linken Wand des Raums 3
 function checkMoveRoom3LeftWall(playerPositionBefore, playerPosition) {
    // Überprüfung der linken Wand im Raum 3
@@ -40,7 +38,7 @@ function checkRoom3LightSwitchPos(playerPosition, playerPositionBefore) {
 
       // Event-Listener für das Tastaturereignis "keydown" hinzufügen, um die Taste zu lesen
       readButton(true);
-   } else if (actualRoom == 0 && playerPositionBefore.left > 300 && playerPositionBefore.left <= 305 && playerPositionBefore.top > 320 && playerPositionBefore.top < 340) {
+   } else if (actualRoom == 0 && playerPositionBefore.left > 300 && playerPositionBefore.left <= 305 && playerPositionBefore.top > 320 && playerPositionBefore.top < 340 && (playerPosition.left < 300 || playerPosition.left > 305 || playerPosition.top < 320 || playerPosition.top > 340)) {
       playerElement.classList.remove("show-after"); // Klasse entfernen, um zusätzliches Bild auszublenden
 
       readButton(false);
@@ -49,15 +47,37 @@ function checkRoom3LightSwitchPos(playerPosition, playerPositionBefore) {
 
 // Funktion zum Lesen der Taste
 function readButton(event) {
-   if (subButton == false) {
-      subscribe_topic("esp/btn1"); // Funktion zum Abonnieren des Themas aufrufen
-      subButton = true;
+   if (event) {
+      subscribe_topic(BUTTON3_TOPIC); // Funktion zum Abonnieren des Themas aufrufen
    } else {
-      // Abonnement vom Thema "esp/btn1" kündigen
-      client.unsubscribe("esp/btn1", {
+      // Abonnement vom Thema BUTTON3_TOPIC kündigen
+      client.unsubscribe(BUTTON3_TOPIC, {
          onSuccess: function () {
-            console.log("Abonnement von " + "esp/btn1" + " gekündigt");
+            console.log("Abonnement von " + BUTTON3_TOPIC + " gekündigt");
          }
       });
    }
+}
+
+function toggleLightRoom3() {
+   const lightRoom3 = document.getElementById("lightRoom3");
+   const lightSwitchRoom3 = document.getElementById("lightSwitch");
+
+   const computedStyle = window.getComputedStyle(lightSwitchRoom3);
+   const backgroundColor = computedStyle.backgroundColor;
+
+   if (backgroundColor == "rgb(255, 255, 255)") {
+
+      lightSwitchRoom3.style.backgroundColor = "#fdf300";
+      if (canMoveThroughDoor(3)) {
+         lightRoom3.style.backgroundColor = "transparent";
+      }
+
+   } else {
+
+      lightSwitchRoom3.style.backgroundColor = "#ffffff";
+      lightRoom3.style.backgroundColor = "#000000db";
+
+   }
+
 }

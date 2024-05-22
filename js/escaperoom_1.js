@@ -14,6 +14,7 @@ let hexagon3Active = false;
 // Liste der Gegenstandsobjekte
 const itemObjects = [
    { id: 'morse-code', backpackId: 'morse-code-bag', top: 178, left: 183, width: 21, height: 36 },
+   { id: 'lightSwitchLabel', backpackId: 'lightSwitchLabel-bag', top: 390, left: 10, width: 13, height: 50 },
 ];
 
 // Jumbotron-Element

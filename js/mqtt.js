@@ -18,7 +18,7 @@ const TEMPERATURE_TOPIC = "esp/temperature"; // Thema für die Temperatur
 const TOPIC_LAMP = "esp/lighting/led_red"; // Thema für die rote LED
 const LAMP_STATUS_TOPIC = "esp/lighting/led_red_status"; // Thema für den Status der roten LED
 
-const BUTTON1_TOPIC = "esp/btn1";
+const BUTTON3_TOPIC = "esp/btn3";
 
 const MORSECODE_NR_TOPIC = "morsecode/nr"; // Thema für den Morsecode
 
@@ -106,9 +106,9 @@ function onMessageArrived(message) {
 
     humidity = message.payloadString;
 
-  } else if (message.destinationName == BUTTON1_TOPIC) {
+  } else if (message.destinationName == BUTTON3_TOPIC) {
     if (message.payloadString == "1") {
-      alert("taster 1");
+      toggleLightRoom3();
     }
   }
 }
