@@ -106,8 +106,15 @@ function showDoor2PwDialog(event) {
       jumbotronElem.style.display = "none";
       jumbotronVisible = false;
     } else {
-      jumbotronElem.innerHTML = `   <h2>Passwort</h2>
-                                    <input type="password" name="door2pw" id="door2pw" />`;
+      jumbotronElem.innerHTML = `
+        <h2>Passwort</h2>
+        <input type="password" name="door2pw" id="door2pw" />
+      `;
+
+      const inputElem = document.getElementById("door2pw");
+
+      // Set focus to the input field
+      inputElem.focus();
 
       document.getElementById("door2pw").addEventListener("change", (e) => {
         let inputValue = e.target.value;
@@ -168,6 +175,7 @@ function checkRoom2MorseCodePos(playerPosition, playerPositionBefore) {
     messageSent = false;
 
     // Entferne den Event-Listener
+    document.querySelector(".jumbotron").style.display = "none";
     document.removeEventListener("keydown", showRoom2MorseCodeDialog);
   }
 }
@@ -182,25 +190,29 @@ function showRoom2MorseCodeDialog(event) {
       jumbotronVisible = false;
       console.log("Jumbotron is now hidden");
     } else {
-      jumbotronElem.innerHTML = `   <h2>Nachricht?</h2>
-                                     <input type="text" name="morseCodeMessage" id="morseCodeMessage" />`;
+      jumbotronElem.innerHTML = `
+        <h2>Nachricht?</h2>
+        <input type="text" name="morseCodeMessage" id="morseCodeMessage" />
+      `;
 
-      document
-        .getElementById("morseCodeMessage")
-        .addEventListener("change", (e) => {
+      jumbotronElem.style.display = "flex";
+      jumbotronVisible = true;
+
+      // Ensuring the focus is set after the element is rendered and visible
+      setTimeout(() => {
+        const inputElem = document.getElementById("morseCodeMessage");
+        inputElem.focus();
+
+        inputElem.addEventListener("change", (e) => {
           let inputValue = e.target.value;
-          if (inputValue == morseCodeMessage[randomMorseCodeNumber-1]) {
-            // Zeige die Hexagone an
+          if (inputValue == morseCodeMessage[randomMorseCodeNumber - 1]) {
             document.getElementById("hexagon1").style.display = "block";
             document.getElementById("hexagon2").style.display = "block";
             document.getElementById("hexagon3").style.display = "block";
             hexagonVisible = true;
           }
-          
         });
-
-      jumbotronElem.style.display = "flex";
-      jumbotronVisible = true;
+      }, 0); // Setting the focus with a timeout to ensure it's applied after rendering
     }
   }
 }

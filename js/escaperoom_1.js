@@ -3,10 +3,13 @@ let playerPosition = {
    top: 0,
    left: 280,
 };
-let jumbotronVisible = false; // Variable, um den aktuellen Zustand des Jumbotrons zu verfolgen
-let actualRoom = 0; // Aktueller Raum
-let hexagonVisible = false; // Variable, um den sichtbaren Zustand des Hexagons zu verfolgen
-let hexagonCount = 0; // Anzahl der gesammelten Hexagone
+// Variable, um den aktuellen Zustand des Jumbotrons zu verfolgen
+let jumbotronVisible = false;
+let actualRoom = 0;
+let hexagonVisible =  false;
+let hexagon1Active = false;
+let hexagon2Active = false;
+let hexagon3Active = false;
 
 // Liste der Gegenstandsobjekte
 const itemObjects = [
@@ -110,40 +113,51 @@ document.addEventListener("keydown", function (event) {
 
 });
 
-// Funktion zum Zurücksetzen des Hexagons
-function clearHexagon(elem) {
-   if (hexagonCount != 3) {
+function clearHexagon(elem, hexagonActive)
+{
+   
+   if (!hexagon1Active || !hexagon2Active || !hexagon3Active) {
+      hexagonOffSound.play();
       elem.style.backgroundImage = "url('/images/general/hexagon-gray.png')";
-      hexagonCount--;
+      if (hexagonActive == 1) {
+         hexagon1Active = false;
+      }else if (hexagonActive == 2) {
+         hexagon2Active = false;
+      }else{
+         hexagon3Active = false;
+      }
    }
 }
 
 // Funktion zum Überprüfen der Position des Hexagons
 function checkHexagonPos(playerPosition) {
-   if (hexagonVisible) {
-      // Raum 1: Position des ersten Hexagons überprüfen
-      if (actualRoom == 0 && playerPosition.left >= 280 && playerPosition.left <= 295 && playerPosition.top >= 515 && playerPosition.top <= 535) {
+   if(hexagonVisible){
+      if (actualRoom == 0 && !hexagon1Active && playerPosition.left >= 280 && playerPosition.left <= 295 && playerPosition.top >= 515 && playerPosition.top <= 535) {
          const hexagon1Elem = document.getElementById("hexagon1");
          hexagon1Elem.style.backgroundImage = "url('/images/general/hexagon-blue.png')";
          hexagonSound.play();
-         hexagonCount++;
-         setTimeout(() => clearHexagon(hexagon1Elem), 19000);
+         hexagon1Active = true;
+         setTimeout(() => clearHexagon(hexagon1Elem, 1), 14000);
       }
-      // Raum 2: Position des zweiten Hexagons überprüfen
-      if (actualRoom == 1 && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 155 && playerPosition.top <= 180) {
+      if (actualRoom == 1 && !hexagon2Active && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 155 && playerPosition.top <= 180) {
          const hexagon2Elem = document.getElementById("hexagon2");
          hexagon2Elem.style.backgroundImage = "url('/images/general/hexagon-green.png')";
          hexagonSound.play();
-         hexagonCount++;
-         setTimeout(() => clearHexagon(hexagon2Elem), 10000);
+         hexagon2Active = true;
+         setTimeout(() => clearHexagon(hexagon2Elem, 2), 3000);
+         if (hexagon1Active && hexagon2Active && hexagon3Active) {
+         let door = document.querySelector(".door-3");
+          // Ändern des data-state-Attributs auf "open"
+          doorSound.play();
+          door.setAttribute("data-state", "open");
+         }
       }
-      // Raum 3: Position des dritten Hexagons überprüfen
-      if (actualRoom == 2 && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 505 && playerPosition.top <= 530) {
+      if (actualRoom == 2 && !hexagon3Active && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 505 && playerPosition.top <= 530) {
          const hexagon3Elem = document.getElementById("hexagon3");
          hexagon3Elem.style.backgroundImage = "url('/images/general/hexagon-red.png')";
          hexagonSound.play();
-         hexagonCount++;
-         setTimeout(clearHexagon(hexagon3Elem), 5000);
+         hexagon3Active = true;
+         setTimeout(() => clearHexagon(hexagon3Elem, 3), 8000);
       }
    }
 }

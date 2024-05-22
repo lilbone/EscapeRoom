@@ -8,6 +8,8 @@ const doorSound = new Audio('../sounds/dooropened.mp3'); // Lade die Audio-Datei
 doorSound.volume = 0.8;
 const hexagonSound = new Audio('../sounds/hexagon.mp3'); // Lade die Audio-Datei
 hexagonSound.volume = 0.9;
+const hexagonOffSound = new Audio('../sounds/hexagon-off.mp3'); // Lade die Audio-Datei
+hexagonSound.volume = 0.9;
 
 if (!themeSoundIsPlaying) {
     //playThemeSound();

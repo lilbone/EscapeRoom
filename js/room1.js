@@ -114,7 +114,7 @@ function checkHumidityAndAnimate() {
         .querySelector("#player-background")
         .classList.add("animate-layer-background");
     }
-  }, 300);
+  }, 200);
 }
 
 // Funktion zur Überprüfung der Bewegung an der rechten Wand im Raum 1
