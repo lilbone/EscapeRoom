@@ -2,8 +2,10 @@
 #define PARAMS_H
 
 // WiFi-Parameter
-const char* SSID = "MrRobot";      // WIFI SSID,
-const char* PSK = "Pa55wortBohn";  // WIFI PSK
+const char* SSID = "MrRobot";
+const char* PSK = "Pa55wortBohn";
+/* const char* SSID = "Huawei";
+const char* PSK = "Pa55wortHuawei"; */
 
 // MQTT-Parameter
 const char* MQTT_BROKER = "192.168.43.133";

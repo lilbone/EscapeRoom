@@ -1,11 +1,16 @@
+// Variable zur Überprüfung, ob der Spiegel im Raum 1 sichtbar ist
 let mirror1Visible = false;
+
+// ID des Intervalls für die Feuchtigkeitsüberprüfung
 let intervalIdHumidity;
 
+// Objekte im Raum 1 mit ihren Positionen und Abmessungen
 const room1Objects = [
   { id: "computer", top: 5, left: 10, width: 78, height: 62 },
   { id: "mirror", top: 0, left: 160, width: 55, height: 6 },
 ];
 
+// Funktion zur Überprüfung der Position des Spiegels im Raum 1
 function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
   const playerElement = document.querySelector("#player");
   if (
@@ -34,9 +39,9 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
     document.querySelector("#mirror p").classList.remove("animate-mirror-p"); // Entferne die Animationsklasse für den Text
     document
       .querySelector("#player-background")
-      .classList.remove("animate-layer-background"); // Entferne die
+      .classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
-    // Send messgae
+    // Sende Nachricht mit Wert 0
     message = new Paho.MQTT.Message("0");
     message.destinationName = HUMIDITY_SEND_TOPIC;
     message.retained = true;
@@ -49,6 +54,7 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
   }
 }
 
+// Funktion zur Anzeige des Spiegels im Raum 1
 function showMirror1(event) {
   // Überprüfe, ob die gedrückte Taste die "Enter"-Taste ist
   if (event.key === "Enter") {
@@ -61,7 +67,7 @@ function showMirror1(event) {
         .querySelector("#player-background")
         .classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
-      // Send messgae
+      // Sende Nachricht mit Wert 0
       message = new Paho.MQTT.Message("0");
       message.destinationName = HUMIDITY_SEND_TOPIC;
       message.retained = true;
@@ -75,13 +81,14 @@ function showMirror1(event) {
       // Andernfalls setze das Display auf "flex", füge die Animationsklassen hinzu und aktualisiere den Zustand auf sichtbar
       document.querySelector("#mirror").style.display = "block";
 
-      // Send messgae
+      // Sende Nachricht mit Wert 1
       message = new Paho.MQTT.Message("1");
       message.destinationName = HUMIDITY_SEND_TOPIC;
       message.retained = true;
       console.log("< PUB", message.destinationName, "1");
       client.send(message);
 
+      // Überprüfe die Feuchtigkeit und führe die Animation aus
       checkHumidityAndAnimate();
 
       mirror1Visible = true;
@@ -89,6 +96,7 @@ function showMirror1(event) {
   }
 }
 
+// Funktion zur überprüfung der Feuchtigkeitsdaten
 function checkHumidityAndAnimate() {
   // Abonniere das Thema, um die Feuchtigkeitsdaten zu erhalten
   subscribe_topic(HUMIDITY_TOPIC);
@@ -109,6 +117,7 @@ function checkHumidityAndAnimate() {
   }, 300);
 }
 
+// Funktion zur Überprüfung der Bewegung an der rechten Wand im Raum 1
 function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
   // Raum 1 Rechte Wand
   if (
@@ -152,6 +161,7 @@ function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
   }
 }
 
+// Funktion zur Überprüfung der Bewegung an der unteren Wand im Raum 1
 function checkMoveRoom1BottomWall(playerPositionBefore, playerPosition) {
   // Raum 1 Untere Wand
   if (

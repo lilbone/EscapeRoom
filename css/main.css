@@ -15,17 +15,24 @@ body {
    width: 600px;
    height: 600px;
    background-color: #cbd2d6;
+   background-image: url("../images/general/wood-floor-hallway.jpg");
+   background-size: 150px 150px;
    position: relative;
    border: 8px solid #000;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .jumbotron {
    z-index: 10;
    position: absolute;
    top: 150px;
-   left: calc(50% - 200px);
-   height: 150px;
-   width: 400px;
+   /* left: calc(50% - 200px); */
+   /* height: 150px;
+  width: 400px; */
+   max-width: 400px;
+   padding: 10px;
    background: steelblue;
    border-radius: 8px;
    box-shadow: snow 0px 0px 26px 5px;
@@ -38,6 +45,8 @@ body {
 
 .room {
    background-color: #666;
+   background-image: url("../images/general/wood-floor.jpg");
+   background-size: 400px 400px;
    position: absolute;
    border: 8px solid #000;
 }
@@ -70,10 +79,11 @@ body {
    position: absolute;
    top: 0px; /* Anpassen, um die gewünschte vertikale Positionierung zu erreichen */
    left: 280px; /* Anpassen, um die gewünschte horizontale Positionierung zu erreichen */
- }
- 
- #player::after {
+}
+
+#player::after {
    content: ""; /* Fügt ein Pseudoelement hinzu */
+   z-index: 10;
    display: none;
    width: 10px;
    height: 20px; /* Höhe des zusätzlichen Bildes */
@@ -81,23 +91,23 @@ body {
    background-size: cover; /* Größe des Hintergrundbildes für das zusätzliche Bild */
    position: absolute;
    top: -10px; /* Anpassen, um die gewünschte vertikale Positionierung zu erreichen */
-   left: 35px; /* Anpassen, um das zusätzliche Bild neben dem Spieler anzuzeigen */
+   left: -10px; /* Anpassen, um das zusätzliche Bild neben dem Spieler anzuzeigen */
    animation: wobble 0.3s infinite alternate; /* Animation hinzufügen */
- }
- #player.show-after::after {
+}
+#player.show-after::after {
    display: block; /* Zusätzliches Bild anzeigen, wenn die Klasse 'show-after' vorhanden ist */
- }
- 
- @keyframes wobble {
+}
+
+@keyframes wobble {
    from {
-     transform: rotate(-5deg);
+      transform: rotate(-5deg);
    }
    to {
-     transform: rotate(5deg);
+      transform: rotate(5deg);
    }
- }
+}
 
- #hexagon1 {
+#hexagon1 {
    width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
    height: 35px;
    display: none;
@@ -107,8 +117,8 @@ body {
    position: absolute;
    top: 540px;
    left: 290px;
- }
- #hexagon2 {
+}
+#hexagon2 {
    width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
    height: 35px;
    display: none;
@@ -118,8 +128,8 @@ body {
    position: absolute;
    top: 180px;
    left: 20px;
- }
- #hexagon3 {
+}
+#hexagon3 {
    width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
    height: 35px;
    display: none;
@@ -129,15 +139,20 @@ body {
    position: absolute;
    top: 530px;
    left: 20px;
- }
+}
 
- 
+.light{
+  position: absolute;
+  background-color: #000000db;
+  z-index: 3;
+}
 
 .door {
    position: absolute;
    background-color: #b12121;
    border-radius: 4px;
    transition: background-color 1.3s;
+   z-index: 5;
 }
 .door-1 {
    bottom: calc(50% - 35px);
@@ -157,8 +172,23 @@ body {
    width: 10px;
    height: 70px;
 }
+.door-master {
+   left: calc(50% - 35px);
+   top: -9px;
+   width: 70px;
+   height: 10px;
+}
 div[data-state="open"] {
    background-color: #568f44; /* Hier die gewünschte Hintergrundfarbe einfügen */
+}
+
+#exit {
+   position: absolute;
+   left: calc(50% - 17px);
+   top: -32px;
+   font-size: 18px;
+   font-weight: 700;
+   font-family: cursive;
 }
 
 #control {
@@ -176,7 +206,7 @@ div[data-state="open"] {
    }
 }
 
-#items{
+#items {
    margin-top: 20px;
    display: flex;
    gap: 8px;
@@ -185,7 +215,7 @@ div[data-state="open"] {
 }
 
 #morse-code-bag {
-   position: relative; 
+   position: relative;
    background-image: url("../images/room1/morse-codes.png");
    background-size: cover;
    width: 40px;

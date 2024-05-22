@@ -37,7 +37,9 @@ function checkCollisionWithObjects(playerPosition, playerPositionBefore, room) {
     if (room === 1) {
         roomObjects = room1Objects;
     } else if (room === 2) {
-        roomObjects = room2Objects; // Annahme: du hast eine entsprechende Liste für Raum 2 definiert
+        roomObjects = room2Objects;
+    } else if (room === 3) {
+        roomObjects = room3Objects;
     } else {
         // Definiere für weitere Räume entsprechende Listen oder andere Logik
         roomObjects = []; // leere Liste, falls kein Raum gefunden wurde

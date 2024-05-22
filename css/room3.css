@@ -1,0 +1,43 @@
+#table-dining {
+  position: absolute;
+  background-image: url("../images/room3/table-dining.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 370px;
+  left: 430px;
+  width: 106px;
+  height: 170px;
+}
+
+#schrank {
+  position: absolute;
+  background-image: url("../images/room3/Schrank.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0px;
+  left: 430px;
+  width: 109px;
+  height: 33px;
+}
+
+#lightRoom3 {
+  background-color: #00000000;
+  background-image: url(../images/general/deckenlampe.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
+  top: 0px;
+  left: 348px;
+  width: 236px;
+  height: 584px;
+}
+
+#lightSwitch {
+  position: absolute;
+  background-color: #ffffff;  /*#fdf300*/
+  top: 340px;
+  left: 335px;
+  width: 5px;
+  height: 15px;
+  z-index: 1;
+}

@@ -8,14 +8,17 @@
    <link rel="stylesheet" href="/css/main.css" />
    <link rel="stylesheet" href="/css/room1.css" />
    <link rel="stylesheet" href="/css/room2.css" />
+   <link rel="stylesheet" href="/css/room3.css" />
    <link rel="shortcut icon" href="#" type="image/x-icon" />
 </head>
 
 <body>
    <div id="escaperoom">
-      <div class="jumbotron">
+      <div class="jumbotron"></div>
 
-      </div>
+      <div class="door door-master" data-state="close"></div>
+      <div id="exit">Exit</div>
+
       <div id="mirror">
          <div id="player-background"></div>
          <p>PW2<br />trowssap</p>
@@ -35,11 +38,16 @@
          <div class="door door-2" data-state="open"></div>
       </div>
       <div id="morse-code-device"></div>
+      <div id="lightRoom2" class="light small-room"></div>
 
 
       <div id="room3" class="room big-room">
          <div class="door door-3" data-state="open"></div>
       </div>
+      <div id="lightRoom3" class="light"></div>
+      <div id="lightSwitch"></div>
+      <div id="table-dining"></div>
+      <div id="schrank"></div>
 
       <div id="hexagon1"></div>
       <div id="hexagon2"></div>
