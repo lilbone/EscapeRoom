@@ -95,13 +95,12 @@ function onMessageArrived(message) {
   } else if (message.destinationName == LAMP_STATUS_TOPIC) {
     // Payload auswerten
     if (message.payloadString == "1") {
-
+      morseCodeSound.play();
       led_is_on = true;
-
     } else {
-
+      morseCodeSound.pause();
+      morseCodeSound.currentTime = 0;
       led_is_on = false;
-
     }
   } else if (message.destinationName == HUMIDITY_TOPIC) {
 

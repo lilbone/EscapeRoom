@@ -111,25 +111,27 @@ function showDoor2PwDialog(event) {
         <input type="password" name="door2pw" id="door2pw" />
       `;
 
-      const inputElem = document.getElementById("door2pw");
+      // Ensuring the focus is set after the element is rendered and visible
+      setTimeout(() => {
+        const inputElem = document.getElementById("door2pw");
+        // Set focus to the input field
+        inputElem.focus();
 
-      // Set focus to the input field
-      inputElem.focus();
+        inputElem.addEventListener("change", (e) => {
+          let inputValue = e.target.value;
+          if (inputValue == passwordDoor2) {
+            // Zugreifen auf das Tür-Element
+            const door = document.querySelector(".door-2");
+            // Zugrifff auf die Raumhelligkeit
+            const lightRoom2 = document.getElementById("lightRoom2");
+            // Ändern des data-state-Attributs auf "open"
+            doorSound.play();
+            door.setAttribute("data-state", "open");
 
-      document.getElementById("door2pw").addEventListener("change", (e) => {
-        let inputValue = e.target.value;
-        if (inputValue == passwordDoor2) {
-          // Zugreifen auf das Tür-Element
-          const door = document.querySelector(".door-2");
-          // Zugrifff auf die Raumhelligkeit
-          const lightRoom2 = document.getElementById("lightRoom2");
-          // Ändern des data-state-Attributs auf "open"
-          doorSound.play();
-          door.setAttribute("data-state", "open");
-
-          lightRoom2.style.backgroundColor = "#00000000";
-        }
-      });
+            lightRoom2.style.backgroundColor = "#00000000";
+          }
+        });
+      }, 0); 
 
       jumbotronElem.style.display = "flex";
       jumbotronVisible = true;
@@ -212,7 +214,7 @@ function showRoom2MorseCodeDialog(event) {
             hexagonVisible = true;
           }
         });
-      }, 0); // Setting the focus with a timeout to ensure it's applied after rendering
+      }, 0); 
     }
   }
 }
