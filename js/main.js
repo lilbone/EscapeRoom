@@ -1,4 +1,5 @@
 let playerSize = 35;
+let win = false;
 
 let themeSoundIsPlaying = false;
 

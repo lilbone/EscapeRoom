@@ -13,23 +13,12 @@ const room1Objects = [
 // Funktion zur Überprüfung der Position des Spiegels im Raum 1
 function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
   const playerElement = document.querySelector("#player");
-  if (
-    playerPosition.left > 160 &&
-    playerPosition.left < 180 &&
-    playerPosition.top > 6 &&
-    playerPosition.top <= 35
-  ) {
+  if (playerPosition.left > 160 && playerPosition.left < 180 && playerPosition.top >= 6 && playerPosition.top <= 35) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showMirror1);
-  } else if (
-    actualRoom == 1 &&
-    playerPositionBefore.left > 160 &&
-    playerPositionBefore.left < 180 &&
-    playerPositionBefore.top > 6 &&
-    playerPositionBefore.top <= 35
-  ) {
+  } else if (actualRoom == 1 && playerPositionBefore.left > 160 && playerPositionBefore.left < 180 && playerPositionBefore.top > 6 && playerPositionBefore.top <= 35) {
     playerElement.classList.remove("show-after"); // Entferne die Klasse, um das zusätzliche Bild auszublenden
 
     // Entferne den Event-Listener
@@ -40,6 +29,13 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
     document
       .querySelector("#player-background")
       .classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
+
+    // Abonnement vom Thema HUMIDITY_TOPIC kündigen
+    client.unsubscribe(HUMIDITY_TOPIC, {
+      onSuccess: function () {
+        console.log("Abonnement von " + HUMIDITY_TOPIC + " gekündigt");
+      }
+    });
 
     // Sende Nachricht mit Wert 0
     message = new Paho.MQTT.Message("0");
@@ -67,6 +63,13 @@ function showMirror1(event) {
         .querySelector("#player-background")
         .classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
+      // Abonnement vom Thema HUMIDITY_TOPIC kündigen
+      client.unsubscribe(HUMIDITY_TOPIC, {
+        onSuccess: function () {
+          console.log("Abonnement von " + HUMIDITY_TOPIC + " gekündigt");
+        }
+      });
+
       // Sende Nachricht mit Wert 0
       message = new Paho.MQTT.Message("0");
       message.destinationName = HUMIDITY_SEND_TOPIC;
@@ -80,6 +83,8 @@ function showMirror1(event) {
     } else {
       // Andernfalls setze das Display auf "flex", füge die Animationsklassen hinzu und aktualisiere den Zustand auf sichtbar
       document.querySelector("#mirror").style.display = "block";
+
+      firstHumidityPub = true;
 
       // Sende Nachricht mit Wert 1
       message = new Paho.MQTT.Message("1");
@@ -103,7 +108,7 @@ function checkHumidityAndAnimate() {
 
   // Setze ein Intervall, das alle 100ms überprüft
   intervalIdHumidity = setInterval(() => {
-    if (humidity > 50) {
+    if (humidity > firstHumidity) {
       // Stoppe das Intervall, wenn die Bedingung erfüllt ist
       clearInterval(intervalIdHumidity);
 
@@ -120,18 +125,8 @@ function checkHumidityAndAnimate() {
 // Funktion zur Überprüfung der Bewegung an der rechten Wand im Raum 1
 function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
   // Raum 1 Rechte Wand
-  if (
-    playerPositionBefore.left >= 244 &&
-    playerPosition.left < 244 &&
-    playerPosition.top < 244
-  ) {
-    if (
-      !(
-        playerPosition.top >= 85 &&
-        playerPosition.top <= 115 &&
-        canMoveThroughDoor(1)
-      )
-    ) {
+  if (playerPositionBefore.left >= 244 && playerPosition.left < 244 && playerPosition.top < 244) {
+    if (!(playerPosition.top >= 85 && playerPosition.top <= 115 && canMoveThroughDoor(1))) {
       playerPosition.left = 244;
       actualRoom = 0;
     } else {
@@ -139,18 +134,8 @@ function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
       actualRoom = 1;
     }
   } else {
-    if (
-      playerPositionBefore.left <= 201 &&
-      playerPosition.left > 201 &&
-      playerPosition.top < 244
-    ) {
-      if (
-        !(
-          playerPosition.top >= 85 &&
-          playerPosition.top <= 115 &&
-          canMoveThroughDoor(1)
-        )
-      ) {
+    if (playerPositionBefore.left <= 201 && playerPosition.left > 201 && playerPosition.top < 244) {
+      if (!(playerPosition.top >= 85 && playerPosition.top <= 115 && canMoveThroughDoor(1))) {
         playerPosition.left = 201;
         actualRoom = 1;
       } else {

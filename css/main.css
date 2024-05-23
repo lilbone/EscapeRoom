@@ -80,7 +80,7 @@ body {
 
 #player::after {
   content: ""; /* Fügt ein Pseudoelement hinzu */
-  z-index: 10;
+  z-index: 2;
   display: none;
   width: 10px;
   height: 20px; /* Höhe des zusätzlichen Bildes */
@@ -140,7 +140,7 @@ body {
 
 .light {
   position: absolute;
-  background-color: #000000db;
+  background-color: #000000f3;
   z-index: 3;
 }
 
@@ -265,4 +265,13 @@ div[data-state="open"] {
 
 #lightSwitchLabel-bag:hover .lightSwitchLabel-image {
   opacity: 1; /* Bild wird sichtbar, wenn über das Elternelement geschwebt wird */
+}
+
+#rfid-chip-bag {
+  position: relative;
+  background-image: url("../images/room3/rfid-chip.png");
+  background-size: cover;
+  width: 58px;
+  height: 60px;
+  display: none;
 }
