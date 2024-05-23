@@ -1,12 +1,6 @@
 #ifndef PARAMS_H
 #define PARAMS_H
 
-// WiFi-Parameter
-const char* SSID = "MrRobot";
-const char* PSK = "Pa55wortBohn";
-/* const char* SSID = "Huawei";
-const char* PSK = "Pa55wortHuawei"; */
-
 // MQTT-Parameter
 const char* MQTT_BROKER = "192.168.43.133";
 const uint16_t PORT = 1883;
@@ -22,25 +16,31 @@ PubSubClient mqttClient(espClient);
 #define TOPIC_SEND_HUMIDITY "esp/humidity/send"
 #define MORSECODE_NR_TOPIC "morsecode/nr"
 #define TOPIC_TEMPERATURE "esp/temperature"
+#define TOPIC_BUTTON3 "esp/btn3"
+#define RFID_SEND_TOPIC "esp/rfid/send"
 
 // Variablen für RFID
-#define RST_PIN D1  // RST-PIN für RC522
-#define SS_PIN D2   // SDA-PIN für RC522
+#define RST_PIN D2  // RST-PIN für RC522
+#define SS_PIN D1   // SDA-PIN für RC522
+volatile bool sendRfid = false;
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Erstellen einer MFRC522-Instanz
 /*
 Orange 3,3v   -> 3,3v
-Gelb RST      -> 5
-Schwarz SDA   -> 4
+Gelb RST      -> 3 RXD
+Schwarz SDA   -> 5
 Grün GND      -> GND
 Weiß SCK      -> 14
 Lila MISO     -> 12
 Grau MOSI     -> 13 
  */
 
+#define TASTER_3 2
+volatile bool buttonPressed = false;
+
 //Variablen für DHT22
 #define DHT_TYPE DHT22  // Typ des DHT-Sensors
-#define DHT_PIN D5      // Pin, an dem der DHT-Sensor angeschlossen ist
-#define DHT_POWER D0    // Pin zur Stromversorgung des DHT-Sensors
+#define DHT_PIN 14      // Pin, an dem der DHT-Sensor angeschlossen ist
+#define DHT_POWER 4    // Pin zur Stromversorgung des DHT-Sensors
 
 #define LED_RED 15
 

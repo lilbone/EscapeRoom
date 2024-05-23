@@ -4,6 +4,10 @@
 
 #include "params.h"
 
+void IRAM_ATTR handleButtonPress() {
+  buttonPressed = true;
+}
+
 int findMaxIdx(const int messwerteArr[]) {
   int maxValue = messwerteArr[0];               // Initialisierung des maximalen Werts mit dem ersten Wert im Array
   int idx = 0;                                  // Index des maximalen Werts initialisieren
@@ -66,6 +70,7 @@ void checkRFID() {
         uidString += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "") + String(mfrc522.uid.uidByte[i], HEX);
       }
       publishData("esp/rfid/uid", uidString);
+      sendRfid = false;
       mfrc522.PICC_HaltA();  // Stop reading
     } else {
       Serial << "Error reading card." << endl;
@@ -145,6 +150,7 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
     Serial << "send humidity " << msg << endl;
     if (msg == "1") {
       sendHumidity = true;
+      publishData(TOPIC_HUMIDITY, String(humidity));
     }
     if (msg == "0") {
       sendHumidity = false;
@@ -168,6 +174,13 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
       publishData(TOPIC_LAMP_STATUS, "0");
     }
   }
+
+  if (topic = RFID_SEND_TOPIC) {
+    if (msg == "2") {
+      sendRfid = true;
+    }else
+      sendRfid = false;
+  }
 }
 
 boolean mqttAvailable() {
@@ -178,6 +191,7 @@ boolean mqttAvailable() {
     mqttClient.subscribe(TOPIC_LAMP);
     mqttClient.subscribe(TOPIC_SEND_HUMIDITY);
     mqttClient.subscribe(MORSECODE_NR_TOPIC);
+    mqttClient.subscribe(RFID_SEND_TOPIC);
   }
   return mqttClient.connected();
 }
