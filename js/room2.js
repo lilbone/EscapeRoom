@@ -145,7 +145,7 @@ let messageSent = false;
 // Funktion zur Überprüfung der Position des Morsecode-Geräts im Raum 2
 function checkRoom2MorseCodePos(playerPosition, playerPositionBefore) {
   const playerElement = document.querySelector("#player");
-  if (actualRoom == 2 && playerPosition.left > 150 && playerPosition.left <= 170 && playerPosition.top > 395 && playerPosition.top < 428) {
+  if (actualRoom == 2 && playerPosition.left > 160 && playerPosition.left <= 170 && playerPosition.top > 395 && playerPosition.top < 428) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Überprüfe, ob die Nachricht noch nicht gesendet wurde
@@ -163,7 +163,7 @@ function checkRoom2MorseCodePos(playerPosition, playerPositionBefore) {
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showRoom2MorseCodeDialog);
-  } else if (actualRoom == 2 && playerPositionBefore.left > 150 && playerPositionBefore.left <= 170 && playerPositionBefore.top > 395 && playerPositionBefore.top < 428 && (playerPosition.left < 150 || playerPosition.top < 395 || playerPosition.top > 428)) {
+  } else if (actualRoom == 2 && playerPositionBefore.left >= 160 && playerPositionBefore.left <= 170 && playerPositionBefore.top >= 395 && playerPositionBefore.top <= 428 && (playerPosition.left < 160 || playerPosition.left > 170 || playerPosition.top < 395 || playerPosition.top > 428)) {
     playerElement.classList.remove("show-after"); // Entferne die Klasse, um das zusätzliche Bild auszublenden
 
     // Sende Nachricht mit Wert 0

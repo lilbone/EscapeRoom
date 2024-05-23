@@ -110,3 +110,11 @@
    width: 31px;
    height: 46px;
 }
+
+#rommNr1 {
+   position: absolute;
+   font-weight: bold;
+   top: 59px;
+   left: 235px;
+   color: #faebd7;
+ }

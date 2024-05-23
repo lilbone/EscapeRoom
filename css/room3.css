@@ -20,8 +20,49 @@
   height: 33px;
 }
 
+#wardrobe-open {
+  position: absolute;
+  z-index: 11;
+  background-image: url("../images/room3/Schrank-open.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: none;
+  top: -15px;
+  left: 360px;
+  width: 220px;
+  height: 220px;
+  transition: all 1.5s;
+
+  #wardrobe-light {
+    background-color: black;
+    width: 126px;
+    height: 152px;
+    position: relative;
+    top: 34px;
+    left: 49px;
+    transition: all 2s;
+  }
+
+  #rfid-chip {
+    background-image: url("../images/room3/rfid-chip.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 8px;
+    width: 29px;
+    height: 30px;
+    position: relative;
+    top: -50px;
+    left: 96px;
+    opacity: 0;
+    transition: all 1s;
+  }
+  #rfid-chip:hover {
+    background-color: #fafad2;
+  }
+}
+
 #lightRoom3 {
-  background-color: #00000000;
+  /* background-color: #00000000; */
   background-image: url(../images/general/deckenlampe.png);
   background-position: center center;
   background-repeat: no-repeat;
@@ -34,10 +75,39 @@
 
 #lightSwitch {
   position: absolute;
-  background-color: #ffffff;  /*#fdf300*/
+  background-color: #ffffff; /*#fdf300*/
   top: 340px;
   left: 335px;
   width: 5px;
   height: 15px;
   z-index: 1;
+}
+
+#alarmLamp {
+  position: absolute;
+  background-image: url("../images/room3/revolving-light-red.png");
+  background-size: cover;
+  top: 125px;
+  left: 346px;
+  width: 25px;
+  height: 25px;
+  z-index: 1;
+}
+
+#reader {
+  position: absolute;
+  background-image: url("../images/room3/reader.png");
+  background-size: cover;
+  top: 155px;
+  left: 347px;
+  width: 35px;
+  height: 44px;
+}
+
+#rommNr3 {
+  position: absolute;
+  font-weight: bold;
+  top: 232px;
+  left: 339px;
+  color: #faebd7;
 }

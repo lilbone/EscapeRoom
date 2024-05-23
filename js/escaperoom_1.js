@@ -14,6 +14,7 @@ let hexagon3Active = false;
 // Liste der Gegenstandsobjekte
 const itemObjects = [
    { id: 'morse-code', backpackId: 'morse-code-bag', top: 178, left: 183, width: 21, height: 36 },
+   { id: 'lightSwitchLabel', backpackId: 'lightSwitchLabel-bag', top: 390, left: 10, width: 13, height: 50 },
 ];
 
 // Jumbotron-Element
@@ -82,6 +83,8 @@ document.addEventListener("keydown", function (event) {
    if (playerPosition.left < 0) playerPosition.left = 0;
    if (playerPosition.left > 550) playerPosition.left = 550;
 
+   
+
    // Kollision mit der rechten Wand von Raum 1 überprüfen
    checkMoveRoom1RightWall(playerPositionBefore, playerPosition);
 
@@ -92,28 +95,10 @@ document.addEventListener("keydown", function (event) {
    checkMoveRoom2RightWall(playerPositionBefore, playerPosition);
 
    // Kollision mit der oberen Wand von Raum 2 überprüfen
-   checkMoveRoom2TopWall(playerPositionBefore, playerPosition)
+   checkMoveRoom2TopWall(playerPositionBefore, playerPosition);
 
    // Kollision mit der linken Wand von Raum 3 überprüfen
    checkMoveRoom3LeftWall(playerPositionBefore, playerPosition);
-
-   // Kollision mit dem Spiegel in Raum 1 überprüfen
-   checkRoom1MirrorPos(playerPosition, playerPositionBefore);
-
-   // Kollision mit der Tür in Raum 2 überprüfen
-   checkRoom2DoorPos(playerPosition, playerPositionBefore);
-
-   // Kollision mit dem Morse-Code in Raum 2 überprüfen
-   checkRoom2MorseCodePos(playerPosition, playerPositionBefore)
-
-   // Kollision mit dem Hexagon überprüfen
-   checkHexagonPos(playerPosition);
-
-   // Kollision mit dem Lichtschalter in Raum 3 überprüfen
-   checkRoom3LightSwitchPos(playerPosition, playerPositionBefore);
-
-   // Kollision mit Gegenständen überprüfen
-   checkCollisionWithItems(playerPosition, playerPositionBefore)
 
    // Kollision mit Objekten in den Räumen überprüfen
    const isColliding = checkCollisionWithObjects(playerPosition, playerPositionBefore, actualRoom);
@@ -126,6 +111,29 @@ document.addEventListener("keydown", function (event) {
       player.style.top = playerPosition.top + "px";
       player.style.left = playerPosition.left + "px";
    }
+
+   // Kollision mit dem Spiegel in Raum 1 überprüfen
+   checkRoom1MirrorPos(playerPosition, playerPositionBefore);
+
+   // Kollision mit der Tür in Raum 2 überprüfen
+   checkRoom2DoorPos(playerPosition, playerPositionBefore);
+
+   // Kollision mit dem Morse-Code in Raum 2 überprüfen
+   checkRoom2MorseCodePos(playerPosition, playerPositionBefore);
+
+   // Kollision mit dem Hexagon überprüfen
+   checkHexagonPos(playerPosition);
+
+   // Position Lichtschalter Raum 3 überprüfen
+   checkRoom3LightSwitchPos(playerPosition, playerPositionBefore);
+
+   // Position Schrank Raum 3 überprüfen
+   checkRoom3WardrobePos(playerPosition, playerPositionBefore);
+
+   checkRoom3ReaderPos(playerPosition, playerPositionBefore);
+
+   // Kollision mit Gegenständen überprüfen
+   checkCollisionWithItems(playerPosition, playerPositionBefore);
 
 });
 
