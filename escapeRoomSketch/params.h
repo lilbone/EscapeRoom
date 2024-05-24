@@ -67,9 +67,9 @@ unsigned long previousMillisMorseCode = 0;
 #define HYPHEN_TIME 1000
 #define SPACE_TIME 500 
 #define WAIT_TIME 50
-#define SOS "  ... --- ... "
-#define SEK "  ... . -.- "
-#define NSA "  -. ... .- "
+#define SOS "   ... --- ... "
+#define SEK "   ... . -.- "
+#define NSA "   -. ... .- "
 int morseIndex = 0;
 bool isLetterSpace = false;
 volatile bool playingMorse = false;
