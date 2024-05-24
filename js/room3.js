@@ -55,6 +55,13 @@ function checkRoom3WardrobePos(playerPosition, playerPositionBefore) {
    if (playerPosition.left > 440 && playerPosition.left < 495 && playerPosition.top >= 20 && playerPosition.top < 40 && actualRoom == 3) {
       playerElement.classList.add("show-after"); // Klasse hinzufügen, um zusätzliches Bild anzuzeigen
 
+      // Sende Nachricht mit Wert 0
+      message = new Paho.MQTT.Message("0");
+      message.destinationName = TOPIC_SEND_LDR;
+      message.retained = true;
+      console.log("< PUB", message.destinationName, "0");
+      client.send(message);
+
       // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
       document.addEventListener("keydown", showWardrobe);
    } else if (actualRoom == 3 && playerPositionBefore.left > 440 && playerPositionBefore.left < 495 && playerPositionBefore.top >= 20 && playerPositionBefore.top < 40 && (playerPosition.left < 440 || playerPosition.left > 495 || playerPosition.top < 20 || playerPosition.top > 40)) {
@@ -62,6 +69,13 @@ function checkRoom3WardrobePos(playerPosition, playerPositionBefore) {
 
       // Entferne den Event-Listener
       document.removeEventListener("keydown", showWardrobe);
+
+      // Sende Nachricht mit Wert 1
+      message = new Paho.MQTT.Message("1");
+      message.destinationName = TOPIC_SEND_LDR;
+      message.retained = true;
+      console.log("< PUB", message.destinationName, "1");
+      client.send(message);
 
       const wardrobeElem = document.getElementById("wardrobe-open");
       wardrobeElem.style.display = "none";
@@ -115,7 +129,7 @@ function showWardrobe(event) {
    }
 }
 
-// Funktion zum Lesen der Taste
+// Funktion zum Lesen der Helligkeit
 function readLdr(event) {
    if (event) {
       subscribe_topic(LDR_TOPIC); // Funktion zum Abonnieren des Themas aufrufen

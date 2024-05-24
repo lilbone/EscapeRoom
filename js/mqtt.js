@@ -10,6 +10,7 @@ const PATH = "/ws";
 const CLIENTID = "mqtt_js_" + parseInt(Math.random() * 100000, 10);
 
 const LDR_TOPIC = "esp/brightness"; // Thema für den Helligkeitssensor
+const TOPIC_SEND_LDR = "esp/brightness/send";
 
 const HUMIDITY_TOPIC = "esp/humidity"; // Thema für die Luftfeuchtigkeit
 const HUMIDITY_SEND_TOPIC = "esp/humidity/send"; // Thema zum Senden der Luftfeuchtigkeit
