@@ -3,6 +3,7 @@
 #include <PubSubClient.h>
 #include <MFRC522.h>
 #include "Streaming.h"
+#include "wifi.h"
 #include "params.h"
 #include "functions.h"
 
@@ -18,14 +19,34 @@ void setup() {
          << F(__FILE__) << endl;
 
   pinMode(LED_RED, OUTPUT);
+  pinMode(TASTER_3, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(TASTER_3), handleButtonPress, FALLING);
 
+//WIFI Konfig
+#ifdef AP_MODE
+  WiFi.mode(WIFI_AP);                                  // access point modus
+  WiFi.softAP(ap_ssid, ap_psk);                        // Name des Wi-Fi Netzes und Passwort
+  delay(500);                                          //Abwarten 0,5s
+  Serial << "IP address " << WiFi.softAPIP() << endl;  //Ausgabe aktueller IP des Servers
+#endif
+
+#ifndef AP_MODE
   WiFi.mode(WIFI_STA);
-  WiFi.begin(SSID, PSK);
+  WiFi.begin(ssid, psk);
+  // wait for AP association
+  Serial << "Waiting for association..." << endl;
+
   while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
     Serial << ".";
-    delay(1000);
   }
-  Serial << WiFi.localIP() << endl;
+
+  Serial << endl
+         << "Associated with " << ssid << endl
+         << endl
+         << "IP address: " << WiFi.localIP() << endl
+         << endl;
+#endif
 
   //DHT Sensor
   pinMode(DHT_POWER, OUTPUT);     // Konfiguriere den DHT-Stromversorgungspin als Ausgang
@@ -49,11 +70,16 @@ void loop() {
   int brightnessAvg = 0;
   unsigned long currentMillis = millis();  // Aktuelle Zeit abrufen
 
-// Wird kontinuierlich aufgerufen und prüft den Morse-Code-Status
+  if (buttonPressed) {
+    buttonPressed = false;
+    publishData(TOPIC_BUTTON3, "1");
+  }
+
+  // Wird kontinuierlich aufgerufen und prüft den Morse-Code-Status
   if (playingMorse) {
     playMorseCode();
   }
-  
+
   if (currentMillis - previousMqttMillis >= 200) {
     previousMqttMillis = currentMillis;
     if (mqttAvailable()) {
@@ -73,23 +99,27 @@ void loop() {
         float h = dht.readHumidity();     // Luftfeuchtigkeit lesen
         float t = dht.readTemperature();  // Temperatur in Celsius lesen
 
-        if (abs(brightnessAvg - brightness) > 50) {
-          brightness = brightnessAvg;
-          publishData(TOPIC_LDR, String(brightness));
+        if (sendBrightness) {
+          if (abs(brightnessAvg - brightness) > 50) {
+            brightness = brightnessAvg;
+            publishData(TOPIC_LDR, String(brightness));
+          }
         }
 
         if (sendHumidity) {
-          if (abs(round(h) - humidity) > 5) {
+          if (abs(round(h) - humidity) > 2) {
             humidity = round(h);
             publishData(TOPIC_HUMIDITY, String(humidity));
           }
         }
       }
 
-      //SPI.begin();         // Init SPI bus
-      //mfrc522.PCD_Init();  // Init MFRC522
+      if (sendRfid) {
+        SPI.begin();         // Init SPI bus
+        mfrc522.PCD_Init();  // Init MFRC522
 
-      //checkRFID();
+        checkRFID();
+      }
     }
   }
 }
