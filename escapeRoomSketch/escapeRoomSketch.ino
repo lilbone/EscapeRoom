@@ -54,12 +54,10 @@ void setup() {
   dht.begin();                    // Initialisierung des DHT-Sensors
 
   mqttClient.setServer(MQTT_BROKER, PORT);
-  mqttClient.setCallback(callback);
+  //mqttClient.setCallback(callback);
 
   mqttAvailable();
-
-  publishData(TOPIC_LAMP_STATUS, "0");
-  publishData(TOPIC_LDR, "0");
+  mqttClient.setCallback(callback);
 
   Serial << "setup finished" << endl;
 }
@@ -107,6 +105,7 @@ void loop() {
         }
 
         if (sendHumidity) {
+          Serial << h << ", " << humidity << endl;
           if (abs(round(h) - humidity) > 2) {
             humidity = round(h);
             publishData(TOPIC_HUMIDITY, String(humidity));
