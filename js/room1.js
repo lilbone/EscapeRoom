@@ -53,7 +53,7 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
 // Funktion zur Anzeige des Spiegels im Raum 1
 function showMirror1(event) {
   // Überprüfe, ob die gedrückte Taste die "Enter"-Taste ist
-  if (event.key === "Enter") {
+  if (event.code === "Space") {
     // Wenn das Jumbotron sichtbar ist, setze das Display auf "none"
     if (mirror1Visible) {
       document.querySelector("#mirror").style.display = "none";
@@ -107,7 +107,7 @@ function checkHumidityAndAnimate() {
 
   // Setze ein Intervall, das alle 100ms überprüft
   intervalIdHumidity = setInterval(() => {
-    if (humidity > firstHumidity) {
+    if (humidity > firstHumidity + 5) {
       // Stoppe das Intervall, wenn die Bedingung erfüllt ist
       clearInterval(intervalIdHumidity);
 
@@ -125,8 +125,11 @@ function checkRoom1PcPos(playerPosition, playerPositionBefore) {
   if (playerPosition.left >= 0 && playerPosition.left <= 88 && playerPosition.top >= 30 && playerPosition.top <= 60) {
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
-    document.addEventListener("keydown", showMirrorPuzzleInfo);
-
+    if (!mirrorPuzzle) {
+      document.addEventListener("keydown", showMirrorPuzzleInfo);
+    }else if (mirrorPuzzle && morseCodePuzzle && !lightSwitch3Puzzle) {
+      document.addEventListener("keydown", showLightSwitch3PuzzleInfo);
+    }
   } else if (actualRoom == 1 && playerPositionBefore.left >= 0 && playerPositionBefore.left <= 88 && playerPositionBefore.top >= 30 && playerPositionBefore.top <= 60 && (playerPosition.left < 0 || playerPosition.left > 88 || playerPosition.top < 30 || playerPosition.top > 60)) {
     // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
     jumbotronElem.style.display = "none";
@@ -139,12 +142,15 @@ function checkRoom1PcPos(playerPosition, playerPositionBefore) {
     jumbotronVisible = false;
 
     // Entferne den Event-Listener für das Tastaturereignis "keydown" hinzu
-    document.removeEventListener("keydown", showMirrorPuzzleInfo);
-
+    if (!mirrorPuzzle) {
+      document.removeEventListener("keydown", showMirrorPuzzleInfo);
+    }else if (mirrorPuzzle && morseCodePuzzle && !lightSwitch3Puzzle) {
+      document.removeEventListener("keydown", showLightSwitch3PuzzleInfo);
+    }
   }
 }
 function showMirrorPuzzleInfo(event){
-  if (event.key === "Enter") {
+  if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
 
     if (jumbotronVisible) {
@@ -168,6 +174,45 @@ function showMirrorPuzzleInfo(event){
         <br>
         <p><b>Nachricht:</b></p>
         <p>Was unsichtbar ist, wird sichtbar, wenn der Atem der Natur es berührt.</p>
+      `;
+      jumbotronElem.innerHTML = mail;
+
+      jumbotronElem.style.display = "flex";
+      jumbotronElem.style.background = "#e6e5e5";
+      jumbotronElem.style.borderRadius = "0"; // kein border-radius
+      jumbotronElem.style.border = "2px solid";
+      jumbotronElem.style.boxShadow = "snow 0px 0px 8px 0px";
+      jumbotronElem.style.alignItems = "flex-start"; // oder eine andere geeignete Einstellung
+
+      jumbotronVisible = true;
+    }
+  }
+}
+function showLightSwitch3PuzzleInfo(event){
+  if (event.code === "Space") {
+    let jumbotronElem = document.querySelector(".jumbotron");
+
+    if (jumbotronVisible) {
+      // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
+      jumbotronElem.style.display = "none";
+      jumbotronElem.style.background = "steelblue";
+      jumbotronElem.style.borderRadius = "8px";
+      jumbotronElem.style.boxShadow = "snow 0px 0px 26px 5px";
+      jumbotronElem.style.alignItems = "center";
+      jumbotronElem.style.border = "none";
+
+      jumbotronVisible = false;
+    } else {
+
+      const today = new Date().toLocaleDateString();
+      const mail = `
+        <p><b>NEUE E-MAIL</b></p>
+        <p><b>Von:</b> ESCAPE ROOM SYSTEM</p>
+        <p><b>An:</b> SPIELER</p>
+        <p><b>Datum:</b> ${today}</p>
+        <br>
+        <p><b>Nachricht:</b></p>
+        <p>Finde den dritten von drei, um den Pfad zu erleuchten.</p>
       `;
       jumbotronElem.innerHTML = mail;
 

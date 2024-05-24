@@ -101,7 +101,7 @@ function onMessageArrived(message) {
 
   // Elemente der Webseite aktualisieren, je nachdem, von welchem Thema die Nachricht stammt
   if (message.destinationName == LDR_TOPIC) {
-    if (message.payloadString >= 200) {
+    if (message.payloadString >= 450) {
       showRfidChip(true);
     }else{
       showRfidChip(false);
@@ -133,6 +133,7 @@ function onMessageArrived(message) {
     
     if (message.payloadString == "30f0987e") {
       win = true;
+      lightAmpSound.play();
       document.getElementById("alarmLamp").style.backgroundImage = "url('../images/room3/revolving-light-green.png')";
     }
   }
