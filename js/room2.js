@@ -99,7 +99,7 @@ function checkRoom2DoorPos(playerPosition, playerPositionBefore) {
 
 // Funktion zur Anzeige des Passwortdialogs für Tür 2
 function showDoor2PwDialog(event) {
-  if (event.key === "Enter") {
+  if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
 
     if (jumbotronVisible) {
@@ -118,11 +118,12 @@ function showDoor2PwDialog(event) {
         inputElem.focus();
 
         inputElem.addEventListener("change", (e) => {
-          let inputValue = e.target.value;
+          let inputValue = e.target.value.toLowerCase();
 
           if (inputValue == passwordDoor2) {
 
             mirrorPuzzle = true;
+            mirrorPuzzleFirstHelp = false;
             puzzleSeconds = 0;
 
             // Zugreifen auf das Tür-Element
@@ -189,7 +190,7 @@ function checkRoom2MorseCodePos(playerPosition, playerPositionBefore) {
 
 // Funktion zur Anzeige des Dialogs für den Morsecode im Raum 2
 function showRoom2MorseCodeDialog(event) {
-  if (event.key === "Enter") {
+  if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
 
     if (jumbotronVisible) {
@@ -210,12 +211,11 @@ function showRoom2MorseCodeDialog(event) {
         inputElem.focus();
 
         inputElem.addEventListener("change", (e) => {
-          let inputValue = e.target.value;
+          let inputValue = e.target.value.toLowerCase();
           if (inputValue == morseCodeMessage[randomMorseCodeNumber - 1]) {
 
             morseCodePuzzle = true;
             morseCodePuzzleFirstHelp = false;
-            mirrorPuzzleFirstHelp = true;
             puzzleSeconds = 0;
 
             hexagonOffSound.play();
@@ -253,7 +253,7 @@ function checkRoom2TablePos(playerPosition, playerPositionBefore) {
   }
 }
 function showMorseCodePuzzleInfo(event) {
-  if (event.key === "Enter") {
+  if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
 
     if (jumbotronVisible) {
@@ -277,7 +277,7 @@ function showMorseCodePuzzleInfo(event) {
         <p><b>Nachricht:</b></p>
         <p>Blinkende Lichter tanzen im Rhythmus der Punkte und Striche.</p>
         <p>Die Antwort liegt in den alten Mustern.</p>
-        <p>Erkenne die Zeichen, um den Weg zu finden.</p>
+        <p>Erkenne 3 Zeichen, um den Weg zu finden.</p>
       `;
       jumbotronElem.innerHTML = faxMessage;
 

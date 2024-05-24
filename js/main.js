@@ -13,6 +13,8 @@ const hexagonOffSound = new Audio('../sounds/hexagon-off.mp3'); // Lade die Audi
 hexagonSound.volume = 0.9;
 const newNotificationSound = new Audio('../sounds/new-notification.mp3'); // Lade die Audio-Datei
 newNotificationSound.volume = 0.9;
+const lightAmpSound = new Audio('../sounds/light-amp.mp3'); // Lade die Audio-Datei
+newNotificationSound.volume = 0.7;
 
 if (!themeSoundIsPlaying) {
     //playThemeSound();

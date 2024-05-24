@@ -18,6 +18,14 @@ let mirrorPuzzle = false;
 let mirrorPuzzleFirstHelp = false;
 let morseCodePuzzle = false;
 let morseCodePuzzleFirstHelp = false;
+let lightSwitch3Puzzle = false;
+let lightSwitch3PuzzleFirstHelp = false;
+let hexagonPuzzle = false;
+let hexagonPuzzleFirstHelp = false;
+let wardrobePuzzle = false;
+let wardrobePuzzleFirstHelp = false;
+
+let updateTimeInterval;
 
 // Liste der Gegenstandsobjekte
 const itemObjects = [
@@ -32,7 +40,7 @@ jumbotronElem.innerHTML = `
    <h2>Willkommen</h2>
    <p>Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger Rätsel lösen. Nutze die versteckten Hinweise und zeige, 
    dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?</p><p>Tipp: Nutze den ESP und den Computersound um die Rätsel zu lösen.</p>
-   <p style="display: flex; gap: 10px;"><img src="images/control/enter-key.png" height="20" alt=""><span>Drücke die Enter Taste zum Starten</span></p>
+   <p style="display: flex; gap: 10px;"><img src="images/control/space_bar.png" height="20" alt=""><span>Drücke die Space Taste zum Starten</span></p>
 `;
 jumbotronElem.style.display = "flex"; // Jumbotron sichtbar machen
 jumbotronVisible = true; // Jumbotron ist sichtbar
@@ -55,24 +63,46 @@ function updateTime() {
    // Überprüfe, die Zeit für jeweiliges Rätsel
    const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
    if (!mirrorPuzzle) {
-      if (puzzleSeconds == 3 && !mirrorPuzzleFirstHelp) {
+      if (puzzleSeconds == 90 && !mirrorPuzzleFirstHelp) {
          mirrorPuzzleFirstHelp = true;
          newNotificationSound.play();
          mirrorPuzzleHelpElem.style.display = "block";
       }
-   }else{
+   }else if(!lightSwitch3PuzzleFirstHelp && !mirrorPuzzleFirstHelp){
       mirrorPuzzleHelpElem.style.display = "none";
    }
 
    const morseCodePuzzleHelpElem = document.getElementById("morseCode-puzzle-help");
    if (!morseCodePuzzle && mirrorPuzzle) {
-      if (puzzleSeconds == 3 && !morseCodePuzzleFirstHelp) {
+      if (puzzleSeconds == 90 && !morseCodePuzzleFirstHelp) {
          morseCodePuzzleFirstHelp = true;
          newNotificationSound.play();
          morseCodePuzzleHelpElem.style.display = "block";
       }
    }else{
       morseCodePuzzleHelpElem.style.display = "none";
+   }
+
+   const lightSwitch3PuzzleHelpElem = document.getElementById("mirror-puzzle-help");
+   if (!lightSwitch3Puzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle) {
+      if (puzzleSeconds == 60 && !lightSwitch3PuzzleFirstHelp) {
+         lightSwitch3PuzzleFirstHelp = true;
+         newNotificationSound.play();
+         lightSwitch3PuzzleHelpElem.style.display = "block";
+      }
+   }else if(!lightSwitch3PuzzleFirstHelp && !mirrorPuzzleFirstHelp){
+      lightSwitch3PuzzleHelpElem.style.display = "none";
+   }
+
+   const wardrobePuzzleHelpElem = document.getElementById("wardrobe-puzzle-help");
+   if (!wardrobePuzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle && lightSwitch3Puzzle) {
+      if (puzzleSeconds == 60 && !wardrobePuzzleFirstHelp) {
+         wardrobePuzzleFirstHelp = true;
+         newNotificationSound.play();
+         wardrobePuzzleHelpElem.style.display = "block";
+      }
+   }else if(!wardrobePuzzleFirstHelp && !mirrorPuzzleFirstHelp){
+      wardrobePuzzleHelpElem.style.display = "none";
    }
 
 
@@ -93,7 +123,7 @@ function hideJumbotron() {
    }
 
    // Starte den Timer und aktualisiere die Zeit jede Sekunde
-   setInterval(updateTime, 1000);
+   updateTimeInterval = setInterval(updateTime, 1000);
 
    // Rufe die Funktion sofort auf, um den initialen Wert zu setzen
    updateTime();
@@ -172,7 +202,7 @@ document.addEventListener("keydown", function (event) {
 
    // Kollisionen in Raum 1 überprüfen
    checkRoom1MirrorPos(playerPosition, playerPositionBefore);
-   if (!mirrorPuzzle && mirrorPuzzleFirstHelp) {
+   if ((!mirrorPuzzle && mirrorPuzzleFirstHelp) || (!lightSwitch3Puzzle && lightSwitch3PuzzleFirstHelp)) {
       checkRoom1PcPos(playerPosition, playerPositionBefore);
    }
 
@@ -187,6 +217,9 @@ document.addEventListener("keydown", function (event) {
    checkRoom3LightSwitchPos(playerPosition, playerPositionBefore);
    checkRoom3WardrobePos(playerPosition, playerPositionBefore);
    checkRoom3ReaderPos(playerPosition, playerPositionBefore);
+   if (!wardrobePuzzle && wardrobePuzzleFirstHelp) {
+      checkRoom3TablePos(playerPosition, playerPositionBefore);
+   }
 
    // Kollision mit dem Hexagon überprüfen
    checkHexagonPos(playerPosition);
@@ -219,7 +252,7 @@ function checkHexagonPos(playerPosition) {
          hexagon1Elem.style.backgroundImage = "url('/images/general/hexagon-blue.png')";
          hexagonSound.play();
          hexagon1Active = true;
-         setTimeout(() => clearHexagon(hexagon1Elem, 1), 14000);
+         setTimeout(() => clearHexagon(hexagon1Elem, 1), 15000);
       }
       if (actualRoom == 1 && !hexagon2Active && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 155 && playerPosition.top <= 180) {
          const hexagon2Elem = document.getElementById("hexagon2");
@@ -228,6 +261,10 @@ function checkHexagonPos(playerPosition) {
          hexagon2Active = true;
          setTimeout(() => clearHexagon(hexagon2Elem, 2), 3000);
          if (hexagon1Active && hexagon2Active && hexagon3Active) {
+            hexagonPuzzle = true;
+            hexagonPuzzleFirstHelp = false;
+            puzzleSeconds = 0;
+
             let door = document.querySelector(".door-3");
             // Ändern des data-state-Attributs auf "open"
             doorSound.play();
@@ -239,7 +276,7 @@ function checkHexagonPos(playerPosition) {
          hexagon3Elem.style.backgroundImage = "url('/images/general/hexagon-red.png')";
          hexagonSound.play();
          hexagon3Active = true;
-         setTimeout(() => clearHexagon(hexagon3Elem, 3), 8000);
+         setTimeout(() => clearHexagon(hexagon3Elem, 3), 9000);
       }
    }
 }

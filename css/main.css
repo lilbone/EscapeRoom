@@ -205,6 +205,10 @@ div[data-state="open"] {
   .control-text {
     display: flex;
     align-items: center;
+
+    img{
+      margin-right: 10px;
+    }
   }
 }
 

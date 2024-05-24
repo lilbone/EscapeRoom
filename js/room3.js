@@ -56,10 +56,10 @@ function checkRoom3WardrobePos(playerPosition, playerPositionBefore) {
       playerElement.classList.add("show-after"); // Klasse hinzufügen, um zusätzliches Bild anzuzeigen
 
       // Sende Nachricht mit Wert 0
-      message = new Paho.MQTT.Message("0");
+      message = new Paho.MQTT.Message("1");
       message.destinationName = TOPIC_SEND_LDR;
       message.retained = true;
-      console.log("< PUB", message.destinationName, "0");
+      console.log("< PUB", message.destinationName, "1");
       client.send(message);
 
       // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
@@ -71,10 +71,10 @@ function checkRoom3WardrobePos(playerPosition, playerPositionBefore) {
       document.removeEventListener("keydown", showWardrobe);
 
       // Sende Nachricht mit Wert 1
-      message = new Paho.MQTT.Message("1");
+      message = new Paho.MQTT.Message("0");
       message.destinationName = TOPIC_SEND_LDR;
       message.retained = true;
-      console.log("< PUB", message.destinationName, "1");
+      console.log("< PUB", message.destinationName, "0");
       client.send(message);
 
       const wardrobeElem = document.getElementById("wardrobe-open");
@@ -110,6 +110,8 @@ function toggleLightRoom3() {
       lightSwitchRoom3.style.backgroundColor = "#fdf300";
       if (canMoveThroughDoor(3)) {
          lightRoom3.style.backgroundColor = "transparent";
+         lightSwitch3Puzzle = true;
+         lightSwitch3PuzzleFirstHelp = false;
       }
 
    } else {
@@ -122,7 +124,7 @@ function toggleLightRoom3() {
 }
 
 function showWardrobe(event) {
-   if (event.key === "Enter") {
+   if (event.code === "Space") {
       const wardrobeElem = document.getElementById("wardrobe-open");
       wardrobeElem.style.display = "block";
       readLdr(true);
@@ -149,6 +151,10 @@ function showRfidChip(state) {
    if (state) {
       wardrobeLightElem.style.opacity = "0";
 
+      wardrobePuzzle = true;
+      wardrobePuzzleFirstHelp = false;
+      puzzleSeconds = 0;
+
       if (rfidElem) {
          rfidElem.style.opacity = "1";
 
@@ -171,7 +177,7 @@ function showRfidChip(state) {
 function checkRoom3ReaderPos(playerPosition, playerPositionBefore) {
    const playerElement = document.querySelector("#player");
    // Überprüfung, ob der Spieler sich in der Nähe des rfid Lesegeräts  befindet und ob er sich im Raum 3 befindet
-   if (playerPosition.left >= 377 && playerPosition.left < 385 && playerPosition.top >= 150 && playerPosition.top <= 170 && actualRoom == 3) {
+   if (playerPosition.left >= 377 && playerPosition.left < 385 && playerPosition.top >= 140 && playerPosition.top <= 170 && actualRoom == 3) {
       playerElement.classList.add("show-after"); // Klasse hinzufügen, um zusätzliches Bild anzuzeigen
 
       if (document.getElementById("rfid-chip-bag").style.display != "") {
@@ -187,7 +193,7 @@ function checkRoom3ReaderPos(playerPosition, playerPositionBefore) {
 
       // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
       document.addEventListener("keydown", checkRfid);
-   } else if (actualRoom == 3 && playerPositionBefore.left >= 377 && playerPositionBefore.left < 385 && playerPositionBefore.top >= 150 && playerPositionBefore.top <= 170 && (playerPosition.left < 377 || playerPosition.left > 385 || playerPosition.top < 150 || playerPosition.top > 170)) {
+   } else if (actualRoom == 3 && playerPositionBefore.left >= 377 && playerPositionBefore.left < 385 && playerPositionBefore.top >= 140 && playerPositionBefore.top <= 170 && (playerPosition.left < 377 || playerPosition.left > 385 || playerPosition.top < 140 || playerPosition.top > 170)) {
       playerElement.classList.remove("show-after"); // Klasse entfernen, um zusätzliches Bild auszublenden
 
       // Sende Nachricht mit Wert 0
@@ -205,7 +211,7 @@ function checkRoom3ReaderPos(playerPosition, playerPositionBefore) {
 }
 
 function checkRfid(event) {
-   if (event.key === "Enter") {
+   if (event.code === "Space") {
       let jumbotronElem = document.querySelector(".jumbotron");
 
       if (jumbotronVisible) {
@@ -213,23 +219,31 @@ function checkRfid(event) {
          jumbotronVisible = false;
       } else {
 
-         if (win) {
+         if (win && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle && lightSwitch3Puzzle && wardrobePuzzle) {
 
             doorSound.play();
+            clearInterval(updateTimeInterval);
 
             // Zugreifen auf das Tür-Element
             const door = document.querySelector(".door-master");
             door.setAttribute("data-state", "open");
 
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+
+            // Formatiere die Zeit
+            const formattedTime = `${pad(minutes)}:${pad(secs)}`;
+
             jumbotronElem.innerHTML = `
                   <h2>👌 Mission Erfolgreich</h2>
                   <h3>Du hast alle Rätsel erfolgreich gelöst</h3>
+                  <h3>Deine Zeit: ${formattedTime}</h3>
                `;
 
             jumbotronElem.style.display = "flex";
             jumbotronVisible = true;
 
-         } else if (rfidCount == 2) {
+         } else if (rfidCount >= 2) {
             jumbotronElem.innerHTML = `
                   <h2>!Mission gescheitert!</h2>
                   <h3>Das Haus bleibt nun für immer verschlossen!</h3>
@@ -239,21 +253,57 @@ function checkRfid(event) {
             jumbotronVisible = true;
          } else {
 
-            if (document.getElementById("rfid-chip-bag").style.display == "") {
+            jumbotronElem.innerHTML = `
+               <h2>!Warnung!</h2>
+               <h3>Du hast noch ${2 - rfidCount} Versuche</h3>
+            `;
 
-               jumbotronElem.innerHTML = `
-                  <h2>!Warnung!</h2>
-                  <h3>Du hast noch ${2 - rfidCount} Versuche</h3>
-               `;
+            rfidCount++;
 
-               rfidCount++;
-
-               jumbotronElem.style.display = "flex";
-               jumbotronVisible = true;
-            }
+            jumbotronElem.style.display = "flex";
+            jumbotronVisible = true;
          }
-
       }
+   }
+}
 
+function checkRoom3TablePos(playerPosition, playerPositionBefore) {
+   if (actualRoom == 3 && playerPosition.left >= 435 && playerPosition.left <= 500 && playerPosition.top >= 330 && playerPosition.top <= 345) {
+
+      // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
+      document.addEventListener("keydown", showWardrobePuzzleInfo);
+
+   } else if (actualRoom == 3 && playerPositionBefore.left >= 435 && playerPositionBefore.left <= 500 && playerPositionBefore.top >= 330 && playerPositionBefore.top <= 345 && (playerPosition.left < 435 || playerPosition.left > 500 || playerPosition.top < 330 || playerPosition.top > 345)) {
+      // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
+      jumbotronElem.style.display = "none";
+
+      jumbotronVisible = false;
+
+      // Entferne den Event-Listener für das Tastaturereignis "keydown" hinzu
+      document.removeEventListener("keydown", showWardrobePuzzleInfo);
+
+   }
+}
+function showWardrobePuzzleInfo(event) {
+   if (event.code === "Space") {
+      let jumbotronElem = document.querySelector(".jumbotron");
+
+      if (jumbotronVisible) {
+         // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
+         jumbotronElem.style.display = "none";
+
+         jumbotronVisible = false;
+      } else {
+         const today = new Date().toLocaleDateString();
+         const Message = `
+         <p><b>Hinweis:</b></p>
+         <p>In der Dunkelheit liegt ein Geheimnis, erleuchte es, um es zu sehen.</p>
+       `;
+         jumbotronElem.innerHTML = Message;
+
+         jumbotronElem.style.display = "flex";
+
+         jumbotronVisible = true;
+      }
    }
 }
