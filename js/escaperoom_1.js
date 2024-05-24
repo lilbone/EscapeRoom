@@ -16,6 +16,8 @@ let seconds = 0;
 let puzzleSeconds = 0;
 let mirrorPuzzle = false;
 let mirrorPuzzleFirstHelp = false;
+let morseCodePuzzle = false;
+let morseCodePuzzleFirstHelp = false;
 
 // Liste der Gegenstandsobjekte
 const itemObjects = [
@@ -53,13 +55,24 @@ function updateTime() {
    // Überprüfe, die Zeit für jeweiliges Rätsel
    const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
    if (!mirrorPuzzle) {
-      if (puzzleSeconds == 5 && !mirrorPuzzleFirstHelp) {
+      if (puzzleSeconds == 3 && !mirrorPuzzleFirstHelp) {
          mirrorPuzzleFirstHelp = true;
          newNotificationSound.play();
          mirrorPuzzleHelpElem.style.display = "block";
       }
    }else{
       mirrorPuzzleHelpElem.style.display = "none";
+   }
+
+   const morseCodePuzzleHelpElem = document.getElementById("morseCode-puzzle-help");
+   if (!morseCodePuzzle && mirrorPuzzle) {
+      if (puzzleSeconds == 3 && !morseCodePuzzleFirstHelp) {
+         morseCodePuzzleFirstHelp = true;
+         newNotificationSound.play();
+         morseCodePuzzleHelpElem.style.display = "block";
+      }
+   }else{
+      morseCodePuzzleHelpElem.style.display = "none";
    }
 
 
@@ -166,6 +179,9 @@ document.addEventListener("keydown", function (event) {
    // Kollision in Raum 2 überprüfen
    checkRoom2DoorPos(playerPosition, playerPositionBefore);
    checkRoom2MorseCodePos(playerPosition, playerPositionBefore);
+   if (!morseCodePuzzle && morseCodePuzzleFirstHelp) {
+      checkRoom2TablePos(playerPosition, playerPositionBefore);
+   }
 
    // Kollision in Raum 3 überprüfen
    checkRoom3LightSwitchPos(playerPosition, playerPositionBefore);

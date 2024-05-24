@@ -26,6 +26,53 @@
   height: 50px;
 }
 
+#pc-table2 {
+  position: absolute;
+  background-image: url("../images/room1/pc-table.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 549px;
+  left: 100px;
+  width: 88px;
+  height: 35px;
+
+  #notes {
+    background-image: url("../images/room2/notes.png");
+    width: 23px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    top: -18px;
+    left: 8px;
+  }
+
+  #printer {
+    background-image: url("../images/room2/printer.png");
+    width: 40px;
+    height: 25px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    top: 8px;
+    left: 43px;
+  }
+
+  #morseCode-puzzle-help {
+    position: relative;
+    background-image: url("../images/room2/prints.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    top: -45px;
+    left: 54px;
+    width: 17px;
+    height: 20px;
+    animation: wobble 0.3s infinite alternate;
+    box-shadow: -1px 1px 5px 1px;
+  }
+}
+
 #rommNr2 {
   position: absolute;
   font-weight: bold;

@@ -111,9 +111,6 @@ function checkHumidityAndAnimate() {
       // Stoppe das Intervall, wenn die Bedingung erfüllt ist
       clearInterval(intervalIdHumidity);
 
-      mirrorPuzzle = true;
-      puzzleSeconds = 0;
-
       // Führe die Animationsbefehle aus
       document.querySelector("#mirror").classList.add("animateMirror");
       document.querySelector("#mirror p").classList.add("animate-mirror-p");
@@ -161,14 +158,18 @@ function showMirrorPuzzleInfo(event){
 
       jumbotronVisible = false;
     } else {
-      // Neue Stile anwenden, wenn das Jumbotron angezeigt wird
-      jumbotronElem.innerHTML = `
-        <p>Abs.: Helpdesk</p>
-        <p>Empf.: Player</p>
-        <hr>
+
+      const today = new Date().toLocaleDateString();
+      const mail = `
+        <p><b>NEUE E-MAIL</b></p>
+        <p><b>Von:</b> ESCAPE ROOM SYSTEM</p>
+        <p><b>An:</b> SPIELER</p>
+        <p><b>Datum:</b> ${today}</p>
+        <br>
         <p><b>Nachricht:</b></p>
         <p>Was unsichtbar ist, wird sichtbar, wenn der Atem der Natur es berührt.</p>
       `;
+      jumbotronElem.innerHTML = mail;
 
       jumbotronElem.style.display = "flex";
       jumbotronElem.style.background = "#e6e5e5";

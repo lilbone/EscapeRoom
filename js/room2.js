@@ -1,8 +1,8 @@
 // Liste der Objekte im Raum 2
 const room2Objects = [
   { id: "morse-code-device", top: 405, left: 205, width: 26, height: 47 },
+  { id: "pc-table2", top: 554, left: 105, width: 78, height: 30 },
 ];
-
 // Passwort für Tür 2
 const passwordDoor2 = "trowssap";
 
@@ -13,7 +13,7 @@ const morseCodeMessage = ["sos", "sek", "nsa"];
 const randomMorseCodeNumber = Math.floor(Math.random() * 3) + 1;
 
 // Morsecode-Sound
-const morseCodeSound = new Audio('../sounds/morsesound.mp3'); 
+const morseCodeSound = new Audio('../sounds/morsesound.mp3');
 morseCodeSound.volume = 0.1;
 
 // Funktion zur Überprüfung der Bewegung an der oberen Wand des Raums 2
@@ -82,7 +82,7 @@ function checkMoveRoom2RightWall(playerPositionBefore, playerPosition) {
 // Funktion zur Überprüfung der Position der Tür im Raum 2
 function checkRoom2DoorPos(playerPosition, playerPositionBefore) {
   const playerElement = document.getElementById("player");
-  if ( playerPosition.left >= 70 && playerPosition.left <= 130 && playerPosition.top >= 290 && playerPosition.top <= 306 && !canMoveThroughDoor(2)) {
+  if (playerPosition.left >= 70 && playerPosition.left <= 130 && playerPosition.top >= 290 && playerPosition.top <= 306 && !canMoveThroughDoor(2)) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
@@ -121,7 +121,10 @@ function showDoor2PwDialog(event) {
           let inputValue = e.target.value;
 
           if (inputValue == passwordDoor2) {
+
             mirrorPuzzle = true;
+            puzzleSeconds = 0;
+
             // Zugreifen auf das Tür-Element
             const door = document.querySelector(".door-2");
             // Zugrifff auf die Raumhelligkeit
@@ -133,7 +136,7 @@ function showDoor2PwDialog(event) {
             lightRoom2.style.backgroundColor = "#00000000";
           }
         });
-      }, 0); 
+      }, 0);
 
       jumbotronElem.style.display = "flex";
       jumbotronVisible = true;
@@ -209,6 +212,12 @@ function showRoom2MorseCodeDialog(event) {
         inputElem.addEventListener("change", (e) => {
           let inputValue = e.target.value;
           if (inputValue == morseCodeMessage[randomMorseCodeNumber - 1]) {
+
+            morseCodePuzzle = true;
+            morseCodePuzzleFirstHelp = false;
+            mirrorPuzzleFirstHelp = true;
+            puzzleSeconds = 0;
+
             hexagonOffSound.play();
             document.getElementById("hexagon1").style.display = "block";
             document.getElementById("hexagon2").style.display = "block";
@@ -216,8 +225,70 @@ function showRoom2MorseCodeDialog(event) {
             hexagonVisible = true;
           }
         });
-      }, 0); 
+      }, 0);
     }
   }
 }
 
+function checkRoom2TablePos(playerPosition, playerPositionBefore) {
+  if (actualRoom == 2 && playerPosition.left >= 130 && playerPosition.left <= 160 && playerPosition.top >= 504 && playerPosition.top <= 519) {
+
+    // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
+    document.addEventListener("keydown", showMorseCodePuzzleInfo);
+
+  } else if (actualRoom == 2 && playerPositionBefore.left >= 130 && playerPositionBefore.left <= 160 && playerPositionBefore.top >= 504 && playerPositionBefore.top <= 519 && (playerPosition.left < 130 || playerPosition.left > 160 || playerPosition.top < 504 || playerPosition.top > 519)) {
+    // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
+    jumbotronElem.style.display = "none";
+    jumbotronElem.style.background = "steelblue";
+    jumbotronElem.style.borderRadius = "8px";
+    jumbotronElem.style.boxShadow = "snow 0px 0px 26px 5px";
+    jumbotronElem.style.alignItems = "center";
+    jumbotronElem.style.border = "none";
+
+    jumbotronVisible = false;
+
+    // Entferne den Event-Listener für das Tastaturereignis "keydown" hinzu
+    document.removeEventListener("keydown", showMorseCodePuzzleInfo);
+
+  }
+}
+function showMorseCodePuzzleInfo(event) {
+  if (event.key === "Enter") {
+    let jumbotronElem = document.querySelector(".jumbotron");
+
+    if (jumbotronVisible) {
+      // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
+      jumbotronElem.style.display = "none";
+      jumbotronElem.style.background = "steelblue";
+      jumbotronElem.style.borderRadius = "8px";
+      jumbotronElem.style.boxShadow = "snow 0px 0px 26px 5px";
+      jumbotronElem.style.alignItems = "center";
+      jumbotronElem.style.border = "none";
+
+      jumbotronVisible = false;
+    } else {
+      const today = new Date().toLocaleDateString();
+      const faxMessage = `
+        <p><b>FAX-NACHRICHT</b></p>
+        <p><b>Von:</b> ESCAPE ROOM SYSTEM</p>
+        <p><b>An:</b> SPIELER</p>
+        <p><b>Datum:</b> ${today}</p>
+        <br>
+        <p><b>Nachricht:</b></p>
+        <p>Blinkende Lichter tanzen im Rhythmus der Punkte und Striche.</p>
+        <p>Die Antwort liegt in den alten Mustern.</p>
+        <p>Erkenne die Zeichen, um den Weg zu finden.</p>
+      `;
+      jumbotronElem.innerHTML = faxMessage;
+
+      jumbotronElem.style.display = "flex";
+      jumbotronElem.style.background = "#e6e5e5";
+      jumbotronElem.style.borderRadius = "0"; // kein border-radius
+      jumbotronElem.style.border = "2px solid";
+      jumbotronElem.style.boxShadow = "snow 0px 0px 8px 0px";
+      jumbotronElem.style.alignItems = "flex-start"; // oder eine andere geeignete Einstellung
+
+      jumbotronVisible = true;
+    }
+  }
+}
