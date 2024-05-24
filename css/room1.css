@@ -1,120 +1,146 @@
 @keyframes backgroundFadeIn {
-   0% {
-      background: linear-gradient(to bottom, #b3b1b1, #837e7e);
-   }
-   100% {
-      background: linear-gradient(to bottom, #e6e5e5, #919191);
-   }
+  0% {
+    background: linear-gradient(to bottom, #b3b1b1, #837e7e);
+  }
+  100% {
+    background: linear-gradient(to bottom, #e6e5e5, #919191);
+  }
 }
 
 @keyframes textFadeIn {
-   0% {
-      color: rgba(240, 248, 255, 0);
-   }
-   100% {
-      color: rgba(255, 255, 255, 0.45);
-   }
+  0% {
+    color: rgba(240, 248, 255, 0);
+  }
+  100% {
+    color: rgba(255, 255, 255, 0.45);
+  }
 }
 
 @keyframes playerOpacity {
-   0% {
-      opacity: 1;
-   }
-   100% {
-      opacity: 0.3;
-   }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
 }
 
 #mirror {
-   z-index: 10;
-   position: absolute;
-   display: none;
-   top: 50px;
-   left: 45px;
-   height: 200px;
-   width: 150px;
-   background: linear-gradient(to bottom, #b3b1b1, #837e7e);
-   border: 6px solid #457eb6;
-   border-radius: 2px;
-   overflow: hidden;
+  z-index: 10;
+  position: absolute;
+  display: none;
+  top: 50px;
+  left: 45px;
+  height: 200px;
+  width: 150px;
+  background: linear-gradient(to bottom, #b3b1b1, #837e7e);
+  border: 6px solid #457eb6;
+  border-radius: 2px;
+  overflow: hidden;
 }
 .animateMirror {
-   animation: backgroundFadeIn 4s forwards;
+  animation: backgroundFadeIn 4s forwards;
 }
 
 #mirror p {
-   font-weight: 800;
-   text-align: center;
-   margin-top: 30px;
-   font-family: cursive;
-   font-size: 20px;
-   color: rgba(240, 248, 255, 0);
+  font-weight: 800;
+  text-align: center;
+  margin-top: 30px;
+  font-family: cursive;
+  font-size: 20px;
+  color: rgba(240, 248, 255, 0);
 }
 .animate-mirror-p {
-   animation: textFadeIn 4s forwards;
+  animation: textFadeIn 4s forwards;
 }
 
 #player-background {
-   background-image: url(../images/player/player.png);
-   background-size: 100px 100px;
-   background-position: center;
-   background-repeat: no-repeat;
-   width: 100%;
-   height: 100%;
-   filter: blur(1px);
-   opacity: 1;
-   position: absolute;
-   top: 85px;
+  background-image: url(../images/player/player.png);
+  background-size: 100px 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  filter: blur(1px);
+  opacity: 1;
+  position: absolute;
+  top: 85px;
 }
 .animate-layer-background {
-   animation: playerOpacity 3s forwards;
+  animation: playerOpacity 3s forwards;
 }
 
 #mirrorLine {
-   position: absolute;
-   background-color: #457eb6;
-   top: 0;
-   left: 160px;
-   width: 55px;
-   height: 6px;
+  position: absolute;
+  background-color: #457eb6;
+  top: 0;
+  left: 160px;
+  width: 55px;
+  height: 6px;
 }
 
-#computer {
-   position: absolute;
-   background-image: url("../images/room1/pc-chair.png");
-   background-repeat: no-repeat;
-   background-size: cover;
-   top: 0;
-   left: 5px;
-   width: 88px;
-   height: 72px;
+#pc-table {
+  position: absolute;
+  background-image: url("../images/room1/pc-table.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0;
+  left: 5px;
+  width: 88px;
+  height: 35px;
 }
 
-#computer .pc {
-   background-image: url("../images/room1/pc.png");
-   background-size: cover;
-   background-repeat: no-repeat;
-   position: relative;
-   left: 12px;
-   width: 66px;
-   height: 32px;
+#pc-table .pc {
+  background-image: url("../images/room1/pc.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  left: 12px;
+  width: 66px;
+  height: 32px;
+}
+
+#pc-chair {
+  position: absolute;
+  background-image: url("../images/room1/pc-chair.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 35px;
+  left: 30px;
+  width: 36px;
+  height: 34px;
+}
+
+#mirror-puzzle-help {
+  position: absolute;
+  background-image: url("../images/room1/email.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: none;
+  top: 3px;
+  left: 60px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  animation: wobble 0.3s infinite alternate;
+  box-shadow: -1px 1px 5px 1px;
 }
 
 #morse-code {
-   position: absolute;
-   background-image: url("../images/room1/morse-codes.png");
-   background-repeat: no-repeat;
-   background-size: cover;
-   top: 173px;
-   left: 178px;
-   width: 31px;
-   height: 46px;
+  position: absolute;
+  background-image: url("../images/room1/morse-codes.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 173px;
+  left: 178px;
+  width: 31px;
+  height: 46px;
 }
 
 #rommNr1 {
-   position: absolute;
-   font-weight: bold;
-   top: 59px;
-   left: 235px;
-   color: #faebd7;
- }
+  position: absolute;
+  font-weight: bold;
+  top: 59px;
+  left: 235px;
+  color: #faebd7;
+}

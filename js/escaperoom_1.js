@@ -6,10 +6,16 @@ let playerPosition = {
 // Variable, um den aktuellen Zustand des Jumbotrons zu verfolgen
 let jumbotronVisible = false;
 let actualRoom = 0;
-let hexagonVisible =  false;
+let hexagonVisible = false;
 let hexagon1Active = false;
 let hexagon2Active = false;
 let hexagon3Active = false;
+let seconds = 0;
+
+// Variablen für die Rätsel
+let puzzleSeconds = 0;
+let mirrorPuzzle = false;
+let mirrorPuzzleFirstHelp = false;
 
 // Liste der Gegenstandsobjekte
 const itemObjects = [
@@ -29,21 +35,60 @@ jumbotronElem.innerHTML = `
 jumbotronElem.style.display = "flex"; // Jumbotron sichtbar machen
 jumbotronVisible = true; // Jumbotron ist sichtbar
 
+function pad(value) {
+   return value.toString().padStart(2, '0');
+}
+
+function updateTime() {
+   // Berechne Minuten und Sekunden
+   const minutes = Math.floor(seconds / 60);
+   const secs = seconds % 60;
+
+   // Formatiere die Zeit
+   const formattedTime = `Time: ${pad(minutes)}:${pad(secs)}`;
+
+   // Aktualisiere den Inhalt des <h2>-Elements
+   document.querySelector("#time h2").textContent = formattedTime;
+
+   // Überprüfe, die Zeit für jeweiliges Rätsel
+   if (!mirrorPuzzle) {
+      const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
+      if (puzzleSeconds == 5 && !mirrorPuzzleFirstHelp) {
+         mirrorPuzzleFirstHelp = true;
+         newNotificationSound.play();
+         mirrorPuzzleHelpElem.style.display = "block";
+      }
+   }else{
+      mirrorPuzzleHelpElem.style.display = "none";
+   }
+
+
+   // Erhöhe die Sekunden um 1
+   seconds++;
+   puzzleSeconds++;
+}
+
 function hideJumbotron() {
    // Verstecke das Jumbotron-Element
    const jumbotron = document.querySelector(".jumbotron");
    if (jumbotron) {
-     jumbotron.style.display = "none";
-     jumbotronVisible = false; // Aktualisiere den Zustand auf unsichtbar
- 
-     // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
-     document.removeEventListener("keydown", hideJumbotron);
+      jumbotron.style.display = "none";
+      jumbotronVisible = false; // Aktualisiere den Zustand auf unsichtbar
+
+      // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
+      document.removeEventListener("keydown", hideJumbotron);
    }
- }
- 
- // Füge den Event-Listener hinzu
- document.addEventListener("keydown", hideJumbotron);
-    
+
+   // Starte den Timer und aktualisiere die Zeit jede Sekunde
+   setInterval(updateTime, 1000);
+
+   // Rufe die Funktion sofort auf, um den initialen Wert zu setzen
+   updateTime();
+}
+
+// Füge den Event-Listener hinzu
+document.addEventListener("keydown", hideJumbotron);
+
 
 // Event-Listener für Tastatureingaben hinzufügen
 document.addEventListener("keydown", function (event) {
@@ -83,7 +128,7 @@ document.addEventListener("keydown", function (event) {
    if (playerPosition.left < 0) playerPosition.left = 0;
    if (playerPosition.left > 550) playerPosition.left = 550;
 
-   
+
 
    // Kollision mit der rechten Wand von Raum 1 überprüfen
    checkMoveRoom1RightWall(playerPositionBefore, playerPosition);
@@ -112,42 +157,39 @@ document.addEventListener("keydown", function (event) {
       player.style.left = playerPosition.left + "px";
    }
 
-   // Kollision mit dem Spiegel in Raum 1 überprüfen
+   // Kollisionen in Raum 1 überprüfen
    checkRoom1MirrorPos(playerPosition, playerPositionBefore);
+   if (!mirrorPuzzle && mirrorPuzzleFirstHelp) {
+      checkRoom1PcPos(playerPosition, playerPositionBefore);
+   }
 
-   // Kollision mit der Tür in Raum 2 überprüfen
+   // Kollision in Raum 2 überprüfen
    checkRoom2DoorPos(playerPosition, playerPositionBefore);
-
-   // Kollision mit dem Morse-Code in Raum 2 überprüfen
    checkRoom2MorseCodePos(playerPosition, playerPositionBefore);
+
+   // Kollision in Raum 3 überprüfen
+   checkRoom3LightSwitchPos(playerPosition, playerPositionBefore);
+   checkRoom3WardrobePos(playerPosition, playerPositionBefore);
+   checkRoom3ReaderPos(playerPosition, playerPositionBefore);
 
    // Kollision mit dem Hexagon überprüfen
    checkHexagonPos(playerPosition);
-
-   // Position Lichtschalter Raum 3 überprüfen
-   checkRoom3LightSwitchPos(playerPosition, playerPositionBefore);
-
-   // Position Schrank Raum 3 überprüfen
-   checkRoom3WardrobePos(playerPosition, playerPositionBefore);
-
-   checkRoom3ReaderPos(playerPosition, playerPositionBefore);
 
    // Kollision mit Gegenständen überprüfen
    checkCollisionWithItems(playerPosition, playerPositionBefore);
 
 });
 
-function clearHexagon(elem, hexagonActive)
-{
-   
+function clearHexagon(elem, hexagonActive) {
+
    if (!hexagon1Active || !hexagon2Active || !hexagon3Active) {
       hexagonOffSound.play();
       elem.style.backgroundImage = "url('/images/general/hexagon-gray.png')";
       if (hexagonActive == 1) {
          hexagon1Active = false;
-      }else if (hexagonActive == 2) {
+      } else if (hexagonActive == 2) {
          hexagon2Active = false;
-      }else{
+      } else {
          hexagon3Active = false;
       }
    }
@@ -155,7 +197,7 @@ function clearHexagon(elem, hexagonActive)
 
 // Funktion zum Überprüfen der Position des Hexagons
 function checkHexagonPos(playerPosition) {
-   if(hexagonVisible){
+   if (hexagonVisible) {
       if (actualRoom == 0 && !hexagon1Active && playerPosition.left >= 280 && playerPosition.left <= 295 && playerPosition.top >= 515 && playerPosition.top <= 535) {
          const hexagon1Elem = document.getElementById("hexagon1");
          hexagon1Elem.style.backgroundImage = "url('/images/general/hexagon-blue.png')";
@@ -170,10 +212,10 @@ function checkHexagonPos(playerPosition) {
          hexagon2Active = true;
          setTimeout(() => clearHexagon(hexagon2Elem, 2), 3000);
          if (hexagon1Active && hexagon2Active && hexagon3Active) {
-         let door = document.querySelector(".door-3");
-          // Ändern des data-state-Attributs auf "open"
-          doorSound.play();
-          door.setAttribute("data-state", "open");
+            let door = document.querySelector(".door-3");
+            // Ändern des data-state-Attributs auf "open"
+            doorSound.play();
+            door.setAttribute("data-state", "open");
          }
       }
       if (actualRoom == 2 && !hexagon3Active && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 505 && playerPosition.top <= 530) {

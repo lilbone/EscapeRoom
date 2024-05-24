@@ -11,6 +11,8 @@ const hexagonSound = new Audio('../sounds/hexagon.mp3'); // Lade die Audio-Datei
 hexagonSound.volume = 0.9;
 const hexagonOffSound = new Audio('../sounds/hexagon-off.mp3'); // Lade die Audio-Datei
 hexagonSound.volume = 0.9;
+const newNotificationSound = new Audio('../sounds/new-notification.mp3'); // Lade die Audio-Datei
+newNotificationSound.volume = 0.9;
 
 if (!themeSoundIsPlaying) {
     //playThemeSound();

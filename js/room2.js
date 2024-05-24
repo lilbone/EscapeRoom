@@ -82,12 +82,12 @@ function checkMoveRoom2RightWall(playerPositionBefore, playerPosition) {
 // Funktion zur Überprüfung der Position der Tür im Raum 2
 function checkRoom2DoorPos(playerPosition, playerPositionBefore) {
   const playerElement = document.getElementById("player");
-  if ( playerPosition.left > 75 && playerPosition.left < 125 && playerPosition.top > 270 && playerPosition.top <= 306 && !canMoveThroughDoor(2)) {
+  if ( playerPosition.left >= 70 && playerPosition.left <= 130 && playerPosition.top >= 290 && playerPosition.top <= 306 && !canMoveThroughDoor(2)) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showDoor2PwDialog);
-  } else if (playerPositionBefore.left > 75 && playerPositionBefore.left < 125 && playerPositionBefore.top > 270 && playerPositionBefore.top <= 306 && (playerPosition.left < 75 || playerPosition.left > 125 || playerPosition.top < 270 || playerPosition.top > 306)) {
+  } else if (playerPositionBefore.left >= 70 && playerPositionBefore.left <= 130 && playerPositionBefore.top >= 290 && playerPositionBefore.top <= 306 && (playerPosition.left < 70 || playerPosition.left > 130 || playerPosition.top < 290 || playerPosition.top > 306)) {
     playerElement.classList.remove("show-after"); // Entferne die Klasse, um das zusätzliche Bild auszublenden
 
     // Entferne den Event-Listener
@@ -119,7 +119,9 @@ function showDoor2PwDialog(event) {
 
         inputElem.addEventListener("change", (e) => {
           let inputValue = e.target.value;
+
           if (inputValue == passwordDoor2) {
+            mirrorPuzzle = true;
             // Zugreifen auf das Tür-Element
             const door = document.querySelector(".door-2");
             // Zugrifff auf die Raumhelligkeit
