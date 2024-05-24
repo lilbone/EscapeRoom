@@ -50,10 +50,10 @@ const int SENSOR = 0;             // Analog-Pin, an dem der LDR (Light Dependent
 const int ANZAHL_MESSWERTE = 25;  // Anzahl der Messwerte zur Durchschnittsbildung
 const int HYSTERESE = 10;         // Hysterese für den LDR-Wert
 bool leaveHyst = true;            // Variable zur Überwachung der Hysterese
-bool sendBrightness = false;
+volatile bool sendBrightness = false;
 
 // Globale Variablen
-bool sendHumidity = false;
+volatile bool sendHumidity = false;
 int brightness = 0;
 int humidity = 0;
 

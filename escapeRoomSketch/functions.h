@@ -201,6 +201,7 @@ boolean mqttAvailable() {
     mqttClient.connect("ESP-Client_xyz");
     mqttClient.subscribe(TOPIC_LAMP);
     mqttClient.subscribe(TOPIC_SEND_HUMIDITY);
+    mqttClient.subscribe(TOPIC_SEND_LDR);
     mqttClient.subscribe(MORSECODE_NR_TOPIC);
     mqttClient.subscribe(RFID_SEND_TOPIC);
   }
