@@ -51,8 +51,8 @@ function updateTime() {
    document.querySelector("#time h2").textContent = formattedTime;
 
    // Überprüfe, die Zeit für jeweiliges Rätsel
+   const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
    if (!mirrorPuzzle) {
-      const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
       if (puzzleSeconds == 5 && !mirrorPuzzleFirstHelp) {
          mirrorPuzzleFirstHelp = true;
          newNotificationSound.play();
