@@ -157,6 +157,17 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
     }
   }
 
+  if (topic == TOPIC_SEND_LDR) {
+    Serial << "send brightness " << msg << endl;
+    if (msg == "1") {
+      sendBrightness = true;
+      publishData(TOPIC_LDR, String(brightness));
+    }
+    if (msg == "0") {
+      sendBrightness = false;
+    }
+  }
+
   if (topic == MORSECODE_NR_TOPIC) {
     if (msg == "1") {
       strncpy(morseBuffer, SOS, sizeof(morseBuffer) - 1);

@@ -12,6 +12,7 @@ PubSubClient mqttClient(espClient);
 #define TOPIC_LAMP "esp/lighting/led_red"
 #define TOPIC_LAMP_STATUS "esp/lighting/led_red_status"
 #define TOPIC_LDR "esp/brightness"
+#define TOPIC_SEND_LDR "esp/brightness/send"
 #define TOPIC_HUMIDITY "esp/humidity"
 #define TOPIC_SEND_HUMIDITY "esp/humidity/send"
 #define MORSECODE_NR_TOPIC "morsecode/nr"
@@ -49,9 +50,10 @@ const int SENSOR = 0;             // Analog-Pin, an dem der LDR (Light Dependent
 const int ANZAHL_MESSWERTE = 25;  // Anzahl der Messwerte zur Durchschnittsbildung
 const int HYSTERESE = 10;         // Hysterese für den LDR-Wert
 bool leaveHyst = true;            // Variable zur Überwachung der Hysterese
+bool sendBrightness = false;
 
 // Globale Variablen
-boolean sendHumidity = false;
+bool sendHumidity = false;
 int brightness = 0;
 int humidity = 0;
 

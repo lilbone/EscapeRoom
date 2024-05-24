@@ -99,9 +99,11 @@ void loop() {
         float h = dht.readHumidity();     // Luftfeuchtigkeit lesen
         float t = dht.readTemperature();  // Temperatur in Celsius lesen
 
-        if (abs(brightnessAvg - brightness) > 50) {
-          brightness = brightnessAvg;
-          publishData(TOPIC_LDR, String(brightness));
+        if (sendBrightness) {
+          if (abs(brightnessAvg - brightness) > 50) {
+            brightness = brightnessAvg;
+            publishData(TOPIC_LDR, String(brightness));
+          }
         }
 
         if (sendHumidity) {
