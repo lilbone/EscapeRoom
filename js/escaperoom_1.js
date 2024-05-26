@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : escaperoom_1.js
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 // Initialisiere die Spielerposition
 let playerPosition = {
    top: 0,

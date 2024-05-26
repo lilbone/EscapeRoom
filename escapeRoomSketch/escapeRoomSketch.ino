@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : escapeRoomSketch.ino
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 #include <DHT.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -22,15 +27,6 @@ void setup() {
   pinMode(TASTER_3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(TASTER_3), handleButtonPress, FALLING);
 
-//WIFI Konfig
-#ifdef AP_MODE
-  WiFi.mode(WIFI_AP);                                  // access point modus
-  WiFi.softAP(ap_ssid, ap_psk);                        // Name des Wi-Fi Netzes und Passwort
-  delay(500);                                          //Abwarten 0,5s
-  Serial << "IP address " << WiFi.softAPIP() << endl;  //Ausgabe aktueller IP des Servers
-#endif
-
-#ifndef AP_MODE
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, psk);
   // wait for AP association
@@ -46,7 +42,6 @@ void setup() {
          << endl
          << "IP address: " << WiFi.localIP() << endl
          << endl;
-#endif
 
   //DHT Sensor
   pinMode(DHT_POWER, OUTPUT);     // Konfiguriere den DHT-Stromversorgungspin als Ausgang

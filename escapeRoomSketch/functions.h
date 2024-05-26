@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : functions.h
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 #include "WString.h"
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H

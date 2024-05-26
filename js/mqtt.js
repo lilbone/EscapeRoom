@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : mqtt.js
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 // Globale Variablen
 var client = null;
 var led_is_on = null; // wird für led_toggle() benötigt

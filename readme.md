@@ -1,64 +1,52 @@
-# Watch Pulse WebApp Readme
+# EscapeRoom Readme
 
 ## Beschreibung
 
-Die Watch Pulse WebApp ist eine Anwendung, die es ermöglicht, Filme und Serien zu suchen, Informationen dazu anzuzeigen und sie zu einer persönlichen Watchlist hinzuzufügen. Die WebApp verwendet die OMDB-API, um detaillierte Informationen zu den gesuchten Filmen und Serien zu erhalten.
+Dieses Projekt besteht aus einem Escape Room, der auf einer Website dargestellt wird und von einem Raspberry Pi gehostet wird. Der Raspberry Pi fungiert als Webserver mit Apache 2 und betreibt zusätzlich einen MQTT-Server. Ein ESP8266 steuert mehrere Sensoren und Aktoren, darunter LEDs, Taster, einen LDR-Sensor, ein RFID-Chip Lesegerät und einen DHT-22 Sensor.
+
+Die Website simuliert ein Haus mit drei Räumen und einem Flur. Die Spieler müssen verschiedene Rätsel lösen, die durch die Sensoren und Aktoren gesteuert werden, um von einem Raum zum nächsten zu gelangen. Die Kommunikation zwischen den Sensoren/Aktoren und der Website erfolgt über das MQTT-Protokoll.
 
 ## Funktionalitäten
 
-1. **Suche nach Filmen/Serien:** Die WebApp ermöglicht es dem Benutzer, nach Filmen oder Serien zu suchen, indem er den Namen oder die IMBd-Nummer  unter "Search your Watch" eingibt.
-
-2. **Anzeige von Informationen:** Nach der Suche werden detaillierte Informationen zum ausgewählten Film/Serie angezeigt, einschließlich Poster, Titel, Jahr.
-
-3. **Hinzufügen zu Watchlist:** Der Benutzer kann den ausgewählten Film/Serie zu seiner Watchlist mit Klick auf "Add to Watches" hinzufügen und dabei eine persönliche Bewertung abgeben.
-
-4. **Anzeige der Watchlist:** Die Watchlist wird auf der Seite "My Watches" angezeigt, wo der Benutzer seine hinzugefügten Filme und Serien verwalten kann.
+*Raum 1:
+   *Ein Spiegel, der beschlägt, wenn der DHT-22-Sensor angehaucht wird, um ein Passwort anzuzeigen. Mit diesem Passwort kann man den zweiten Raum öffnen.
+*Raum 2:
+   *Ein Morsecode-Rätsel, das durch eine leuchtende LED und einen Ton auf der Website angezeigt wird. Der entschlüsselte Code ermöglicht den Zugang zum nächsten Raum.
+*Raum 3:
+   *Es gibt drei Plattformen, die in der richtigen Reihenfolge betätigt werden müssen, um die Tür zu öffnen.
+   *Vor dem 3. Raum muss man am ESP8266 den dritten Taster betätigen, um das Licht einzuschalten.
+   *Ein Schrank enthält einen RFID-Chip, der sichtbar wird, wenn der LDR-Sensor beleuchtet wird.
+   *Die letzte Tür kann nur mit dem RFID-Chip geöffnet werden, indem man ihn am ESP8266 einliest und danach die Tür öffnet.
 
 ## Verwendung
 
-1. **Suche nach Filmen/Serien:**
-   - Gehe zur Seite "Search your Watch".
-   - Wähle den Typ (Movie, Series) im Dropdown-Menü "Type" aus.
-   - Gib den Namen oder die IMBd-Nummer des Films/Serie in das Feld "Name/IMBd-Nr." ein.
-   - Das Ergebnis wird unter dem Suchfeld angezeigt, einschließlich Poster, Titel, Jahr und einem Formular zum Hinzufügen zur Watchlist.
-
-2. **Hinzufügen zu Watchlist:**
-   - Nachdem die Informationen zum Film/Serie angezeigt wurden, kannst du eine persönliche Bewertung auf einer Skala von 0 bis 10 auswählen.
-   - Klicke auf den Button "Add to Watches", um den Film/Serie zur Watchlist hinzuzufügen.
-
-3. **Anzeige der Watchlist:**
-   - Gehe zur Seite "My Watches".
-   - Dort findest du eine Liste der von dir hinzugefügten Filme und Serien mit ihren Details.
-   - Mit der Filter Funktion kannst du alle deine Watches nach Genre Filtern und anzeigen lassen.
+1. Installation: Befolge die Anweisungen in der install.md, um die benötigte Software zu installieren und den Server einzurichten.
+2. Starten: Nach der Installation und Konfiguration starte den Apache2- und MQTT-Server.
+3. Zugriff: Die Website ist unter der IP-Adresse des Raspberry Pi erreichbar. Öffne einen Webbrowser und gib die IP-Adresse ein, um das Spiel zu starten.
 
 ## Einstellungen
 
-Die WebApp erfordert keine spezifischen Einstellungen. Beachte jedoch, dass die OMDB-API einen API-Schlüssel benötigt, der in der `js/main.js`-Datei festgelegt ist. Stelle sicher, dass du einen gültigen API-Schlüssel von OMDB besitzt und ersetze ihn in der Datei, falls erforderlich.
-
-Die WebApp ist nach der Konfiguration des Apache2 servers und der Installation der benötigten Pakete unter `IP-Adresse/Watchpulse.cgi` erreichbar.
+Die Website ist nach der Konfiguration des Apache2 servers und der Installation der benötigten Pakete unter `http://<IP-Adresse>` erreichbar.
 
 ## Abhängigkeiten
 
-Die WebApp benötigt das Tool `jq` für die JSON-Verarbeitung. Stelle sicher, dass `jq` auf deinem System installiert ist, um die volle Funktionalität zu gewährleisten.
-
-## Log-Datei (`log.txt`) Funktionalität
-
-Die `log.txt`-Datei wird für das Logging von Informationen verwendet. Hier sind einige Hinweise zur Nutzung:
-
-- **addWatch Request:** Wenn `HTTP_ADDWATCH` auf "true" gesetzt ist, wird die Anfrage zum Hinzufügen eines Films/Serie zur Watchlist in die `log.txt` geschrieben.
-  
-- **Query-Parameter Logging:** Die empfangenen Query-Parameter werden in die `log.txt` geschrieben.
-
-- **Timestamp:** Jeder Log-Eintrag enthält einen Zeitstempel.
-
-## Anpassungen
-
-Du kannst das Erscheinungsbild der WebApp anpassen, indem du die CSS-Dateien in den `<link>`-Tags der `index.cgi`-Datei bearbeitest. Ändere auch den Seitentitel und die Navigationselemente nach Bedarf.
+* MQTT-Tool: Mosquitto (MQTT-Broker)
+* JavaScript-Bibliothek für MQTT: Paho MQTT JavaScript Client
 
 ## Hinweis
 
-Diese Anwendung wurde entwickelt, um auf einem Server mit einem CGI-fähigen Webserver (z.B., Apache) zu laufen. Stelle sicher, dass die Berechtigungen der Dateien korrekt gesetzt sind, und dass die Skripte ausführbar sind.
+Diese Website wurde entwickelt, um auf einem Webserver (z.B. Apache) zu laufen. Stelle sicher, dass die Berechtigungen der Dateien korrekt gesetzt sind und dass die Skripte ausführbar sind. Zudem ist ein ESP8266 mit folgenden Sensoren und Aktoren erforderlich:
+
+* LEDs
+* Taster
+* LDR-Sensor
+* RFID-Chip Lesegerät
+* DHT-22 Sensor
 
 ---
 
-Falls weitere Fragen auftreten oder Unterstützung benötigt wird, stehe ich zur Verfügung. Viel Spaß mit der Watch Pulse WebApp! 🎬🍿
+Falls weitere Fragen auftreten oder Unterstützung benötigt wird, stehe ich zur Verfügung. Viel Spaß mit dem EscapeRoom! 🎬🍿
+
+## Copyright
+
+© 2024 Matthias

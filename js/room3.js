@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : room3.js
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 // Liste der Objekte im Raum 3
 const room3Objects = [
    { id: "table-dining", top: 380, left: 440, width: 86, height: 150 },

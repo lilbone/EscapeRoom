@@ -8,6 +8,20 @@ Führe die folgenden Befehle aus, um `git` auf einem Linux-System zu installiere
 sudo apt update
 sudo apt install git
 ```
+## MQTT auf dem Raspberry Pi installieren
+
+Installiere das MQTT-Paket (Mosquitto) auf dem Raspberry Pi:
+```bash
+sudo apt update
+sudo apt install mosquitto mosquitto-clients
+```
+
+Starte den Mosquitto-Dienst und stelle sicher, dass er beim Systemstart aktiviert ist:
+
+```bash
+sudo systemctl start mosquitto
+sudo systemctl enable mosquitto
+```
 
 ## Apache2-Konfiguration
 
@@ -85,3 +99,7 @@ sudo chmod -R +x /home/mqtt/Watchpulse
   * Weiß SCK      -> 14
   * Lila MISO     -> 12
   * Grau MOSI     -> 13
+
+## Copyright
+
+© 2024 Matthias

@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : room2.js
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 // Liste der Objekte im Raum 2
 const room2Objects = [
   { id: "morse-code-device", top: 405, left: 205, width: 26, height: 47 },

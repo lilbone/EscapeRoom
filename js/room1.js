@@ -1,3 +1,8 @@
+/* ################################################################
+ Filename      : room1.js
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
 // Variable zur Überprüfung, ob der Spiegel im Raum 1 sichtbar ist
 let mirror1Visible = false;
 
