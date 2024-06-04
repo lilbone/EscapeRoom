@@ -7,7 +7,7 @@
 const room3Objects = [
    { id: "table-dining", top: 380, left: 440, width: 86, height: 150 },
    { id: "schrank", top: 0, left: 435, width: 99, height: 28 },
-   { id: "reader", top: 160, left: 347, width: 30, height: 34 },
+   { id: "reader", top: 160, left: 348, width: 30, height: 34 },
 ];
 
 let rfidCount = 0;

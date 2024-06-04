@@ -100,7 +100,7 @@
   background-image: url("../images/room3/reader.png");
   background-size: cover;
   top: 155px;
-  left: 347px;
+  left: 348px;
   width: 35px;
   height: 44px;
 }
@@ -115,7 +115,7 @@
 
 #wardrobe-puzzle-help {
   position: absolute;
-  background-image: url("../images/room3/candle.png");
+  background-image: url("../images/room3/info.png");
   background-repeat: no-repeat;
   background-size: cover;
   display: none;

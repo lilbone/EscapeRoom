@@ -47,6 +47,7 @@ volatile bool buttonPressed = false;
 #define DHT_TYPE DHT22  // Typ des DHT-Sensors
 #define DHT_PIN 14      // Pin, an dem der DHT-Sensor angeschlossen ist
 #define DHT_POWER 4    // Pin zur Stromversorgung des DHT-Sensors
+float h;
 
 #define LED_RED 15
 

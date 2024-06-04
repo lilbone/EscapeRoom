@@ -14,7 +14,7 @@ let intervalIdHumidity;
 const room1Objects = [
   { id: "pc-table", top: 5, left: 10, width: 78, height: 25 },
   { id: "mirror", top: 0, left: 160, width: 55, height: 6 },
-  { id: "pc-chair", top: 35, left: 35, width: 26, height: 29 },
+  { id: "pc-chair", top: 20, left: 35, width: 26, height: 29 },
 ];
 
 // Funktion zur Überprüfung der Position des Spiegels im Raum 1

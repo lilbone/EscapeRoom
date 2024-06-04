@@ -74,6 +74,7 @@ body {
 }
 #player {
   width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
+  z-index: 3;
   height: 35px;
   background-image: url("../images/player/player.png"); /* Hintergrundbild des Spielers */
   background-size: 35px 35px; /* Größe des Hintergrundbildes für den Spieler */

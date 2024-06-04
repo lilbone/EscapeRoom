@@ -79,7 +79,7 @@ void loop() {
       unsigned long start = millis();
       do {
         mqttClient.loop();  // Verarbeite den Eingangs-Nachrichtenstapel
-      } while (millis() - start < 300);
+      } while (millis() - start < 200);
 
       if (currentMillis - previousMillis >= interval) {
         for (int i = 0; i < ANZAHL_MESSWERTE; i++) {  // Messwerte erfassen
@@ -88,12 +88,12 @@ void loop() {
 
         brightnessAvg = brightnessAvgCalc(messwerteArr);  // Durchschnittshelligkeit berechnen
 
-        float h = dht.readHumidity();     // Luftfeuchtigkeit lesen
+        h = dht.readHumidity();     // Luftfeuchtigkeit lesen
 
         if (sendBrightness) {
           if (abs(brightnessAvg - brightness) > 50) {
             brightness = brightnessAvg;
-            publishData(TOPIC_LDR, String(brightness));
+            publishData(TOPIC_LDR, String(brightnessAvg));
           }
         }
 

@@ -86,6 +86,7 @@
 
 #pc-table {
   position: absolute;
+  z-index: 1;
   background-image: url("../images/room1/pc-table.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -106,17 +107,19 @@
 }
 
 #pc-chair {
+  z-index: 0;
   position: absolute;
   background-image: url("../images/room1/pc-chair.png");
   background-repeat: no-repeat;
   background-size: cover;
-  top: 35px;
+  top: 20px;
   left: 30px;
   width: 36px;
   height: 34px;
 }
 
 #mirror-puzzle-help {
+  z-index: 3;
   position: absolute;
   background-image: url("../images/room1/email.png");
   background-repeat: no-repeat;
