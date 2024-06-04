@@ -35,7 +35,7 @@ sudo apt install apache2
 Füge die folgende Konfiguration zu den Directories zur `/etc/apache2/apache2.conf` hinzu, um den Zugriff auf das Verzeichnis der Skripte zu ermöglichen:
 
 ```apache
-<Directory "/usr/lib/cgi-bin/Watchpulse">
+<Directory "/usr/lib/cgi-bin/EscapeRoom">
     Options Indexes FollowSymLinks
     AllowOverride None
     Require all granted
@@ -81,8 +81,8 @@ sudo git clone https://github.com/lilbone/EscapeRoom.git
 Anschließend musst du noch den Benutzer anpassen:
 
 ```bash
-sudo chown -R www-data:www-data /home/mqtt/Watchpulse
-sudo chmod -R +x /home/mqtt/Watchpulse
+sudo chown -R www-data:www-data /home/mqtt/EscapeRoom
+sudo chmod -R +x /home/mqtt/EscapeRoom
 ```
 
 ## ESP8266 vorbereiten
