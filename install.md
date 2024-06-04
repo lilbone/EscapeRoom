@@ -32,23 +32,13 @@ sudo apt update
 sudo apt install apache2 
 ```
 
-Füge die folgende Konfiguration zu den Directories zur `/etc/apache2/apache2.conf` hinzu, um den Zugriff auf das Verzeichnis der Skripte zu ermöglichen:
-
-```apache
-<Directory "/usr/lib/cgi-bin/EscapeRoom">
-    Options Indexes FollowSymLinks
-    AllowOverride None
-    Require all granted
-</Directory>
-```
-
 Füge die folgende Konfiguration zur `/etc/apache2/sites-available/000-default.conf` hinzu, um den Zugriff auf das Verzeichnis der CGI-Skripte zu ermöglichen:
 
 ```apache
 <VirtualHost *:80>
     # ...
 
-    DocumentRoot /lib/cgi-bin/EscapeRoom
+    DocumentRoot /home/mqtt/EscapeRoom
 
     # ...
 
@@ -81,7 +71,6 @@ sudo git clone https://github.com/lilbone/EscapeRoom.git
 Anschließend musst du noch den Benutzer anpassen:
 
 ```bash
-sudo chown -R www-data:www-data /home/mqtt/EscapeRoom
 sudo chmod -R +x /home/mqtt/EscapeRoom
 ```
 
