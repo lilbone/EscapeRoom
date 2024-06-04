@@ -23,7 +23,7 @@ void setup() {
          << F("Build: ") << F(__TIME__) << F("  ") << F(__DATE__) << endl
          << F(__FILE__) << endl;
 
-  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_YELLOW, OUTPUT);
   pinMode(TASTER_3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(TASTER_3), handleButtonPress, FALLING);
 

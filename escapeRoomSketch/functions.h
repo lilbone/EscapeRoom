@@ -101,30 +101,30 @@ void playMorseCode() {
     char symbol = morseBuffer[morseIndex];
 
     if(prev_sym == '.' || prev_sym == '-'){
-      digitalWrite(LED_RED, LOW);  // LED ausschalten nach einem Symbol
+      digitalWrite(LED_YELLOW, LOW);  // LED ausschalten nach einem Symbol
       publishData(TOPIC_LAMP_STATUS, "0");
       waittime = WAIT_TIME;
       prev_sym = ' ';
     } else if (symbol == '.') {
-      digitalWrite(LED_RED, HIGH);  // LED für Punkt-Symbol einschalten
+      digitalWrite(LED_YELLOW, HIGH);  // LED für Punkt-Symbol einschalten
       publishData(TOPIC_LAMP_STATUS, "1");
       prev_sym = symbol;
       waittime = DOT_TIME;
       morseIndex++;
     } else if (symbol == '-') {
-      digitalWrite(LED_RED, HIGH);  // LED für Strich-Symbol einschalten
+      digitalWrite(LED_YELLOW, HIGH);  // LED für Strich-Symbol einschalten
       publishData(TOPIC_LAMP_STATUS, "1");
       waittime = HYPHEN_TIME;
       prev_sym = symbol;
       morseIndex++;
     } else if (symbol == ' ') {
-      digitalWrite(LED_RED, LOW);  // LED ausschalten für Leerzeichen
+      digitalWrite(LED_YELLOW, LOW);  // LED ausschalten für Leerzeichen
       publishData(TOPIC_LAMP_STATUS, "0");
       waittime = SPACE_TIME;
       prev_sym = ' ';
       morseIndex++;
     } else {
-      digitalWrite(LED_RED, LOW);  // LED ausschalten bei unbekanntem Symbol
+      digitalWrite(LED_YELLOW, LOW);  // LED ausschalten bei unbekanntem Symbol
       playingMorse = false;
       publishData(TOPIC_LAMP_STATUS, "0");
       morseIndex = 0; // Reset Morse index
@@ -149,11 +149,11 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
   // Verarbeite empfangene Topics
   if (topic == TOPIC_LAMP) {
     if (msg == "1") {
-      digitalWrite(LED_RED, HIGH);
+      digitalWrite(LED_YELLOW, HIGH);
       publishData(TOPIC_LAMP_STATUS, "1");
     }
     if (msg == "0") {
-      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_YELLOW, LOW);
       publishData(TOPIC_LAMP_STATUS, "0");
     }
   }
@@ -193,7 +193,7 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
     } else {
       playingMorse = false;
       morseIndex = 0;
-      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_YELLOW, LOW);
       publishData(TOPIC_LAMP_STATUS, "0");
     }
   }

@@ -25,8 +25,8 @@ const TEMPERATURE_TOPIC = "esp/temperature"; // Thema für die Temperatur
 const RFID_SEND_TOPIC = "esp/rfid/send"; // Thema zum Senden des RFID
 const RFID_UID_TOPIC = "esp/rfid/uid"; // Thema zum Empfangen der RFID-UID
 
-const TOPIC_LAMP = "esp/lighting/led_red"; // Thema für die rote LED
-const LAMP_STATUS_TOPIC = "esp/lighting/led_red_status"; // Thema für den Status der roten LED
+const TOPIC_LAMP = "esp/lighting/led_yellow"; // Thema für die rote LED
+const LAMP_STATUS_TOPIC = "esp/lighting/led_yellow_status"; // Thema für den Status der roten LED
 
 const BUTTON3_TOPIC = "esp/btn3"; // Thema für den dritten Button
 
