@@ -20,7 +20,7 @@ const room1Objects = [
 // Funktion zur Überprüfung der Position des Spiegels im Raum 1
 function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
   const playerElement = document.querySelector("#player");
-  if (actualRoom == 1 && playerPosition.left >= 160 && playerPosition.left <= 180 && playerPosition.top >= 6 && playerPosition.top <= 35) {
+  if (actualRoom == 1 && playerPosition.left >= 156 && playerPosition.left <= 186 && playerPosition.top >= 6 && playerPosition.top <= 35) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
     // Abonniere das Thema, um die Feuchtigkeitsdaten zu erhalten
@@ -28,7 +28,7 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showMirror1);
-  } else if (actualRoom == 1 && playerPositionBefore.left >= 160 && playerPositionBefore.left <= 180 && playerPositionBefore.top >= 6 && playerPositionBefore.top <= 35 && (playerPosition.left < 160 || playerPosition.left > 180 || playerPosition.top < 6 || playerPosition.top > 35)) {
+  } else if (actualRoom == 1 && playerPositionBefore.left >= 156 && playerPositionBefore.left <= 186 && playerPositionBefore.top >= 6 && playerPositionBefore.top <= 35 && (playerPosition.left < 156 || playerPosition.left > 186 || playerPosition.top < 6 || playerPosition.top > 35)) {
     playerElement.classList.remove("show-after"); // Entferne die Klasse, um das zusätzliche Bild auszublenden
 
     // Entferne den Event-Listener

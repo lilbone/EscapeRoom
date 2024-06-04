@@ -72,32 +72,21 @@ function checkCollisionWithObjects(playerPosition, playerPositionBefore, room) {
         const objectBottom = object.top + object.height;
 
         // Überprüfung, ob der Spieler mit dem Objekt kollidiert
-        if (
-            playerPositionBefore.left >= objectRight && playerPosition.left < objectRight && // Kollision von links
-            playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom // Spielerhöhe ist 35px
-        ) {
-            // Spieler kollidiert mit dem Objekt von links
+
+        if (playerPositionBefore.left >= objectRight && playerPosition.left < objectRight && playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom ) {
+            // Spieler kollidiert mit dem Objekt von rechts
             playerPosition.left = objectRight;
             return true;
-        } else if (
-            playerPositionBefore.left + playerSize <= objectLeft && playerPosition.left + playerSize > objectLeft && // Kollision von rechts
-            playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom // Spielerhöhe ist 35px
-        ) {
-            // Spieler kollidiert mit dem Objekt von rechts
+        } else if (playerPositionBefore.left + playerSize <= objectLeft && playerPosition.left + playerSize > objectLeft && playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom ) {
+            // Spieler kollidiert mit dem Objekt von links
             playerPosition.left = objectLeft - playerSize;
             return true;
-        } else if (
-            playerPositionBefore.top >= objectBottom && playerPosition.top < objectBottom && // Kollision von oben
-            playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight // Spielerbreite ist 35px
-        ) {
-            // Spieler kollidiert mit dem Objekt von oben
+        } else if (playerPositionBefore.top >= objectBottom && playerPosition.top < objectBottom && playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight ) {
+            // Spieler kollidiert mit dem Objekt von unten
             playerPosition.top = objectBottom;
             return true;
-        } else if (
-            playerPositionBefore.top + playerSize <= objectTop && playerPosition.top + playerSize > objectTop && // Kollision von unten
-            playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight // Spielerbreite ist 35px
-        ) {
-            // Spieler kollidiert mit dem Objekt von unten
+        } else if (playerPositionBefore.top + playerSize <= objectTop && playerPosition.top + playerSize > objectTop && playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight ) {
+            // Spieler kollidiert mit dem Objekt von oben
             playerPosition.top = objectTop - playerSize;
             return true;
         }
@@ -111,7 +100,6 @@ function checkCollisionWithObjects(playerPosition, playerPositionBefore, room) {
 function checkCollisionWithItems(playerPosition, playerPositionBefore) {
     // Auswahl der Gegenstände im aktuellen Raum
     let items = itemObjects;
-
     // Überprüfung jeder Gegenstandsposition im aktuellen Raum
     for (const item of items) {
         // Berechnung der Gegenstandsgrenzen
@@ -121,31 +109,19 @@ function checkCollisionWithItems(playerPosition, playerPositionBefore) {
         const itemBottom = item.top + item.height;
 
         // Überprüfung, ob der Spieler mit dem Gegenstand kollidiert
-        if (
-            playerPositionBefore.left >= itemRight && playerPosition.left < itemRight && // Kollision von links
-            playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom // Spielerhöhe ist 35px
-        ) {
+        if ( playerPositionBefore.left >= itemRight && playerPosition.left < itemRight && playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom ) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
-        } else if (
-            playerPositionBefore.left + playerSize <= itemLeft && playerPosition.left + playerSize > itemLeft && // Kollision von rechts
-            playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom // Spielerhöhe ist 35px
-        ) {
+        } else if ( playerPositionBefore.left + playerSize <= itemLeft && playerPosition.left + playerSize > itemLeft && playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom ) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
-        } else if (
-            playerPositionBefore.top >= itemBottom && playerPosition.top < itemBottom && // Kollision von oben
-            playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight // Spielerbreite ist 35px
-        ) {
+        } else if ( playerPositionBefore.top >= itemBottom && playerPosition.top < itemBottom && playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight ) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
-        } else if (
-            playerPositionBefore.top + playerSize <= itemTop && playerPosition.top + playerSize > itemTop && // Kollision von unten
-            playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight // Spielerbreite ist 35px
-        ) {
+        } else if ( playerPositionBefore.top + playerSize <= itemTop && playerPosition.top + playerSize > itemTop && playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight ) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;

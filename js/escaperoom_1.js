@@ -185,10 +185,8 @@ document.addEventListener("keydown", function (event) {
     const isColliding = checkCollisionWithObjects(playerPosition, playerPositionBefore, actualRoom);
 
     // Spielerposition aktualisieren, wenn keine Kollision vorliegt
-    if (!isColliding) {
-        player.style.top = playerPosition.top + "px";
-        player.style.left = playerPosition.left + "px";
-    }
+    player.style.top = playerPosition.top + "px";
+    player.style.left = playerPosition.left + "px";
 
     // Kollisionen in den Räumen überprüfen
     checkRoom1MirrorPos(playerPosition, playerPositionBefore);

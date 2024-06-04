@@ -89,7 +89,7 @@
   background-image: url("../images/room3/revolving-light-red.png");
   background-size: cover;
   top: 125px;
-  left: 346px;
+  left: 348px;
   width: 25px;
   height: 25px;
   z-index: 1;
@@ -119,9 +119,9 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: none;
-  top: 400px;
-  right: 90px;
-  width: 17px;
-  height: 20px;
+  top: 390px;
+  right: 95px;
+  width: 12px;
+  height: 25px;
   animation: wobble 0.3s infinite alternate;
 }
