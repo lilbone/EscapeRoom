@@ -19,7 +19,7 @@ void setup() {
   Serial << endl
          << "Start Escape-Room" << endl;
 
-  Serial << F("Version: 0.0.5") << endl
+  Serial << F("Version: 1.1.5") << endl
          << F("Build: ") << F(__TIME__) << F("  ") << F(__DATE__) << endl
          << F(__FILE__) << endl;
 
@@ -30,7 +30,7 @@ void setup() {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, psk);
   // wait for AP association
-  Serial << "Waiting for association..." << endl;
+  Serial << "Warte auf Verbindung..." << endl;
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -38,9 +38,9 @@ void setup() {
   }
 
   Serial << endl
-         << "Associated with " << ssid << endl
+         << "Mit " << ssid << "verbunden" << endl
          << endl
-         << "IP address: " << WiFi.localIP() << endl
+         << "IP-Addresse: " << WiFi.localIP() << endl
          << endl;
 
   //DHT Sensor
@@ -49,12 +49,11 @@ void setup() {
   dht.begin();                    // Initialisierung des DHT-Sensors
 
   mqttClient.setServer(MQTT_BROKER, PORT);
-  //mqttClient.setCallback(callback);
 
   mqttAvailable();
   mqttClient.setCallback(callback);
 
-  Serial << "setup finished" << endl;
+  Serial << "Setup abgeschlossen" << endl;
 }
 
 
@@ -79,8 +78,8 @@ void loop() {
 
       unsigned long start = millis();
       do {
-        mqttClient.loop();  // processing IN-stack
-      } while (millis() - start < 500);
+        mqttClient.loop();  // Verarbeite den Eingangs-Nachrichtenstapel
+      } while (millis() - start < 300);
 
       if (currentMillis - previousMillis >= interval) {
         for (int i = 0; i < ANZAHL_MESSWERTE; i++) {  // Messwerte erfassen
@@ -90,7 +89,6 @@ void loop() {
         brightnessAvg = brightnessAvgCalc(messwerteArr);  // Durchschnittshelligkeit berechnen
 
         float h = dht.readHumidity();     // Luftfeuchtigkeit lesen
-        float t = dht.readTemperature();  // Temperatur in Celsius lesen
 
         if (sendBrightness) {
           if (abs(brightnessAvg - brightness) > 50) {
@@ -109,8 +107,8 @@ void loop() {
       }
 
       if (sendRfid) {
-        SPI.begin();         // Init SPI bus
-        mfrc522.PCD_Init();  // Init MFRC522
+        SPI.begin();         // SPI-Bus initialisieren
+        mfrc522.PCD_Init();  // MFRC522 initialisieren
 
         checkRFID();
       }

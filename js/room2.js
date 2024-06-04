@@ -19,7 +19,7 @@ const randomMorseCodeNumber = Math.floor(Math.random() * 3) + 1;
 
 // Morsecode-Sound
 const morseCodeSound = new Audio('../sounds/morsesound.mp3');
-morseCodeSound.volume = 0.1;
+morseCodeSound.volume = 0.2;
 
 // Funktion zur Überprüfung der Bewegung an der oberen Wand des Raums 2
 function checkMoveRoom2TopWall(playerPositionBefore, playerPosition) {
@@ -288,10 +288,10 @@ function showMorseCodePuzzleInfo(event) {
 
       jumbotronElem.style.display = "flex";
       jumbotronElem.style.background = "#e6e5e5";
-      jumbotronElem.style.borderRadius = "0"; // kein border-radius
+      jumbotronElem.style.borderRadius = "0";
       jumbotronElem.style.border = "2px solid";
       jumbotronElem.style.boxShadow = "snow 0px 0px 8px 0px";
-      jumbotronElem.style.alignItems = "flex-start"; // oder eine andere geeignete Einstellung
+      jumbotronElem.style.alignItems = "flex-start";
 
       jumbotronVisible = true;
     }

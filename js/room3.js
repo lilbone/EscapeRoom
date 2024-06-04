@@ -11,6 +11,7 @@ const room3Objects = [
 ];
 
 let rfidCount = 0;
+let lightRoom3State = false;
 
 // Funktion zur Überprüfung der Bewegung an der linken Wand des Raums 3
 function checkMoveRoom3LeftWall(playerPositionBefore, playerPosition) {
@@ -103,38 +104,42 @@ function readButton(event) {
    }
 }
 
+// Funktion zum Umschalten des Lichts im Raum 3
 function toggleLightRoom3() {
    const lightRoom3 = document.getElementById("lightRoom3");
    const lightSwitchRoom3 = document.getElementById("lightSwitch");
 
+   // Berechnet den aktuellen Hintergrundstil des Lichtschalters
    const computedStyle = window.getComputedStyle(lightSwitchRoom3);
    const backgroundColor = computedStyle.backgroundColor;
 
-   if (backgroundColor == "rgb(255, 255, 255)") {
-
+   if (!lightRoom3State) {
+      // Wenn der Lichtschalter aus ist, ändere ihn zu gelb und schalte das Licht ein
+      lightRoom3State = true;
       lightSwitchRoom3.style.backgroundColor = "#fdf300";
       if (canMoveThroughDoor(3)) {
          lightRoom3.style.backgroundColor = "transparent";
          lightSwitch3Puzzle = true;
          lightSwitch3PuzzleFirstHelp = false;
       }
-
    } else {
-
+      // Wenn der Lichtschalter an ist, ändere ihn zu weiß und schalte das Licht aus
+      lightRoom3State = false;
       lightSwitchRoom3.style.backgroundColor = "#ffffff";
       lightRoom3.style.backgroundColor = "#000000f3";
-
    }
-
 }
 
+// Funktion zum Anzeigen des Schranks
 function showWardrobe(event) {
+   // Überprüft, ob die gedrückte Taste die Leertaste ist
    if (event.code === "Space") {
       const wardrobeElem = document.getElementById("wardrobe-open");
-      wardrobeElem.style.display = "block";
-      readLdr(true);
+      wardrobeElem.style.display = "block"; // Schrank anzeigen
+      readLdr(true); // Beginnt, den LDR-Sensor zu lesen
    }
 }
+
 
 // Funktion zum Lesen der Helligkeit
 function readLdr(event) {
@@ -150,33 +155,42 @@ function readLdr(event) {
    }
 }
 
+// Funktion zur Anzeige des RFID-Chips
 function showRfidChip(state) {
    const rfidElem = document.getElementById("rfid-chip");
    const wardrobeLightElem = document.getElementById("wardrobe-light");
+
    if (state) {
+      // Licht des Schranks ausblenden
       wardrobeLightElem.style.opacity = "0";
 
+      // Puzzle-Status aktualisieren
       wardrobePuzzle = true;
       wardrobePuzzleFirstHelp = false;
       puzzleSeconds = 0;
 
       if (rfidElem) {
+         // RFID-Chip sichtbar machen
          rfidElem.style.opacity = "1";
 
+         // Event-Listener hinzufügen, um den RFID-Chip beim Klicken zu entfernen
          rfidElem.addEventListener("click", (e) => {
             rfidElem.remove();
             document.getElementById("rfid-chip-bag").style.display = "block";
-         })
+         });
       }
 
    } else {
+      // Licht des Schranks wieder einblenden
       wardrobeLightElem.style.opacity = "1";
+
       if (rfidElem) {
+         // RFID-Chip unsichtbar machen
          rfidElem.style.opacity = "0";
       }
-
    }
 }
+
 
 // Funktion zur Überprüfung der Position des rfid Lesegeräts im Raum 3
 function checkRoom3ReaderPos(playerPosition, playerPositionBefore) {

@@ -3,48 +3,55 @@
  Author        : Bohn Matthias
  Date          : 26.05.2024
 ################################################################ */
-let playerSize = 35;
-let win = false;
+// Initialisierung von Variablen
+let playerSize = 35; // Größe des Spielers in Pixel
+let win = false; // Zustand des Spiels: gewonnen oder nicht
 
-let themeSoundIsPlaying = false;
+let themeSoundIsPlaying = false; // Zustand der Hintergrundmusik: spielt oder nicht
 
-const stepSound = new Audio('../sounds/step2.mp3'); // Lade die Audio-Datei
+// Laden und Einstellen der Audiodateien
+const stepSound = new Audio('../sounds/step2.mp3');
 stepSound.volume = 0.4;
-const doorSound = new Audio('../sounds/dooropened.mp3'); // Lade die Audio-Datei
+const doorSound = new Audio('../sounds/dooropened.mp3');
 doorSound.volume = 0.8;
-const hexagonSound = new Audio('../sounds/hexagon.mp3'); // Lade die Audio-Datei
+const hexagonSound = new Audio('../sounds/hexagon.mp3');
 hexagonSound.volume = 0.9;
-const hexagonOffSound = new Audio('../sounds/hexagon-off.mp3'); // Lade die Audio-Datei
+const hexagonOffSound = new Audio('../sounds/hexagon-off.mp3');
 hexagonSound.volume = 0.9;
-const newNotificationSound = new Audio('../sounds/new-notification.mp3'); // Lade die Audio-Datei
+const newNotificationSound = new Audio('../sounds/new-notification.mp3');
 newNotificationSound.volume = 0.9;
-const lightAmpSound = new Audio('../sounds/light-amp.mp3'); // Lade die Audio-Datei
-newNotificationSound.volume = 0.7;
+const lightAmpSound = new Audio('../sounds/light-amp.mp3');
+lightAmpSound.volume = 0.7;
 
+// Starten der Hintergrundmusik, falls sie nicht bereits spielt
 if (!themeSoundIsPlaying) {
-    //playThemeSound();
+    // playThemeSound(); // Kommentar entfernt, da Funktion nicht definiert
     themeSoundIsPlaying = true;
 }
 
+// Funktion zum Abspielen des Schrittgeräusches
 function playStepSound() {
     stepSound.play();
 }
 
+// Funktion zum Abspielen der Hintergrundmusik
 function playThemeSound() {
     const themeSound_1 = new Audio('../sounds/Final Fantasy V - A Presentiment.mp3');
     themeSound_1.volume = 0.2;
-    themeSound_1.loop = true; // Setze die Dauerschleife
+    themeSound_1.loop = true; // Dauerschleife aktivieren
 
-    themeSound_1.play(); // Starte die Wiedergabe
+    themeSound_1.play(); // Wiedergabe starten
 }
 
+// Funktion zum Überprüfen, ob eine Tür geöffnet ist
 function canMoveThroughDoor(number) {
     const door = document.querySelector(`.door-${number}`);
     return door.dataset.state === "open";
 }
 
+// Funktion zur Überprüfung von Kollisionen mit Objekten im Raum
 function checkCollisionWithObjects(playerPosition, playerPositionBefore, room) {
-    // Wähle die Liste der Gegenstände entsprechend des Raums aus
+    // Auswahl der Objekte im aktuellen Raum
     let roomObjects;
     if (room === 1) {
         roomObjects = room1Objects;
@@ -53,99 +60,98 @@ function checkCollisionWithObjects(playerPosition, playerPositionBefore, room) {
     } else if (room === 3) {
         roomObjects = room3Objects;
     } else {
-        // Definiere für weitere Räume entsprechende Listen oder andere Logik
-        roomObjects = []; // leere Liste, falls kein Raum gefunden wurde
+        roomObjects = []; // Leere Liste, falls kein Raum gefunden wurde
     }
 
-    // Überprüfe jede Gegenstandsposition im aktuellen Raum
+    // Überprüfung jeder Objektposition im aktuellen Raum
     for (const object of roomObjects) {
-        // Berechne die Grenzen des Gegenstands
+        // Berechnung der Objektgrenzen
         const objectLeft = object.left;
         const objectRight = object.left + object.width;
         const objectTop = object.top;
         const objectBottom = object.top + object.height;
 
-        // Überprüfe, ob der Spieler mit dem Gegenstand kollidiert
+        // Überprüfung, ob der Spieler mit dem Objekt kollidiert
         if (
             playerPositionBefore.left >= objectRight && playerPosition.left < objectRight && // Kollision von links
             playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom // Spielerhöhe ist 35px
         ) {
-            // Spieler kollidiert mit dem Gegenstand von links
+            // Spieler kollidiert mit dem Objekt von links
             playerPosition.left = objectRight;
             return true;
         } else if (
             playerPositionBefore.left + playerSize <= objectLeft && playerPosition.left + playerSize > objectLeft && // Kollision von rechts
             playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom // Spielerhöhe ist 35px
         ) {
-            // Spieler kollidiert mit dem Gegenstand von rechts
+            // Spieler kollidiert mit dem Objekt von rechts
             playerPosition.left = objectLeft - playerSize;
             return true;
         } else if (
             playerPositionBefore.top >= objectBottom && playerPosition.top < objectBottom && // Kollision von oben
             playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight // Spielerbreite ist 35px
         ) {
-            // Spieler kollidiert mit dem Gegenstand von oben
+            // Spieler kollidiert mit dem Objekt von oben
             playerPosition.top = objectBottom;
             return true;
         } else if (
             playerPositionBefore.top + playerSize <= objectTop && playerPosition.top + playerSize > objectTop && // Kollision von unten
             playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight // Spielerbreite ist 35px
         ) {
-            // Spieler kollidiert mit dem Gegenstand von unten
+            // Spieler kollidiert mit dem Objekt von unten
             playerPosition.top = objectTop - playerSize;
             return true;
         }
     }
 
-    // Spieler kollidiert mit keinem Gegenstand
+    // Keine Kollision mit Objekten
     return false;
 }
 
+// Funktion zur Überprüfung von Kollisionen mit Gegenständen im Raum
 function checkCollisionWithItems(playerPosition, playerPositionBefore) {
-    // Wähle die Liste der Gegenstände entsprechend des Raums aus
-
+    // Auswahl der Gegenstände im aktuellen Raum
     let items = itemObjects;
 
-    // Überprüfe jede Gegenstandsposition im aktuellen Raum
+    // Überprüfung jeder Gegenstandsposition im aktuellen Raum
     for (const item of items) {
-        // Berechne die Grenzen des Gegenstands
+        // Berechnung der Gegenstandsgrenzen
         const itemLeft = item.left;
         const itemRight = item.left + item.width;
         const itemTop = item.top;
         const itemBottom = item.top + item.height;
 
-        // Überprüfe, ob der Spieler mit dem Gegenstand kollidiert
+        // Überprüfung, ob der Spieler mit dem Gegenstand kollidiert
         if (
             playerPositionBefore.left >= itemRight && playerPosition.left < itemRight && // Kollision von links
-            playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom // Spielerhöhe ist 50px
+            playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom // Spielerhöhe ist 35px
         ) {
-            document.getElementById(item.backpackId).style.display = "block";
-            document.getElementById(item.id).style.display = "none";
+            document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
+            document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
         } else if (
             playerPositionBefore.left + playerSize <= itemLeft && playerPosition.left + playerSize > itemLeft && // Kollision von rechts
-            playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom // Spielerhöhe ist 50px
+            playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom // Spielerhöhe ist 35px
         ) {
-            document.getElementById(item.backpackId).style.display = "block";
-            document.getElementById(item.id).style.display = "none";
+            document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
+            document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
         } else if (
             playerPositionBefore.top >= itemBottom && playerPosition.top < itemBottom && // Kollision von oben
-            playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight // Spielerbreite ist 50px
+            playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight // Spielerbreite ist 35px
         ) {
-            document.getElementById(item.backpackId).style.display = "block";
-            document.getElementById(item.id).style.display = "none";
+            document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
+            document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
         } else if (
             playerPositionBefore.top + playerSize <= itemTop && playerPosition.top + playerSize > itemTop && // Kollision von unten
-            playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight // Spielerbreite ist 50px
+            playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight // Spielerbreite ist 35px
         ) {
-            document.getElementById(item.backpackId).style.display = "block";
-            document.getElementById(item.id).style.display = "none";
+            document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
+            document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
         }
     }
 
-    // Spieler kollidiert mit keinem Item
+    // Keine Kollision mit Gegenständen
     return false;
 }

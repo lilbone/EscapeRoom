@@ -9,10 +9,12 @@
 
 #include "params.h"
 
+// Interrupt Service Routine (ISR) für das Drücken des Buttons
 void IRAM_ATTR handleButtonPress() {
   buttonPressed = true;
 }
 
+// Funktion zum Finden des Index des maximalen Werts im Array
 int findMaxIdx(const int messwerteArr[]) {
   int maxValue = messwerteArr[0];               // Initialisierung des maximalen Werts mit dem ersten Wert im Array
   int idx = 0;                                  // Index des maximalen Werts initialisieren
@@ -25,6 +27,7 @@ int findMaxIdx(const int messwerteArr[]) {
   return idx;  // Rückgabe des Index des maximalen Werts
 }
 
+// Funktion zum Finden des Index des minimalen Werts im Array
 int findMinIdx(const int messwerteArr[]) {
   int minValue = messwerteArr[0];               // Initialisierung des minimalen Werts mit dem ersten Wert im Array
   int idx = 0;                                  // Index des minimalen Werts initialisieren
@@ -37,6 +40,7 @@ int findMinIdx(const int messwerteArr[]) {
   return idx;  // Rückgabe des Index des minimalen Werts
 }
 
+// Funktion zur Berechnung des Durchschnitts der Helligkeitswerte
 int brightnessAvgCalc(const int messwerteArr[]) {
   int AVG = 0;                                   // Durchschnittsvariable initialisieren
   const int idx_max = findMaxIdx(messwerteArr);  // Index des maximalen Werts finden
@@ -51,30 +55,32 @@ int brightnessAvgCalc(const int messwerteArr[]) {
   return AVG / (ANZAHL_MESSWERTE - 2);  // Durchschnitt berechnen und zurückgeben
 }
 
+// Funktion zum Veröffentlichen von Daten über MQTT
 void publishData(String topic, String payload) {
   mqttClient.publish(topic.c_str(), payload.c_str());
   Serial << "PUBLISH: Topic = " << topic << " Payload = " << payload << endl;
 }
 
+// Funktion zur Überprüfung des RFID-Tags
 void checkRFID() {
-  if (mfrc522.PICC_IsNewCardPresent()) {
-    if (mfrc522.PICC_ReadCardSerial()) {
+  if (mfrc522.PICC_IsNewCardPresent()) {  // Überprüfen, ob eine neue Karte vorhanden ist
+    if (mfrc522.PICC_ReadCardSerial()) {  // Überprüfen, ob die Kartendaten gelesen werden können
       Serial << "Card UID: ";
-      for (byte i = 0; i < mfrc522.uid.size; i++) {
+      for (byte i = 0; i < mfrc522.uid.size; i++) {  // Schleife durch die UID-Bytes
         if (mfrc522.uid.uidByte[i] < 0x10) {
           Serial << " 0";
         } else {
           Serial << " ";
         }
-        Serial << _HEX(mfrc522.uid.uidByte[i]);
+        Serial << _HEX(mfrc522.uid.uidByte[i]);  // Ausgabe der UID-Bytes in Hexadezimalformat
       }
       Serial << endl;
       // Hier könntest du die UID auch an MQTT senden
       String uidString = "";
-      for (byte i = 0; i < mfrc522.uid.size; i++) {
+      for (byte i = 0; i < mfrc522.uid.size; i++) {  // Erstellen des UID-Strings
         uidString += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "") + String(mfrc522.uid.uidByte[i], HEX);
       }
-      publishData("esp/rfid/uid", uidString);
+      publishData("esp/rfid/uid", uidString);  // UID über MQTT senden
       sendRfid = false;
       mfrc522.PICC_HaltA();  // Stop reading
     } else {
@@ -85,6 +91,7 @@ void checkRFID() {
   }
 }
 
+// Funktion zum Abspielen des Morse-Codes
 void playMorseCode() {
   unsigned long currentMorseCodeMillis = millis();
   static bool isSymbolSpace = false;
@@ -94,30 +101,30 @@ void playMorseCode() {
     char symbol = morseBuffer[morseIndex];
 
     if(prev_sym == '.' || prev_sym == '-'){
-      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_RED, LOW);  // LED ausschalten nach einem Symbol
       publishData(TOPIC_LAMP_STATUS, "0");
       waittime = WAIT_TIME;
       prev_sym = ' ';
-    }else if (symbol == '.') {
-      digitalWrite(LED_RED, HIGH);
+    } else if (symbol == '.') {
+      digitalWrite(LED_RED, HIGH);  // LED für Punkt-Symbol einschalten
       publishData(TOPIC_LAMP_STATUS, "1");
       prev_sym = symbol;
       waittime = DOT_TIME;
       morseIndex++;
     } else if (symbol == '-') {
-      digitalWrite(LED_RED, HIGH);
+      digitalWrite(LED_RED, HIGH);  // LED für Strich-Symbol einschalten
       publishData(TOPIC_LAMP_STATUS, "1");
       waittime = HYPHEN_TIME;
       prev_sym = symbol;
       morseIndex++;
     } else if (symbol == ' ') {
-      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_RED, LOW);  // LED ausschalten für Leerzeichen
       publishData(TOPIC_LAMP_STATUS, "0");
       waittime = SPACE_TIME;
       prev_sym = ' ';
       morseIndex++;
     } else {
-      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_RED, LOW);  // LED ausschalten bei unbekanntem Symbol
       playingMorse = false;
       publishData(TOPIC_LAMP_STATUS, "0");
       morseIndex = 0; // Reset Morse index
@@ -129,9 +136,9 @@ void playMorseCode() {
   }
 }
 
-
+// Callback-Funktion für eingehende MQTT-Nachrichten
 void callback(char* c_topic, byte* payload, unsigned int length) {
-  // convert ayload to string
+  // Konvertiere Payload in String
   String msg, topic;
   for (byte i = 0; i < length; i++) {
     msg += char(payload[i]);
@@ -139,7 +146,7 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
   topic = String(c_topic);
   Serial << "CALLBACK: Topic = " << topic << " Payload = " << msg << endl;
 
-  // processing topics received
+  // Verarbeite empfangene Topics
   if (topic == TOPIC_LAMP) {
     if (msg == "1") {
       digitalWrite(LED_RED, HIGH);
@@ -191,26 +198,28 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
     }
   }
 
-  if (topic = RFID_SEND_TOPIC) {
+  if (topic == RFID_SEND_TOPIC) {
     if (msg == "2") {
       sendRfid = true;
-    }else
+    } else {
       sendRfid = false;
+    }
   }
 }
 
+// Funktion zur Überprüfung der MQTT-Verfügbarkeit und Verbindung
 boolean mqttAvailable() {
-  while (!mqttClient.connected()) {
+  while (!mqttClient.connected()) {  // Überprüfen, ob der MQTT-Client verbunden ist
     Serial << "connecting to MQTT-Broker: ";
     Serial << MQTT_BROKER << endl;
-    mqttClient.connect("ESP-Client_xyz");
-    mqttClient.subscribe(TOPIC_LAMP);
+    mqttClient.connect("ESP-Client_xyz");  // Verbindung zum MQTT-Broker herstellen
+    mqttClient.subscribe(TOPIC_LAMP);  // Abonnieren der benötigten Topics
     mqttClient.subscribe(TOPIC_SEND_HUMIDITY);
     mqttClient.subscribe(TOPIC_SEND_LDR);
     mqttClient.subscribe(MORSECODE_NR_TOPIC);
     mqttClient.subscribe(RFID_SEND_TOPIC);
   }
-  return mqttClient.connected();
+  return mqttClient.connected();  // Rückgabe des Verbindungsstatus
 }
 
 #endif

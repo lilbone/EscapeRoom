@@ -4,9 +4,9 @@
  Date          : 26.05.2024
 ################################################################ */
 // Globale Variablen
-var client = null;
-var led_is_on = null; // wird für led_toggle() benötigt
-let firstHumidityPub = true;
+var client = null; // MQTT-Client
+var led_is_on = null; // Status der LED, benötigt für led_toggle()
+let firstHumidityPub = true; // Status für die erste Veröffentlichung der Luftfeuchtigkeit
 
 // Konfigurationen
 const HOSTNAME = "192.168.43.133";
@@ -22,18 +22,18 @@ const HUMIDITY_SEND_TOPIC = "esp/humidity/send"; // Thema zum Senden der Luftfeu
 
 const TEMPERATURE_TOPIC = "esp/temperature"; // Thema für die Temperatur
 
-const RFID_SEND_TOPIC = "esp/rfid/send"; // Thema zum Senden RFID
-const RFID_UID_TOPIC = "esp/rfid/uid"; // Thema zum Senden RFID
+const RFID_SEND_TOPIC = "esp/rfid/send"; // Thema zum Senden des RFID
+const RFID_UID_TOPIC = "esp/rfid/uid"; // Thema zum Empfangen der RFID-UID
 
 const TOPIC_LAMP = "esp/lighting/led_red"; // Thema für die rote LED
 const LAMP_STATUS_TOPIC = "esp/lighting/led_red_status"; // Thema für den Status der roten LED
 
-const BUTTON3_TOPIC = "esp/btn3";
+const BUTTON3_TOPIC = "esp/btn3"; // Thema für den dritten Button
 
 const MORSECODE_NR_TOPIC = "morsecode/nr"; // Thema für den Morsecode
 
-let humidity = 0; // Variable zur Speicherung der Luftfeuchtigkeit
-let firstHumidity = 0; // Variable zur Speicherung der Luftfeuchtigkeit
+let humidity = 0; // Variable zur Speicherung der aktuellen Luftfeuchtigkeit
+let firstHumidity = 0; // Variable zur Speicherung der ersten gemessenen Luftfeuchtigkeit
 
 window.onload = connect(); // Wenn die Webseite vollständig geladen ist, wird connect() aufgerufen
 
@@ -51,13 +51,13 @@ function connect() {
   );
 
   // Callback-Handler setzen
-  client.onConnectionLost = onConnectionLost;
-  client.onMessageArrived = onMessageArrived;
+  client.onConnectionLost = onConnectionLost; // Bei Verbindungsverlust
+  client.onMessageArrived = onMessageArrived; // Bei eintreffenden Nachrichten
 
   // Optionen für die Verbindung setzen
   var options = {
-    onSuccess: onConnect, // nach erfolgreicher Verbindung wird onConnect aufgerufen
-    onFailure: onFail, // nützlich für Protokollierung / Debugging
+    onSuccess: onConnect, // Nach erfolgreicher Verbindung wird onConnect aufgerufen
+    onFailure: onFail, // Bei Fehlschlagen der Verbindung
   };
 
   // Client mit den oben festgelegten Optionen verbinden
@@ -68,18 +68,18 @@ function connect() {
 // Funktion, die bei erfolgreicher Verbindung zum MQTT-Broker aufgerufen wird
 function onConnect(context) {
   console.log("Client verbunden");
-  // Auf die relevanten Themen abonnieren
+
+  // Optionen für das Abonnieren von Themen
   options = {
     qos: 0,
     onSuccess: function (context) {
       console.log("> SUB-ACK");
     },
   };
-  //client.subscribe(LDR_TOPIC, options);
-  //client.subscribe(HUMIDITY_TOPIC, options);
+  // Relevante Themen abonnieren
   client.subscribe(LAMP_STATUS_TOPIC, options);
   
-  // Sende Nachricht mit Wert 0
+  // Nachricht mit Wert 0 senden
   message = new Paho.MQTT.Message("0");
   message.destinationName = RFID_SEND_TOPIC;
   message.retained = true;
@@ -104,16 +104,15 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
   console.log("> PUB", message.destinationName, message.payloadString);
 
-  // Elemente der Webseite aktualisieren, je nachdem, von welchem Thema die Nachricht stammt
+  // Aktualisieren der Elemente der Webseite basierend auf dem Thema der Nachricht
   if (message.destinationName == LDR_TOPIC) {
     if (message.payloadString >= 450) {
       showRfidChip(true);
-    }else{
+    } else {
       showRfidChip(false);
     }
-
   } else if (message.destinationName == LAMP_STATUS_TOPIC) {
-    // Payload auswerten
+    // Status der LED basierend auf der Nachricht aktualisieren
     if (message.payloadString == "1") {
       morseCodeSound.play();
       led_is_on = true;
@@ -123,19 +122,18 @@ function onMessageArrived(message) {
       led_is_on = false;
     }
   } else if (message.destinationName == HUMIDITY_TOPIC) {
-
-    if (firstHumidityPub){
+    // Erste Veröffentlichung der Luftfeuchtigkeit speichern
+    if (firstHumidityPub) {
       firstHumidity = message.payloadString;
       firstHumidityPub = false;
     }
     humidity = message.payloadString;
-
   } else if (message.destinationName == BUTTON3_TOPIC) {
     if (message.payloadString == "1") {
-      toggleLightRoom3();
+      toggleLightRoom3(); // Licht im Raum 3 umschalten
     }
   } else if (message.destinationName == RFID_UID_TOPIC) {
-    
+    // Aktion ausführen, wenn die richtige RFID-UID empfangen wird
     if (message.payloadString == "30f0987e") {
       win = true;
       lightAmpSound.play();
@@ -167,7 +165,7 @@ function led_toggle() {
     led_is_on = true;
   }
 
-  // Nachricht senden
+  // Nachricht mit dem neuen LED-Status senden
   message = new Paho.MQTT.Message(payload);
   message.destinationName = TOPIC_LAMP;
   message.retained = true;

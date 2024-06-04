@@ -3,6 +3,7 @@
  Author        : Bohn Matthias
  Date          : 26.05.2024
 ################################################################ */
+
 // Variable zur Überprüfung, ob der Spiegel im Raum 1 sichtbar ist
 let mirror1Visible = false;
 
@@ -32,9 +33,7 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
     document.querySelector("#mirror").style.display = "none";
     document.querySelector("#mirror").classList.remove("animateMirror"); // Entferne die Animationsklasse
     document.querySelector("#mirror p").classList.remove("animate-mirror-p"); // Entferne die Animationsklasse für den Text
-    document
-      .querySelector("#player-background")
-      .classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
+    document.querySelector("#player-background").classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
     // Abonnement vom Thema HUMIDITY_TOPIC kündigen
     client.unsubscribe(HUMIDITY_TOPIC, {
@@ -43,7 +42,7 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
       }
     });
 
-    // Sende Nachricht mit Wert 0
+    // Sende Nachricht mit Wert 0, um die Feuchtigkeitsübertragung zu stoppen
     message = new Paho.MQTT.Message("0");
     message.destinationName = HUMIDITY_SEND_TOPIC;
     message.retained = true;
@@ -55,18 +54,17 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
     mirror1Visible = false; // Aktualisiere den Zustand auf unsichtbar
   }
 }
+
 // Funktion zur Anzeige des Spiegels im Raum 1
 function showMirror1(event) {
-  // Überprüfe, ob die gedrückte Taste die "Enter"-Taste ist
+  // Überprüfe, ob die gedrückte Taste die "Space"-Taste ist
   if (event.code === "Space") {
-    // Wenn das Jumbotron sichtbar ist, setze das Display auf "none"
+    // Wenn der Spiegel sichtbar ist, setze das Display auf "none"
     if (mirror1Visible) {
       document.querySelector("#mirror").style.display = "none";
       document.querySelector("#mirror").classList.remove("animateMirror"); // Entferne die Animationsklasse
       document.querySelector("#mirror p").classList.remove("animate-mirror-p"); // Entferne die Animationsklasse für den Text
-      document
-        .querySelector("#player-background")
-        .classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
+      document.querySelector("#player-background").classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
       // Abonnement vom Thema HUMIDITY_TOPIC kündigen
       client.unsubscribe(HUMIDITY_TOPIC, {
@@ -75,7 +73,7 @@ function showMirror1(event) {
         }
       });
 
-      // Sende Nachricht mit Wert 0
+      // Sende Nachricht mit Wert 0, um die Feuchtigkeitsübertragung zu stoppen
       message = new Paho.MQTT.Message("0");
       message.destinationName = HUMIDITY_SEND_TOPIC;
       message.retained = true;
@@ -86,12 +84,12 @@ function showMirror1(event) {
 
       mirror1Visible = false; // Aktualisiere den Zustand auf unsichtbar
     } else {
-      // Andernfalls setze das Display auf "flex", füge die Animationsklassen hinzu und aktualisiere den Zustand auf sichtbar
+      // Andernfalls setze das Display auf "block", füge die Animationsklassen hinzu und aktualisiere den Zustand auf sichtbar
       document.querySelector("#mirror").style.display = "block";
 
       firstHumidityPub = true;
 
-      // Sende Nachricht mit Wert 1
+      // Sende Nachricht mit Wert 1, um die Feuchtigkeitsübertragung zu starten
       message = new Paho.MQTT.Message("1");
       message.destinationName = HUMIDITY_SEND_TOPIC;
       message.retained = true;
@@ -105,34 +103,34 @@ function showMirror1(event) {
     }
   }
 }
-// Funktion zur überprüfung der Feuchtigkeitsdaten
+
+// Funktion zur Überprüfung der Feuchtigkeitsdaten und Ausführung der Animation
 function checkHumidityAndAnimate() {
   // Abonniere das Thema, um die Feuchtigkeitsdaten zu erhalten
   subscribe_topic(HUMIDITY_TOPIC);
 
-  // Setze ein Intervall, das alle 100ms überprüft
+  // Setze ein Intervall, das alle 200ms überprüft
   intervalIdHumidity = setInterval(() => {
-    if (humidity > firstHumidity + 5) {
+    if (humidity > firstHumidity + 15) {
       // Stoppe das Intervall, wenn die Bedingung erfüllt ist
       clearInterval(intervalIdHumidity);
 
       // Führe die Animationsbefehle aus
       document.querySelector("#mirror").classList.add("animateMirror");
       document.querySelector("#mirror p").classList.add("animate-mirror-p");
-      document
-        .querySelector("#player-background")
-        .classList.add("animate-layer-background");
+      document.querySelector("#player-background").classList.add("animate-layer-background");
     }
   }, 200);
 }
 
+// Funktion zur Überprüfung der Position des PCs im Raum 1
 function checkRoom1PcPos(playerPosition, playerPositionBefore) {
   if (playerPosition.left >= 0 && playerPosition.left <= 88 && playerPosition.top >= 30 && playerPosition.top <= 60) {
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     if (!mirrorPuzzle) {
       document.addEventListener("keydown", showMirrorPuzzleInfo);
-    }else if (mirrorPuzzle && morseCodePuzzle && !lightSwitch3Puzzle) {
+    } else if (mirrorPuzzle && morseCodePuzzle && !lightSwitch3Puzzle) {
       document.addEventListener("keydown", showLightSwitch3PuzzleInfo);
     }
   } else if (actualRoom == 1 && playerPositionBefore.left >= 0 && playerPositionBefore.left <= 88 && playerPositionBefore.top >= 30 && playerPositionBefore.top <= 60 && (playerPosition.left < 0 || playerPosition.left > 88 || playerPosition.top < 30 || playerPosition.top > 60)) {
@@ -146,15 +144,17 @@ function checkRoom1PcPos(playerPosition, playerPositionBefore) {
 
     jumbotronVisible = false;
 
-    // Entferne den Event-Listener für das Tastaturereignis "keydown" hinzu
+    // Entferne den Event-Listener für das Tastaturereignis "keydown"
     if (!mirrorPuzzle) {
       document.removeEventListener("keydown", showMirrorPuzzleInfo);
-    }else if (mirrorPuzzle && morseCodePuzzle && !lightSwitch3Puzzle) {
+    } else if (mirrorPuzzle && morseCodePuzzle && !lightSwitch3Puzzle) {
       document.removeEventListener("keydown", showLightSwitch3PuzzleInfo);
     }
   }
 }
-function showMirrorPuzzleInfo(event){
+
+// Funktion zur Anzeige der Spiegelrätsel-Informationen
+function showMirrorPuzzleInfo(event) {
   if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
 
@@ -169,7 +169,7 @@ function showMirrorPuzzleInfo(event){
 
       jumbotronVisible = false;
     } else {
-
+      // Zeige die Informationen zum Spiegelrätsel an
       const today = new Date().toLocaleDateString();
       const mail = `
         <p><b>NEUE E-MAIL</b></p>
@@ -184,16 +184,18 @@ function showMirrorPuzzleInfo(event){
 
       jumbotronElem.style.display = "flex";
       jumbotronElem.style.background = "#e6e5e5";
-      jumbotronElem.style.borderRadius = "0"; // kein border-radius
+      jumbotronElem.style.borderRadius = "0";
       jumbotronElem.style.border = "2px solid";
       jumbotronElem.style.boxShadow = "snow 0px 0px 8px 0px";
-      jumbotronElem.style.alignItems = "flex-start"; // oder eine andere geeignete Einstellung
+      jumbotronElem.style.alignItems = "flex-start";
 
       jumbotronVisible = true;
     }
   }
 }
-function showLightSwitch3PuzzleInfo(event){
+
+// Funktion zur Anzeige der Lichtschalter 3 Rätsel-Informationen
+function showLightSwitch3PuzzleInfo(event) {
   if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
 
@@ -208,7 +210,7 @@ function showLightSwitch3PuzzleInfo(event){
 
       jumbotronVisible = false;
     } else {
-
+      // Zeige die Informationen zum Lichtschalter 3 Rätsel an
       const today = new Date().toLocaleDateString();
       const mail = `
         <p><b>NEUE E-MAIL</b></p>
@@ -223,10 +225,10 @@ function showLightSwitch3PuzzleInfo(event){
 
       jumbotronElem.style.display = "flex";
       jumbotronElem.style.background = "#e6e5e5";
-      jumbotronElem.style.borderRadius = "0"; // kein border-radius
+      jumbotronElem.style.borderRadius = "0";
       jumbotronElem.style.border = "2px solid";
       jumbotronElem.style.boxShadow = "snow 0px 0px 8px 0px";
-      jumbotronElem.style.alignItems = "flex-start"; // oder eine andere geeignete Einstellung
+      jumbotronElem.style.alignItems = "flex-start";
 
       jumbotronVisible = true;
     }
@@ -235,23 +237,22 @@ function showLightSwitch3PuzzleInfo(event){
 
 // Funktion zur Überprüfung der Bewegung an der rechten Wand im Raum 1
 function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
-  // Raum 1 Rechte Wand
   if (playerPositionBefore.left >= 244 && playerPosition.left < 244 && playerPosition.top < 244) {
     if (!(playerPosition.top >= 85 && playerPosition.top <= 115 && canMoveThroughDoor(1))) {
       playerPosition.left = 244;
-      actualRoom = 0;
+      actualRoom = 0; // Setze den Spieler zurück in Raum 0
     } else {
       playerPosition.left = 201;
-      actualRoom = 1;
+      actualRoom = 1; // Setze den Spieler zurück in Raum 1
     }
   } else {
     if (playerPositionBefore.left <= 201 && playerPosition.left > 201 && playerPosition.top < 244) {
       if (!(playerPosition.top >= 85 && playerPosition.top <= 115 && canMoveThroughDoor(1))) {
         playerPosition.left = 201;
-        actualRoom = 1;
+        actualRoom = 1; // Setze den Spieler zurück in Raum 1
       } else {
         playerPosition.left = 244;
-        actualRoom = 0;
+        actualRoom = 0; // Setze den Spieler zurück in Raum 0
       }
     }
   }
@@ -259,19 +260,10 @@ function checkMoveRoom1RightWall(playerPositionBefore, playerPosition) {
 
 // Funktion zur Überprüfung der Bewegung an der unteren Wand im Raum 1
 function checkMoveRoom1BottomWall(playerPositionBefore, playerPosition) {
-  // Raum 1 Untere Wand
-  if (
-    playerPosition.left < 244 &&
-    playerPositionBefore.top <= 202 &&
-    playerPosition.top > 202
-  ) {
-    playerPosition.top = 202;
+  if (playerPosition.left < 244 && playerPositionBefore.top <= 202 && playerPosition.top > 202) {
+    playerPosition.top = 202; // Setze den Spieler zurück an die obere Grenze der unteren Wand
   }
-  if (
-    playerPosition.left < 244 &&
-    playerPositionBefore.top >= 244 &&
-    playerPosition.top < 244
-  ) {
-    playerPosition.top = 244;
+  if (playerPosition.left < 244 && playerPositionBefore.top >= 244 && playerPosition.top < 244) {
+    playerPosition.top = 244; // Setze den Spieler zurück an die untere Grenze der unteren Wand
   }
 }
