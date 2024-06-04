@@ -23,6 +23,9 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
   if (actualRoom == 1 && playerPosition.left >= 160 && playerPosition.left <= 180 && playerPosition.top >= 6 && playerPosition.top <= 35) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
+    // Abonniere das Thema, um die Feuchtigkeitsdaten zu erhalten
+    subscribe_topic(HUMIDITY_TOPIC);
+
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showMirror1);
   } else if (actualRoom == 1 && playerPositionBefore.left >= 160 && playerPositionBefore.left <= 180 && playerPositionBefore.top >= 6 && playerPositionBefore.top <= 35 && (playerPosition.left < 160 || playerPosition.left > 180 || playerPosition.top < 6 || playerPosition.top > 35)) {
@@ -106,9 +109,6 @@ function showMirror1(event) {
 
 // Funktion zur Überprüfung der Feuchtigkeitsdaten und Ausführung der Animation
 function checkHumidityAndAnimate() {
-  // Abonniere das Thema, um die Feuchtigkeitsdaten zu erhalten
-  subscribe_topic(HUMIDITY_TOPIC);
-
   // Setze ein Intervall, das alle 200ms überprüft
   intervalIdHumidity = setInterval(() => {
     if (humidity > firstHumidity + 15) {
