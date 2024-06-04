@@ -73,12 +73,26 @@ Anschließend musst du noch den Benutzer anpassen:
 ```bash
 sudo chmod -R +x /home/mqtt/EscapeRoom
 ```
+## Arduino-Bibliotheken installieren
+
+Um den Sketch escapeRoomSketch.ino auf deinem ESP8266 auszuführen, musst du die folgenden Arduino-Bibliotheken installieren:
+
+* DHT Sensor Library von Adafruit:
+  * Suche in der Bibliotheksverwaltung nach "DHT sensor library" und installiere sie.
+* ESP8266WiFi:
+  * Diese Bibliothek ist normalerweise mit der Installation des ESP8266-Pakets in der Arduino-IDE enthalten.
+* PubSubClient:
+  * Suche in der Bibliotheksverwaltung nach "PubSubClient" und installiere sie.
+* MFRC522:
+  * Suche in der Bibliotheksverwaltung nach "MFRC522" und installiere sie.
+* Streaming:
+  * Suche in der Bibliotheksverwaltung nach "Streaming" und installiere sie.
 
 ## ESP8266 vorbereiten
 
 <img src="./EscapeRoom_esp.jpg" alt="ESP8266 Verkabelung" height="200px">
 
-* Taster / LED / Senor erweiterung aufstecken
+* Taster / LED / Senor-Erweiterung aufstecken
 * DHT-22 mit Sensor-Schnittstelle verbinden
 * RFID Chip-Reader wie folgt verbinden:
   * Orange 3,3v   -> 3,3v
