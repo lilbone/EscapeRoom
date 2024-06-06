@@ -72,7 +72,7 @@ function updateTime() {
     // Überprüfe die Zeit für die jeweiligen Rätsel und zeige Hilfetexte an
     const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
     if (!mirrorPuzzle) {
-        if (puzzleSeconds == 90 && !mirrorPuzzleFirstHelp) {
+        if (puzzleSeconds == 80 && !mirrorPuzzleFirstHelp) {
             mirrorPuzzleFirstHelp = true;
             newNotificationSound.play();
             mirrorPuzzleHelpElem.style.display = "block";
@@ -83,7 +83,7 @@ function updateTime() {
 
     const morseCodePuzzleHelpElem = document.getElementById("morseCode-puzzle-help");
     if (!morseCodePuzzle && mirrorPuzzle) {
-        if (puzzleSeconds == 90 && !morseCodePuzzleFirstHelp) {
+        if (puzzleSeconds == 70 && !morseCodePuzzleFirstHelp) {
             morseCodePuzzleFirstHelp = true;
             newNotificationSound.play();
             morseCodePuzzleHelpElem.style.display = "block";
@@ -94,7 +94,7 @@ function updateTime() {
 
     const lightSwitch3PuzzleHelpElem = document.getElementById("mirror-puzzle-help");
     if (!lightSwitch3Puzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle) {
-        if (puzzleSeconds == 60 && !lightSwitch3PuzzleFirstHelp) {
+        if (puzzleSeconds == 70 && !lightSwitch3PuzzleFirstHelp) {
             lightSwitch3PuzzleFirstHelp = true;
             newNotificationSound.play();
             lightSwitch3PuzzleHelpElem.style.display = "block";
@@ -105,7 +105,7 @@ function updateTime() {
 
     const wardrobePuzzleHelpElem = document.getElementById("wardrobe-puzzle-help");
     if (!wardrobePuzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle && lightSwitch3Puzzle) {
-        if (puzzleSeconds == 60 && !wardrobePuzzleFirstHelp) {
+        if (puzzleSeconds == 70 && !wardrobePuzzleFirstHelp) {
             wardrobePuzzleFirstHelp = true;
             newNotificationSound.play();
             wardrobePuzzleHelpElem.style.display = "block";
@@ -128,6 +128,12 @@ function hideJumbotron() {
 
         // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
         document.removeEventListener("keydown", hideJumbotron);
+    }
+    
+    // Starten der Hintergrundmusik, falls sie nicht bereits spielt
+    if (!themeSoundIsPlaying) {
+        playThemeSound();
+        themeSoundIsPlaying = true;
     }
 
     // Starte den Timer und aktualisiere die Zeit jede Sekunde

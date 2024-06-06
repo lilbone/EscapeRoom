@@ -70,6 +70,7 @@
 #lightRoom3 {
   top: 0px;
   left: 348px;
+  z-index: 4;
   width: 236px;
   height: 584px;
 }

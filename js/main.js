@@ -23,12 +23,6 @@ newNotificationSound.volume = 0.9;
 const lightAmpSound = new Audio('../sounds/light-amp.mp3');
 lightAmpSound.volume = 0.7;
 
-// Starten der Hintergrundmusik, falls sie nicht bereits spielt
-if (!themeSoundIsPlaying) {
-    // playThemeSound(); // Kommentar entfernt, da Funktion nicht definiert
-    themeSoundIsPlaying = true;
-}
-
 // Funktion zum Abspielen des Schrittgeräusches
 function playStepSound() {
     stepSound.play();

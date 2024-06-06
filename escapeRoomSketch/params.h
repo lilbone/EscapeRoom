@@ -14,8 +14,8 @@ WiFiClient espClient;
 PubSubClient mqttClient(espClient);
 
 // MQTT-Themen
-#define TOPIC_LAMP "esp/lighting/LED_YELLOW"
-#define TOPIC_LAMP_STATUS "esp/lighting/LED_YELLOW_status"
+#define TOPIC_LAMP "esp/lighting/led_yellow"
+#define TOPIC_LAMP_STATUS "esp/lighting/led_yellow_status"
 #define TOPIC_LDR "esp/brightness"
 #define TOPIC_SEND_LDR "esp/brightness/send"
 #define TOPIC_HUMIDITY "esp/humidity"
