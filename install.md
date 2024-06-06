@@ -61,7 +61,7 @@ service apache2 restart
 
 ## Dateien von Git herunterladen
 
-Lade die Watch-Pulse Dateien in deinen Projekt-Ordner herunter
+Lade die EscapeRoom Dateien in deinen Projekt-Ordner herunter
 
 ```bash
 cd /home/mqtt/
