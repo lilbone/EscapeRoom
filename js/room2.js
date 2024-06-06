@@ -9,7 +9,10 @@ const room2Objects = [
   { id: "pc-table2", top: 554, left: 105, width: 78, height: 30 },
 ];
 // Passwort für Tür 2
-const passwordDoor2 = "trowssap";
+const passwordDoor2 = ["trowssap", "esp8266", "wasd1234"];
+
+// Zufällige Auswahl einer Morsecode-Nachricht
+const randompasswordDoor2Number = Math.floor(Math.random() * 3) + 1;
 
 // Mögliche Morsecode-Nachrichten
 const morseCodeMessage = ["sos", "sek", "nsa"];
@@ -125,7 +128,7 @@ function showDoor2PwDialog(event) {
         inputElem.addEventListener("change", (e) => {
           let inputValue = e.target.value.toLowerCase();
 
-          if (inputValue == passwordDoor2) {
+          if (inputValue == passwordDoor2[randompasswordDoor2Number - 1]) {
 
             mirrorPuzzle = true;
             mirrorPuzzleFirstHelp = false;

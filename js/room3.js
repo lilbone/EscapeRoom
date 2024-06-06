@@ -262,7 +262,7 @@ function checkRfid(event) {
             jumbotronElem.style.display = "flex";
             jumbotronVisible = true;
 
-         } else if (rfidCount >= 2) {
+         } else if (rfidCount >= 3) {
             jumbotronElem.innerHTML = `
                   <h2>!Mission gescheitert!</h2>
                   <h3>Das Haus bleibt nun für immer verschlossen!</h3>
@@ -274,7 +274,7 @@ function checkRfid(event) {
 
             jumbotronElem.innerHTML = `
                <h2>!Warnung!</h2>
-               <h3>Du hast noch ${2 - rfidCount} Versuche</h3>
+               <h3>Du hast noch ${3 - rfidCount} Versuche</h3>
             `;
 
             rfidCount++;

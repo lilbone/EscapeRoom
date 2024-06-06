@@ -88,6 +88,9 @@ function showMirror1(event) {
       mirror1Visible = false; // Aktualisiere den Zustand auf unsichtbar
     } else {
       // Andernfalls setze das Display auf "block", füge die Animationsklassen hinzu und aktualisiere den Zustand auf sichtbar
+      const pwDoor2Elem = document.getElementById("pw-door-2");
+      pwDoor2Elem.innerText = passwordDoor2[randompasswordDoor2Number - 1];
+      
       document.querySelector("#mirror").style.display = "block";
 
       firstHumidityPub = true;

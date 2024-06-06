@@ -31,7 +31,7 @@ function playStepSound() {
 // Funktion zum Abspielen der Hintergrundmusik
 function playThemeSound() {
     const themeSound_1 = new Audio('../sounds/Final Fantasy V - A Presentiment.mp3');
-    themeSound_1.volume = 0.2;
+    themeSound_1.volume = 0.1;
     themeSound_1.loop = true; // Dauerschleife aktivieren
 
     themeSound_1.play(); // Wiedergabe starten
