@@ -11,7 +11,7 @@ const room2Objects = [
 // Passwort für Tür 2
 const passwordDoor2 = ["trowssap", "esp8266", "wasd1234"];
 
-// Zufällige Auswahl einer Morsecode-Nachricht
+// Zufällige Auswahl eines Passworts
 const randompasswordDoor2Number = Math.floor(Math.random() * 3) + 1;
 
 // Mögliche Morsecode-Nachrichten
