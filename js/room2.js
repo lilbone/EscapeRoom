@@ -242,7 +242,11 @@ function checkRoom2TablePos(playerPosition, playerPositionBefore) {
   if (actualRoom == 2 && playerPosition.left >= 130 && playerPosition.left <= 160 && playerPosition.top >= 504 && playerPosition.top <= 519) {
 
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
-    document.addEventListener("keydown", showMorseCodePuzzleInfo);
+    if (!morseCodePuzzle && mirrorPuzzle) {
+      document.addEventListener("keydown", showMorseCodePuzzleInfo);
+    } else if (mirrorPuzzle && morseCodePuzzle && !hexagonPuzzle) {
+      document.addEventListener("keydown", showHexagonPuzzleInfo);
+    }
 
   } else if (actualRoom == 2 && playerPositionBefore.left >= 130 && playerPositionBefore.left <= 160 && playerPositionBefore.top >= 504 && playerPositionBefore.top <= 519 && (playerPosition.left < 130 || playerPosition.left > 160 || playerPosition.top < 504 || playerPosition.top > 519)) {
     // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
@@ -256,10 +260,15 @@ function checkRoom2TablePos(playerPosition, playerPositionBefore) {
     jumbotronVisible = false;
 
     // Entferne den Event-Listener für das Tastaturereignis "keydown" hinzu
-    document.removeEventListener("keydown", showMorseCodePuzzleInfo);
+    if (!morseCodePuzzle && mirrorPuzzle) {
+      document.removeEventListener("keydown", showMorseCodePuzzleInfo);
+    } else if (mirrorPuzzle && morseCodePuzzle && !hexagonPuzzle) {
+      document.removeEventListener("keydown", showHexagonPuzzleInfo);
+    }
 
   }
 }
+
 function showMorseCodePuzzleInfo(event) {
   if (event.code === "Space") {
     let jumbotronElem = document.querySelector(".jumbotron");
@@ -286,6 +295,47 @@ function showMorseCodePuzzleInfo(event) {
         <p>Blinkende Lichter tanzen im Rhythmus der Punkte und Striche.</p>
         <p>Die Antwort liegt in den alten Mustern.</p>
         <p>Erkenne 3 Zeichen, um den Weg zu finden.</p>
+      `;
+      jumbotronElem.innerHTML = faxMessage;
+
+      jumbotronElem.style.display = "flex";
+      jumbotronElem.style.background = "#e6e5e5";
+      jumbotronElem.style.borderRadius = "0";
+      jumbotronElem.style.border = "2px solid";
+      jumbotronElem.style.boxShadow = "snow 0px 0px 8px 0px";
+      jumbotronElem.style.alignItems = "flex-start";
+
+      jumbotronVisible = true;
+    }
+  }
+}
+
+function showHexagonPuzzleInfo(event) {
+  if (event.code === "Space") {
+    let jumbotronElem = document.querySelector(".jumbotron");
+
+    if (jumbotronVisible) {
+      // Ursprüngliche Stile wiederherstellen, wenn das Jumbotron ausgeblendet wird
+      jumbotronElem.style.display = "none";
+      jumbotronElem.style.background = "steelblue";
+      jumbotronElem.style.borderRadius = "8px";
+      jumbotronElem.style.boxShadow = "snow 0px 0px 26px 5px";
+      jumbotronElem.style.alignItems = "center";
+      jumbotronElem.style.border = "none";
+
+      jumbotronVisible = false;
+    } else {
+      const today = new Date().toLocaleDateString();
+      const faxMessage = `
+        <p><b>FAX-NACHRICHT</b></p>
+        <p><b>Von:</b> ESCAPE ROOM SYSTEM</p>
+        <p><b>An:</b> SPIELER</p>
+        <p><b>Datum:</b> ${today}</p>
+        <br>
+        <p><b>Nachricht:</b></p>
+        <p>Die Farben des Regenbogens führen den Weg:</p>
+        <p>Beginne mit der Farbe der Leidenschaft, folge dem Weg des Himmels, und schließe ab mit der Farbe der Natur.</p>
+        <p>Nur in dieser Reihenfolge offenbart sich das Geheimnis.</p>
       `;
       jumbotronElem.innerHTML = faxMessage;
 

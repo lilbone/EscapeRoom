@@ -20,15 +20,15 @@ let seconds = 0;
 
 // Variablen für die Rätsel
 let puzzleSeconds = 0;
-let mirrorPuzzle = false;
+let mirrorPuzzle = true;
 let mirrorPuzzleFirstHelp = false;
-let morseCodePuzzle = false;
+let morseCodePuzzle = true;
 let morseCodePuzzleFirstHelp = false;
-let lightSwitch3Puzzle = false;
+let lightSwitch3Puzzle = true;
 let lightSwitch3PuzzleFirstHelp = false;
-let hexagonPuzzle = false;
+let hexagonPuzzle = true;
 let hexagonPuzzleFirstHelp = false;
-let wardrobePuzzle = false;
+let wardrobePuzzle = true;
 let wardrobePuzzleFirstHelp = false;
 
 let updateTimeInterval;
@@ -70,9 +70,9 @@ function updateTime() {
     document.querySelector("#time h2").textContent = formattedTime;
 
     // Überprüfe die Zeit für die jeweiligen Rätsel und zeige Hilfetexte an
-    const mirrorPuzzleHelpElem = document.getElementById("mirror-puzzle-help");
+    const mirrorPuzzleHelpElem = document.getElementById("puzzle-helper-room1");
     if (!mirrorPuzzle) {
-        if (puzzleSeconds == 80 && !mirrorPuzzleFirstHelp) {
+        if (puzzleSeconds == 10 && !mirrorPuzzleFirstHelp) {
             mirrorPuzzleFirstHelp = true;
             newNotificationSound.play();
             mirrorPuzzleHelpElem.style.display = "block";
@@ -81,20 +81,31 @@ function updateTime() {
         mirrorPuzzleHelpElem.style.display = "none";
     }
 
-    const morseCodePuzzleHelpElem = document.getElementById("morseCode-puzzle-help");
+    const morseCodePuzzleHelpElem = document.getElementById("puzzle-helper-room2");
     if (!morseCodePuzzle && mirrorPuzzle) {
-        if (puzzleSeconds == 70 && !morseCodePuzzleFirstHelp) {
+        if (puzzleSeconds == 10 && !morseCodePuzzleFirstHelp) {
             morseCodePuzzleFirstHelp = true;
             newNotificationSound.play();
             morseCodePuzzleHelpElem.style.display = "block";
         }
-    } else {
+    } else if(!hexagonPuzzleFirstHelp && !morseCodePuzzleFirstHelp){
         morseCodePuzzleHelpElem.style.display = "none";
     }
 
-    const lightSwitch3PuzzleHelpElem = document.getElementById("mirror-puzzle-help");
+    const hexagonPuzzleHelpElem = document.getElementById("puzzle-helper-room2");
+    if (!hexagonPuzzle && lightSwitch3Puzzle && mirrorPuzzle && morseCodePuzzle) {
+        if (puzzleSeconds == 10 && !hexagonPuzzleFirstHelp) {
+            hexagonPuzzleFirstHelp = true;
+            newNotificationSound.play();
+            hexagonPuzzleHelpElem.style.display = "block";
+        }
+    } else if (!hexagonPuzzleFirstHelp && !morseCodePuzzleFirstHelp) {
+        hexagonPuzzleHelpElem.style.display = "none";
+    }
+
+    const lightSwitch3PuzzleHelpElem = document.getElementById("puzzle-helper-room1");
     if (!lightSwitch3Puzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle) {
-        if (puzzleSeconds == 70 && !lightSwitch3PuzzleFirstHelp) {
+        if (puzzleSeconds == 10 && !lightSwitch3PuzzleFirstHelp) {
             lightSwitch3PuzzleFirstHelp = true;
             newNotificationSound.play();
             lightSwitch3PuzzleHelpElem.style.display = "block";
@@ -103,9 +114,9 @@ function updateTime() {
         lightSwitch3PuzzleHelpElem.style.display = "none";
     }
 
-    const wardrobePuzzleHelpElem = document.getElementById("wardrobe-puzzle-help");
+    const wardrobePuzzleHelpElem = document.getElementById("puzzle-helper-room3");
     if (!wardrobePuzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle && lightSwitch3Puzzle) {
-        if (puzzleSeconds == 70 && !wardrobePuzzleFirstHelp) {
+        if (puzzleSeconds == 10 && !wardrobePuzzleFirstHelp) {
             wardrobePuzzleFirstHelp = true;
             newNotificationSound.play();
             wardrobePuzzleHelpElem.style.display = "block";
@@ -243,14 +254,14 @@ function checkHexagonPos(playerPosition) {
             hexagon1Elem.style.backgroundImage = "url('/images/general/hexagon-blue.png')";
             hexagonSound.play();
             hexagon1Active = true;
-            setTimeout(() => clearHexagon(hexagon1Elem, 1), 15000);
+            setTimeout(() => clearHexagon(hexagon1Elem, 1), 16000);
         }
         if (actualRoom == 1 && !hexagon2Active && playerPosition.left >= 10 && playerPosition.left <= 25 && playerPosition.top >= 155 && playerPosition.top <= 180) {
             const hexagon2Elem = document.getElementById("hexagon2");
             hexagon2Elem.style.backgroundImage = "url('/images/general/hexagon-green.png')";
             hexagonSound.play();
             hexagon2Active = true;
-            setTimeout(() => clearHexagon(hexagon2Elem, 2), 3000);
+            setTimeout(() => clearHexagon(hexagon2Elem, 2), 2000);
             if (hexagon1Active && hexagon2Active && hexagon3Active) {
                 hexagonPuzzle = true;
                 hexagonPuzzleFirstHelp = false;
@@ -271,7 +282,7 @@ function checkHexagonPos(playerPosition) {
             hexagon3Elem.style.backgroundImage = "url('/images/general/hexagon-red.png')";
             hexagonSound.play();
             hexagon3Active = true;
-            setTimeout(() => clearHexagon(hexagon3Elem, 3), 9000);
+            setTimeout(() => clearHexagon(hexagon3Elem, 3), 9500);
         }
     }
 }

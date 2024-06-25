@@ -118,7 +118,7 @@
   height: 34px;
 }
 
-#mirror-puzzle-help {
+#puzzle-helper-room1 {
   z-index: 3;
   position: absolute;
   background-image: url("../images/room1/email.png");

@@ -143,7 +143,7 @@ function showMirrorPuzzleInfo(event) {
         <p><b>Datum:</b> ${today}</p>
         <br>
         <p><b>Nachricht:</b></p>
-        <p>Was unsichtbar ist, wird sichtbar, wenn der Atem der Natur es berührt.</p>
+        <p>Was unsichtbar ist, wird sichtbar, wenn ein Hauch der Natur es berührt.</p>
       `;
       jumbotronElem.innerHTML = mail;
 

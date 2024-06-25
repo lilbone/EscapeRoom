@@ -6,6 +6,7 @@
 // Initialisierung von Variablen
 let playerSize = 35; // Größe des Spielers in Pixel
 let win = false; // Zustand des Spiels: gewonnen oder nicht
+let loose = false;
 
 let themeSoundIsPlaying = false; // Zustand der Hintergrundmusik: spielt oder nicht
 
@@ -124,4 +125,22 @@ function checkCollisionWithItems(playerPosition, playerPositionBefore) {
 
     // Keine Kollision mit Gegenständen
     return false;
+}
+
+function restartGame(){
+    // Reset aller mqttt-subs
+    message = new Paho.MQTT.Message("0");
+    message.destinationName = TOPIC_SEND_LDR;
+    message.retained = true;
+    console.log("< PUB", message.destinationName, "0");
+    client.send(message);
+
+    message = new Paho.MQTT.Message("0");
+    message.destinationName = RFID_SEND_TOPIC;
+    message.retained = true;
+    console.log("< PUB", message.destinationName, "0");
+    client.send(message);
+    
+
+    window.location.reload();
 }

@@ -208,7 +208,7 @@ function checkRoom3ReaderPos(playerPosition, playerPositionBefore) {
          client.send(message);
 
          subscribe_topic(RFID_UID_TOPIC);
-      }
+      } 
 
       // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
       document.addEventListener("keydown", checkRfid);
@@ -257,19 +257,47 @@ function checkRfid(event) {
                   <h2>👌 Mission Erfolgreich</h2>
                   <h3>Du hast alle Rätsel erfolgreich gelöst</h3>
                   <h3>Deine Zeit: ${formattedTime}</h3>
+                  <h3>Neustart in <span id="countdown">10</span> sek</h3>
                `;
 
             jumbotronElem.style.display = "flex";
             jumbotronVisible = true;
+
+            let countdown = 10;
+            const countdownElem = document.getElementById("countdown");
+
+            const countdownInterval = setInterval(() => {
+               countdown--;
+               countdownElem.textContent = countdown;
+       
+               if (countdown === 0) {
+                   clearInterval(countdownInterval);
+                   restartGame();
+               }
+           }, 1000);
 
          } else if (rfidCount >= 3) {
             jumbotronElem.innerHTML = `
                   <h2>!Mission gescheitert!</h2>
                   <h3>Das Haus bleibt nun für immer verschlossen!</h3>
+                  <h3>Neustart in <span id="countdown">10</span> sek</h3>
                `;
 
             jumbotronElem.style.display = "flex";
             jumbotronVisible = true;
+
+            let countdown = 10;
+            const countdownElem = document.getElementById("countdown");
+
+            const countdownInterval = setInterval(() => {
+               countdown--;
+               countdownElem.textContent = countdown;
+       
+               if (countdown === 0) {
+                   clearInterval(countdownInterval);
+                   restartGame();
+               }
+           }, 1000);
          } else {
 
             jumbotronElem.innerHTML = `
