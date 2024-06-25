@@ -1,0 +1,292 @@
+/* ################################################################
+ Filename      : main.css
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+#escaperoom {
+  width: 600px;
+  height: 600px;
+  background-color: #cbd2d6;
+  background-image: url("../images/general/wood-floor-hallway.jpg");
+  background-size: 150px 150px;
+  position: relative;
+  border: 8px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jumbotron {
+  z-index: 10;
+  position: absolute;
+  top: 150px;
+  max-width: 450px;
+  padding: 10px;
+  background: steelblue;
+  border-radius: 8px;
+  box-shadow: snow 0px 0px 26px 5px;
+  display: none;
+  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.room {
+  background-color: #666;
+  background-image: url("../images/general/wood-floor.jpg");
+  background-size: 400px 400px;
+  position: absolute;
+  border: 8px solid #000;
+}
+.small-room {
+  width: 252px;
+  height: 252px;
+}
+.big-room {
+  width: 252px;
+  height: 600px;
+}
+#room1 {
+  top: -8px;
+  left: -8px;
+}
+#room2 {
+  bottom: -8px;
+  left: -8px;
+}
+#room3 {
+  top: -8px;
+  right: -8px;
+}
+#player {
+  width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
+  z-index: 3;
+  height: 35px;
+  background-image: url("../images/player/player.png"); /* Hintergrundbild des Spielers */
+  background-size: 35px 35px; /* Größe des Hintergrundbildes für den Spieler */
+  background-position: left center; /* Position des Spieler-Bildes */
+  position: absolute;
+  top: 0px; /* Anpassen, um die gewünschte vertikale Positionierung zu erreichen */
+  left: 280px; /* Anpassen, um die gewünschte horizontale Positionierung zu erreichen */
+}
+
+#player::after {
+  content: ""; /* Fügt ein Pseudoelement hinzu */
+  z-index: 2;
+  display: none;
+  width: 10px;
+  height: 20px; /* Höhe des zusätzlichen Bildes */
+  background-image: url("../images/player/exclamation-mark.png"); /* Hintergrundbild des zusätzlichen Bildes */
+  background-size: cover; /* Größe des Hintergrundbildes für das zusätzliche Bild */
+  position: absolute;
+  top: -10px; /* Anpassen, um die gewünschte vertikale Positionierung zu erreichen */
+  left: -10px; /* Anpassen, um das zusätzliche Bild neben dem Spieler anzuzeigen */
+  animation: wobble 0.3s infinite alternate; /* Animation hinzufügen */
+}
+#player.show-after::after {
+  display: block; /* Zusätzliches Bild anzeigen, wenn die Klasse 'show-after' vorhanden ist */
+}
+
+@keyframes wobble {
+  from {
+    transform: rotate(-5deg);
+  }
+  to {
+    transform: rotate(5deg);
+  }
+}
+
+#hexagon1 {
+  width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
+  height: 35px;
+  display: none;
+  background-image: url("../images/general/hexagon-gray.png"); /* Hintergrundbild des Spielers */
+  background-size: 35px 35px; /* Größe des Hintergrundbildes für den Spieler */
+  background-position: left center; /* Position des Spieler-Bildes */
+  position: absolute;
+  top: 540px;
+  left: 290px;
+}
+#hexagon2 {
+  width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
+  height: 35px;
+  display: none;
+  background-image: url("../images/general/hexagon-gray.png"); /* Hintergrundbild des Spielers */
+  background-size: 35px 35px; /* Größe des Hintergrundbildes für den Spieler */
+  background-position: left center; /* Position des Spieler-Bildes */
+  position: absolute;
+  top: 180px;
+  left: 20px;
+}
+#hexagon3 {
+  width: 35px; /* Gesamtbreite des Spieler-Elements einschließlich des zusätzlichen Bildes */
+  height: 35px;
+  display: none;
+  background-image: url("../images/general/hexagon-gray.png"); /* Hintergrundbild des Spielers */
+  background-size: 35px 35px; /* Größe des Hintergrundbildes für den Spieler */
+  background-position: left center; /* Position des Spieler-Bildes */
+  position: absolute;
+  top: 530px;
+  left: 20px;
+}
+
+.light {
+  position: absolute;
+  background-color: #000000f3;
+  z-index: 3;
+}
+
+.door {
+  position: absolute;
+  background-color: #b12121;
+  border-radius: 4px;
+  transition: background-color 1.3s;
+  z-index: 5;
+}
+.door-1 {
+  bottom: calc(50% - 35px);
+  right: -9px;
+  width: 10px;
+  height: 70px;
+}
+.door-2 {
+  top: -9px;
+  left: calc(50% - 35px);
+  width: 70px;
+  height: 10px;
+}
+.door-3 {
+  bottom: calc(50% - 35px);
+  left: -9px;
+  width: 10px;
+  height: 70px;
+}
+.door-master {
+  left: calc(50% - 35px);
+  top: -9px;
+  width: 70px;
+  height: 10px;
+}
+div[data-state="open"] {
+  background-color: #568f44; /* Hier die gewünschte Hintergrundfarbe einfügen */
+}
+
+#exit {
+  position: absolute;
+  left: calc(50% - 17px);
+  top: -32px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: cursive;
+}
+
+#time{
+  margin-bottom: 10px;
+  color: #4682b4;
+}
+
+#control {
+  margin-left: 30px;
+}
+
+#control-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .control-text {
+    display: flex;
+    align-items: center;
+
+    img{
+      margin-right: 10px;
+    }
+  }
+}
+
+#items {
+  margin-top: 20px;
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+  align-items: center;
+}
+
+#morse-code-bag {
+  position: relative;
+  background-image: url("../images/room1/morse-codes.png");
+  background-size: cover;
+  width: 40px;
+  height: 60px;
+  display: none;
+}
+
+.morse-code-image {
+  position: absolute; /* Positionierung relativ zum Elternelement */
+  top: 50%;
+  left: 50%;
+  transform: translate(-500px, -400px);
+  background-image: url("../images/room1/morse-codes.png");
+  background-size: cover;
+  width: 300px;
+  height: 450px;
+  z-index: 10;
+  opacity: 0; /* Das Bild ist standardmäßig unsichtbar */
+  transition: opacity 0.3s; /* Übergangseffekt für die Sichtbarkeit */
+  pointer-events: none;
+}
+
+#morse-code-bag:hover .morse-code-image {
+  opacity: 1; /* Bild wird sichtbar, wenn über das Elternelement geschwebt wird */
+}
+
+#lightSwitchLabel-bag {
+  position: relative;
+  background-image: url("../images/room2/light-switch-horizontal.png");
+  background-size: cover;
+  width: 100px;
+  height: 29px;
+  display: none;
+}
+
+.lightSwitchLabel-image {
+  position: absolute; /* Positionierung relativ zum Elternelement */
+  top: 50%;
+  left: 50%;
+  transform: translate(-500px, -200px);
+  background-image: url("../images/room2/light-switch-horizontal.png");
+  background-size: cover;
+  width: 200px;
+  height: 58px;
+  z-index: 10;
+  opacity: 0; /* Das Bild ist standardmäßig unsichtbar */
+  transition: opacity 0.3s; /* Übergangseffekt für die Sichtbarkeit */
+  pointer-events: none;
+}
+
+#lightSwitchLabel-bag:hover .lightSwitchLabel-image {
+  opacity: 1; /* Bild wird sichtbar, wenn über das Elternelement geschwebt wird */
+}
+
+#rfid-chip-bag {
+  position: relative;
+  background-image: url("../images/room3/rfid-chip.png");
+  background-size: cover;
+  width: 58px;
+  height: 60px;
+  display: none;
+}

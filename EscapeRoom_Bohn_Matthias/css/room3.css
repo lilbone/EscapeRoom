@@ -1,0 +1,139 @@
+/* ################################################################
+ Filename      : room3.css
+ Author        : Bohn Matthias
+ Date          : 26.05.2024
+################################################################ */
+#table-dining {
+  position: absolute;
+  background-image: url("../images/room3/table-dining.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 370px;
+  left: 430px;
+  width: 106px;
+  height: 170px;
+}
+
+#schrank {
+  position: absolute;
+  background-image: url("../images/room3/Schrank.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0px;
+  left: 430px;
+  width: 109px;
+  height: 33px;
+}
+
+#wardrobe-open {
+  position: absolute;
+  z-index: 11;
+  background-image: url("../images/room3/Schrank-open.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: none;
+  top: -15px;
+  left: 360px;
+  width: 220px;
+  height: 220px;
+  transition: all 1.5s;
+
+  #wardrobe-light {
+    background-color: black;
+    width: 126px;
+    height: 152px;
+    position: relative;
+    top: 34px;
+    left: 49px;
+    transition: all 2s;
+  }
+
+  #rfid-chip {
+    background-image: url("../images/room3/rfid-chip.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 8px;
+    width: 29px;
+    height: 30px;
+    position: relative;
+    top: -50px;
+    left: 96px;
+    opacity: 0;
+    transition: all 1s;
+    animation: wobble 0.3s infinite alternate;
+  }
+  #rfid-chip:hover {
+    background-color: #fafad2;
+  }
+}
+
+#lightRoom3 {
+  top: 0px;
+  left: 348px;
+  z-index: 4;
+  width: 236px;
+  height: 584px;
+}
+
+#lightSwitch {
+  position: absolute;
+  background-color: #ffffff; /*#fdf300*/
+  top: 340px;
+  left: 335px;
+  width: 5px;
+  height: 15px;
+  z-index: 1;
+}
+
+#alarmLamp {
+  position: absolute;
+  background-image: url("../images/room3/revolving-light-red.png");
+  background-size: cover;
+  top: 125px;
+  left: 348px;
+  width: 25px;
+  height: 25px;
+  z-index: 1;
+}
+
+#reader {
+  position: absolute;
+  background-image: url("../images/room3/reader.png");
+  background-size: cover;
+  top: 155px;
+  left: 348px;
+  width: 35px;
+  height: 44px;
+}
+
+#rommNr3 {
+  position: absolute;
+  font-weight: bold;
+  top: 232px;
+  left: 339px;
+  color: #faebd7;
+}
+
+#wardrobe-puzzle-help {
+  position: absolute;
+  background-image: url("../images/room3/info.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: none;
+  top: 390px;
+  right: 95px;
+  width: 12px;
+  height: 25px;
+  animation: wobble 0.3s infinite alternate;
+}
+
+#candle {
+  position: absolute;
+  background-image: url("../images/room3/candle.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 446px;
+  right: 91px;
+  width: 19px;
+  height: 21px;
+}

@@ -97,12 +97,9 @@ void loop() {
           }
         }
 
-        if (sendHumidity) {
-          Serial << h << ", " << humidity << endl;
-          if (abs(round(h) - humidity) > 2) {
-            humidity = round(h);
-            publishData(TOPIC_HUMIDITY, String(humidity));
-          }
+        if (abs(round(h) - humidity) > 2) {
+          humidity = round(h);
+          publishData(TOPIC_HUMIDITY, String(humidity));
         }
       }
 
