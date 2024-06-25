@@ -47,7 +47,7 @@ jumbotronElem.innerHTML = `
    <h2>Willkommen</h2>
    <p>Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger Rätsel lösen. Nutze die versteckten Hinweise und zeige, 
    dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?</p><p>Tipp: Nutze den ESP und den Computersound um die Rätsel zu lösen.</p>
-   <p style="display: flex; gap: 10px;"><img src="images/control/space_bar.png" height="20" alt=""><span>Drücke die Space Taste zum Starten</span></p>
+   <p style="display: flex; gap: 10px;"><img src="images/control/space_bar.png" height="20" alt=""><span>Drücke die Leer-Taste zum Starten</span></p>
 `;
 jumbotronElem.style.display = "flex"; // Jumbotron sichtbar machen
 jumbotronVisible = true; // Zustand aktualisieren
