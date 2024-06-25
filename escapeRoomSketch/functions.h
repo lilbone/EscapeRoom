@@ -158,17 +158,6 @@ void callback(char* c_topic, byte* payload, unsigned int length) {
     }
   }
 
-  if (topic == TOPIC_SEND_HUMIDITY) {
-    Serial << "send humidity " << msg << endl;
-    if (msg == "1") {
-      sendHumidity = true;
-      publishData(TOPIC_HUMIDITY, String(humidity));
-    }
-    if (msg == "0") {
-      sendHumidity = false;
-    }
-  }
-
   if (topic == TOPIC_SEND_LDR) {
     Serial << "send brightness " << msg << endl;
     if (msg == "1") {
@@ -214,7 +203,6 @@ boolean mqttAvailable() {
     Serial << MQTT_BROKER << endl;
     mqttClient.connect("ESP-Client_xyz");  // Verbindung zum MQTT-Broker herstellen
     mqttClient.subscribe(TOPIC_LAMP);  // Abonnieren der benötigten Topics
-    mqttClient.subscribe(TOPIC_SEND_HUMIDITY);
     mqttClient.subscribe(TOPIC_SEND_LDR);
     mqttClient.subscribe(MORSECODE_NR_TOPIC);
     mqttClient.subscribe(RFID_SEND_TOPIC);

@@ -59,7 +59,6 @@ bool leaveHyst = true;            // Variable zur Überwachung der Hysterese
 volatile bool sendBrightness = false;
 
 // Globale Variablen
-volatile bool sendHumidity = false;
 int brightness = 0;
 int humidity = 0;
 

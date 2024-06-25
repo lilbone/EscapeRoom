@@ -6,7 +6,6 @@
 // Globale Variablen
 var client = null; // MQTT-Client
 var led_is_on = null; // Status der LED, benötigt für led_toggle()
-let firstHumidityPub = true; // Status für die erste Veröffentlichung der Luftfeuchtigkeit
 
 // Konfigurationen
 const HOSTNAME = "192.168.43.133";
@@ -18,7 +17,6 @@ const LDR_TOPIC = "esp/brightness"; // Thema für den Helligkeitssensor
 const TOPIC_SEND_LDR = "esp/brightness/send";
 
 const HUMIDITY_TOPIC = "esp/humidity"; // Thema für die Luftfeuchtigkeit
-const HUMIDITY_SEND_TOPIC = "esp/humidity/send"; // Thema zum Senden der Luftfeuchtigkeit
 
 const TEMPERATURE_TOPIC = "esp/temperature"; // Thema für die Temperatur
 
@@ -78,6 +76,7 @@ function onConnect(context) {
   };
   // Relevante Themen abonnieren
   client.subscribe(LAMP_STATUS_TOPIC, options);
+  client.subscribe(HUMIDITY_TOPIC, options);
   
   // Nachricht mit Wert 0 senden
   message = new Paho.MQTT.Message("0");
@@ -123,11 +122,11 @@ function onMessageArrived(message) {
     }
   } else if (message.destinationName == HUMIDITY_TOPIC) {
     // Erste Veröffentlichung der Luftfeuchtigkeit speichern
-    if (firstHumidityPub) {
-      firstHumidity = message.payloadString;
-      firstHumidityPub = false;
+    if (!mirror1Visible) {
+      beginHumidity = message.payloadString;
+    }else{
+      humidity = message.payloadString;
     }
-    humidity = message.payloadString;
   } else if (message.destinationName == BUTTON3_TOPIC) {
     if (message.payloadString == "1") {
       toggleLightRoom3(); // Licht im Raum 3 umschalten

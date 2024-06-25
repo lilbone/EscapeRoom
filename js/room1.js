@@ -23,9 +23,6 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
   if (actualRoom == 1 && playerPosition.left >= 156 && playerPosition.left <= 186 && playerPosition.top >= 6 && playerPosition.top <= 21) {
     playerElement.classList.add("show-after"); // Füge eine Klasse hinzu, um das zusätzliche Bild anzuzeigen
 
-    // Abonniere das Thema, um die Feuchtigkeitsdaten zu erhalten
-    subscribe_topic(HUMIDITY_TOPIC);
-
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     document.addEventListener("keydown", showMirror1);
   } else if (actualRoom == 1 && playerPositionBefore.left >= 156 && playerPositionBefore.left <= 186 && playerPositionBefore.top >= 6 && playerPositionBefore.top <= 21 && (playerPosition.left < 156 || playerPosition.left > 186 || playerPosition.top < 6 || playerPosition.top > 21)) {
@@ -38,19 +35,7 @@ function checkRoom1MirrorPos(playerPosition, playerPositionBefore) {
     document.querySelector("#mirror p").classList.remove("animate-mirror-p"); // Entferne die Animationsklasse für den Text
     document.querySelector("#player-background").classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
-    // Abonnement vom Thema HUMIDITY_TOPIC kündigen
-    client.unsubscribe(HUMIDITY_TOPIC, {
-      onSuccess: function () {
-        console.log("Abonnement von " + HUMIDITY_TOPIC + " gekündigt");
-      }
-    });
-
-    // Sende Nachricht mit Wert 0, um die Feuchtigkeitsübertragung zu stoppen
-    message = new Paho.MQTT.Message("0");
-    message.destinationName = HUMIDITY_SEND_TOPIC;
-    message.retained = true;
-    console.log("< PUB", message.destinationName, "0");
-    client.send(message);
+    humidityCheck = false;
 
     clearInterval(intervalIdHumidity);
 
@@ -69,20 +54,6 @@ function showMirror1(event) {
       document.querySelector("#mirror p").classList.remove("animate-mirror-p"); // Entferne die Animationsklasse für den Text
       document.querySelector("#player-background").classList.remove("animate-layer-background"); // Entferne die Animationsklasse für den Hintergrund
 
-      // Abonnement vom Thema HUMIDITY_TOPIC kündigen
-      client.unsubscribe(HUMIDITY_TOPIC, {
-        onSuccess: function () {
-          console.log("Abonnement von " + HUMIDITY_TOPIC + " gekündigt");
-        }
-      });
-
-      // Sende Nachricht mit Wert 0, um die Feuchtigkeitsübertragung zu stoppen
-      message = new Paho.MQTT.Message("0");
-      message.destinationName = HUMIDITY_SEND_TOPIC;
-      message.retained = true;
-      console.log("< PUB", message.destinationName, "0");
-      client.send(message);
-
       clearInterval(intervalIdHumidity);
 
       mirror1Visible = false; // Aktualisiere den Zustand auf unsichtbar
@@ -93,19 +64,10 @@ function showMirror1(event) {
       
       document.querySelector("#mirror").style.display = "block";
 
-      firstHumidityPub = true;
-
-      // Sende Nachricht mit Wert 1, um die Feuchtigkeitsübertragung zu starten
-      message = new Paho.MQTT.Message("1");
-      message.destinationName = HUMIDITY_SEND_TOPIC;
-      message.retained = true;
-      console.log("< PUB", message.destinationName, "1");
-      client.send(message);
+      mirror1Visible = true;
 
       // Überprüfe die Feuchtigkeit und führe die Animation aus
       checkHumidityAndAnimate();
-
-      mirror1Visible = true;
     }
   }
 }
@@ -114,7 +76,7 @@ function showMirror1(event) {
 function checkHumidityAndAnimate() {
   // Setze ein Intervall, das alle 200ms überprüft
   intervalIdHumidity = setInterval(() => {
-    if (humidity > firstHumidity + 15) {
+    if (humidity > beginHumidity + 15) {
       // Stoppe das Intervall, wenn die Bedingung erfüllt ist
       clearInterval(intervalIdHumidity);
 
