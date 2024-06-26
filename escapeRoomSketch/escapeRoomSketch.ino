@@ -27,21 +27,31 @@ void setup() {
   pinMode(TASTER_3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(TASTER_3), handleButtonPress, FALLING);
 
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, psk);
-  // wait for AP association
-  Serial << "Warte auf Verbindung..." << endl;
+  //WIFI Konfig
+  #ifdef AP_MODE
+    WiFi.mode(WIFI_AP);                                       // access point modus
+    WiFi.softAP(ap_ssid, ap_psk);                             // Name des Wi-Fi Netzes und Passwort
+    delay(500);                                               //Abwarten 0,5s
+    Serial << "IP address " << WiFi.softAPIP() << endl;       //Ausgabe aktueller IP des Servers
+  #endif
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial << ".";
-  }
+  #ifndef AP_MODE
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(ssid, psk);
+    // wait for AP association
+    Serial << "Warte auf Verbindung..." << endl;
 
-  Serial << endl
-         << "Mit " << ssid << "verbunden" << endl
-         << endl
-         << "IP-Addresse: " << WiFi.localIP() << endl
-         << endl;
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial << ".";
+    }
+
+    Serial << endl
+          << "Mit " << ssid << "verbunden" << endl
+          << endl
+          << "IP-Addresse: " << WiFi.localIP() << endl
+          << endl;
+  #endif
 
   //DHT Sensor
   pinMode(DHT_POWER, OUTPUT);     // Konfiguriere den DHT-Stromversorgungspin als Ausgang

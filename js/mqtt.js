@@ -8,7 +8,7 @@ var client = null; // MQTT-Client
 var led_is_on = null; // Status der LED, benötigt für led_toggle()
 
 // Konfigurationen
-const HOSTNAME = "192.168.43.133";
+const HOSTNAME = "192.168.4.1";
 const PORT = "80";
 const PATH = "/ws";
 const CLIENTID = "mqtt_js_" + parseInt(Math.random() * 100000, 10);

@@ -10,3 +10,5 @@ const char* psk = "Pa55wortBohn";  // WIFI PSK
 
 const char* ap_ssid = "EscapeRoomWifi";  // WIFI SSID for AP mode
 const char* ap_psk = "EscapeRoomWifi";   // WIFI PSK
+
+#define AP_MODE                     // comment for station mode
