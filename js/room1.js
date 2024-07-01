@@ -184,7 +184,7 @@ function showLightSwitch3PuzzleInfo(event) {
         <p><b>Datum:</b> ${today}</p>
         <br>
         <p><b>Nachricht:</b></p>
-        <p>Finde den dritten von drei, um den Pfad zu erleuchten.</p>
+        <p>Finde den dritten Schalter von drei, um den Pfad zu erleuchten.</p>
       `;
       jumbotronElem.innerHTML = mail;
 

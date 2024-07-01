@@ -20,15 +20,15 @@ let seconds = 0;
 
 // Variablen für die Rätsel
 let puzzleSeconds = 0;
-let mirrorPuzzle = true;
+let mirrorPuzzle = false;
 let mirrorPuzzleFirstHelp = false;
-let morseCodePuzzle = true;
+let morseCodePuzzle = false;
 let morseCodePuzzleFirstHelp = false;
-let lightSwitch3Puzzle = true;
+let lightSwitch3Puzzle = false;
 let lightSwitch3PuzzleFirstHelp = false;
-let hexagonPuzzle = true;
+let hexagonPuzzle = false;
 let hexagonPuzzleFirstHelp = false;
-let wardrobePuzzle = true;
+let wardrobePuzzle = false;
 let wardrobePuzzleFirstHelp = false;
 
 let updateTimeInterval;
@@ -93,7 +93,7 @@ function updateTime() {
     }
 
     const hexagonPuzzleHelpElem = document.getElementById("puzzle-helper-room2");
-    if (!hexagonPuzzle && lightSwitch3Puzzle && mirrorPuzzle && morseCodePuzzle) {
+    if (!hexagonPuzzle && mirrorPuzzle && morseCodePuzzle) {
         if (puzzleSeconds == 10 && !hexagonPuzzleFirstHelp) {
             hexagonPuzzleFirstHelp = true;
             newNotificationSound.play();
@@ -213,7 +213,7 @@ document.addEventListener("keydown", function (event) {
 
     checkRoom2DoorPos(playerPosition, playerPositionBefore);
     checkRoom2MorseCodePos(playerPosition, playerPositionBefore);
-    if (!morseCodePuzzle && morseCodePuzzleFirstHelp) {
+    if ((!morseCodePuzzle && morseCodePuzzleFirstHelp) || (!hexagonPuzzle && hexagonPuzzleFirstHelp)) {
         checkRoom2TablePos(playerPosition, playerPositionBefore);
     }
 

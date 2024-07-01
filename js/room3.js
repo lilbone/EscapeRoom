@@ -117,11 +117,12 @@ function toggleLightRoom3() {
       // Wenn der Lichtschalter aus ist, ändere ihn zu gelb und schalte das Licht ein
       lightRoom3State = true;
       lightSwitchRoom3.style.backgroundColor = "#fdf300";
-      if (canMoveThroughDoor(3)) {
+      //if (canMoveThroughDoor(3)) {
          lightRoom3.style.backgroundColor = "transparent";
          lightSwitch3Puzzle = true;
          lightSwitch3PuzzleFirstHelp = false;
-      }
+         puzzleSeconds = 0;
+      //}
    } else {
       // Wenn der Lichtschalter an ist, ändere ihn zu weiß und schalte das Licht aus
       lightRoom3State = false;
@@ -280,6 +281,7 @@ function checkRfid(event) {
             jumbotronElem.innerHTML = `
                   <h2>!Mission gescheitert!</h2>
                   <h3>Das Haus bleibt nun für immer verschlossen!</h3>
+                  <h3>Versuche es gerne noch einmal.</h3>
                   <h3>Neustart in <span id="countdown">10</span> sek</h3>
                `;
 

@@ -6,7 +6,7 @@
 #include <ESP8266WiFi.h>
 
 const char* ssid = "EscapeRoomWifi";      // WIFI SSID for station mode
-const char* psk = "Pa55EscapeRoomWifiwortBohn";  // WIFI PSK
+const char* psk = "EscapeRoomWifi";  // WIFI PSK
 
 //const char* ssid = "MrRobot";      // WIFI SSID for station mode
 //const char* psk = "Pa55wortBohn";  // WIFI PSK

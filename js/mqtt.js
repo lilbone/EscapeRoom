@@ -5,7 +5,7 @@
 ################################################################ */
 // Globale Variablen
 var client = null; // MQTT-Client
-var led_is_on = null; // Status der LED, benötigt für led_toggle()
+var led_is_on = false; // Status der LED, benötigt für led_toggle()
 
 // Konfigurationen
 const HOSTNAME = "192.168.4.1";
@@ -31,7 +31,7 @@ const BUTTON3_TOPIC = "esp/btn3"; // Thema für den dritten Button
 const MORSECODE_NR_TOPIC = "morsecode/nr"; // Thema für den Morsecode
 
 let humidity = 0; // Variable zur Speicherung der aktuellen Luftfeuchtigkeit
-let firstHumidity = 0; // Variable zur Speicherung der ersten gemessenen Luftfeuchtigkeit
+let beginHumidity = 0; // Variable zur Speicherung der ersten gemessenen Luftfeuchtigkeit
 
 window.onload = connect(); // Wenn die Webseite vollständig geladen ist, wird connect() aufgerufen
 
@@ -113,10 +113,10 @@ function onMessageArrived(message) {
   } else if (message.destinationName == LAMP_STATUS_TOPIC) {
     // Status der LED basierend auf der Nachricht aktualisieren
     if (message.payloadString == "1") {
-      morseCodeSound.play();
+      //morseCodeSound.play();
       led_is_on = true;
     } else {
-      morseCodeSound.pause();
+      //morseCodeSound.pause();
       morseCodeSound.currentTime = 0;
       led_is_on = false;
     }
@@ -151,23 +151,4 @@ function subscribe_topic(topic) {
   };
   console.log("> SUB " + topic);
   client.subscribe(topic, options);
-}
-
-// Funktion zum Umschalten der LED
-function led_toggle() {
-  var payload;
-  if (led_is_on) {
-    payload = "0";
-    led_is_on = false;
-  } else {
-    payload = "1";
-    led_is_on = true;
-  }
-
-  // Nachricht mit dem neuen LED-Status senden
-  message = new Paho.MQTT.Message(payload);
-  message.destinationName = TOPIC_LAMP;
-  message.retained = true;
-  console.log("< PUB", message.destinationName, payload);
-  client.send(message);
 }

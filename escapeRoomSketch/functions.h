@@ -99,6 +99,7 @@ void playMorseCode() {
   if (playingMorse && currentMorseCodeMillis - previousMillisMorseCode >= waittime) {
     previousMillisMorseCode = currentMorseCodeMillis;
     char symbol = morseBuffer[morseIndex];
+    pinMode(LED_YELLOW, OUTPUT);
 
     if(prev_sym == '.' || prev_sym == '-'){
       digitalWrite(LED_YELLOW, LOW);  // LED ausschalten nach einem Symbol

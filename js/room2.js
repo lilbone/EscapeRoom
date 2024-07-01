@@ -240,7 +240,7 @@ function showRoom2MorseCodeDialog(event) {
 
 function checkRoom2TablePos(playerPosition, playerPositionBefore) {
   if (actualRoom == 2 && playerPosition.left >= 130 && playerPosition.left <= 160 && playerPosition.top >= 504 && playerPosition.top <= 519) {
-
+    console.log("TablePos");
     // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
     if (!morseCodePuzzle && mirrorPuzzle) {
       document.addEventListener("keydown", showMorseCodePuzzleInfo);
@@ -334,7 +334,7 @@ function showHexagonPuzzleInfo(event) {
         <br>
         <p><b>Nachricht:</b></p>
         <p>Die Farben des Regenbogens führen den Weg:</p>
-        <p>Beginne mit der Farbe der Leidenschaft, folge dem Weg des Himmels, und schließe ab mit der Farbe der Natur.</p>
+        <p>Beginne mit der Farbe des Himmels, folge dem Weg der Leidenschaft, und schließe ab mit der Farbe der Natur.</p>
         <p>Nur in dieser Reihenfolge offenbart sich das Geheimnis.</p>
       `;
       jumbotronElem.innerHTML = faxMessage;

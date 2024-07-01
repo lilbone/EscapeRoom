@@ -69,10 +69,10 @@ const long interval = 200;
 unsigned long previousMillisMorseCode = 0;
 
 // MorseCode Variablen
-#define DOT_TIME 50 
-#define HYPHEN_TIME 1000
-#define SPACE_TIME 500 
-#define WAIT_TIME 50
+#define DOT_TIME 250 
+#define HYPHEN_TIME 1100
+#define SPACE_TIME 650 
+#define WAIT_TIME 200
 #define SOS " ...  ---  ...     "
 #define SEK " ...  .  -.-     "
 #define NSA " -.  ...  .-     "
