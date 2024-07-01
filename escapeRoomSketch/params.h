@@ -51,6 +51,7 @@ volatile bool buttonPressed = false;
 float h;
 
 #define LED_YELLOW 13
+#define LED_GREEN 12
 
 // Variablen für LDR
 const int SENSOR = 0;             // Analog-Pin, an dem der LDR (Light Dependent Resistor) angeschlossen ist
@@ -73,9 +74,9 @@ unsigned long previousMillisMorseCode = 0;
 #define HYPHEN_TIME 1100
 #define SPACE_TIME 650 
 #define WAIT_TIME 200
-#define SOS " ...  ---  ...     "
-#define SEK " ...  .  -.-     "
-#define NSA " -.  ...  .-     "
+#define SOS "* ...  ---  ...    "
+#define SEK "* ...  .  -.-    "
+#define NSA "* -.  ...  .-    "
 int morseIndex = 0;
 bool isLetterSpace = false;
 volatile bool playingMorse = false;

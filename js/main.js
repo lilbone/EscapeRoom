@@ -23,6 +23,8 @@ const newNotificationSound = new Audio('../sounds/new-notification.mp3');
 newNotificationSound.volume = 0.9;
 const lightAmpSound = new Audio('../sounds/light-amp.mp3');
 lightAmpSound.volume = 0.7;
+const looseSound = new Audio('../sounds/loose.mp3');
+looseSound.volume = 0.8;
 
 // Funktion zum Abspielen des Schrittgeräusches
 function playStepSound() {

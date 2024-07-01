@@ -100,8 +100,13 @@ void playMorseCode() {
     previousMillisMorseCode = currentMorseCodeMillis;
     char symbol = morseBuffer[morseIndex];
     pinMode(LED_YELLOW, OUTPUT);
+    pinMode(LED_GREEN, OUTPUT);
 
-    if(prev_sym == '.' || prev_sym == '-'){
+    if (symbol == '*') {
+      digitalWrite(LED_GREEN, HIGH);
+      waittime = HYPHEN_TIME;
+      morseIndex++;
+    } else if(prev_sym == '.' || prev_sym == '-'){
       digitalWrite(LED_YELLOW, LOW);  // LED ausschalten nach einem Symbol
       publishData(TOPIC_LAMP_STATUS, "0");
       waittime = WAIT_TIME;
@@ -119,6 +124,7 @@ void playMorseCode() {
       prev_sym = symbol;
       morseIndex++;
     } else if (symbol == ' ') {
+      digitalWrite(LED_GREEN, LOW);  // LED ausschalten für Leerzeichen
       digitalWrite(LED_YELLOW, LOW);  // LED ausschalten für Leerzeichen
       publishData(TOPIC_LAMP_STATUS, "0");
       waittime = SPACE_TIME;

@@ -24,6 +24,7 @@ void setup() {
          << F(__FILE__) << endl;
 
   pinMode(LED_YELLOW, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
   pinMode(TASTER_3, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(TASTER_3), handleButtonPress, FALLING);
 

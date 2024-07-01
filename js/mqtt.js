@@ -84,6 +84,11 @@ function onConnect(context) {
   message.retained = true;
   console.log("< PUB", message.destinationName, "0");
   client.send(message);
+  message = new Paho.MQTT.Message("0");
+  message.destinationName = MORSECODE_NR_TOPIC;
+  message.retained = true;
+  console.log("< PUB", message.destinationName, "0");
+  client.send(message);
 }
 
 // Funktion, die aufgerufen wird, wenn die Verbindung zum MQTT-Broker fehlschlägt

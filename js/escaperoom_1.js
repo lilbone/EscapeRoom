@@ -44,10 +44,16 @@ let jumbotronElem = document.querySelector(".jumbotron");
 
 // Willkommensnachricht im Jumbotron anzeigen
 jumbotronElem.innerHTML = `
-   <h2>Willkommen</h2>
-   <p>Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger Rätsel lösen. Nutze die versteckten Hinweise und zeige, 
-   dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?</p><p>Tipp: Nutze den ESP und den Computersound um die Rätsel zu lösen.</p>
-   <p style="display: flex; gap: 10px;"><img src="images/control/space_bar.png" height="20" alt=""><span>Drücke die Leer-Taste zum Starten</span></p>
+    <h2>Willkommen</h2>
+    <p>
+        Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger Rätsel mit Hilfe eines Microcontrollers lösen. Nutze die versteckten Hinweise und zeige, dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?
+    </p>
+    <p>Tipp: Schau das Video zum Microcontroller.</p>
+    <video src="./images/general/Esp-Video.mp4" height="300" controls="true"></video>
+    <p style="display: flex; gap: 10px;">
+        <img src="images/control/space_bar.png" height="20" alt="">
+        <span>Drücke die Leer-Taste zum Starten</span>
+    </p>
 `;
 jumbotronElem.style.display = "flex"; // Jumbotron sichtbar machen
 jumbotronVisible = true; // Zustand aktualisieren
@@ -131,27 +137,29 @@ function updateTime() {
 }
 
 // Funktion zum Verstecken des Jumbotrons
-function hideJumbotron() {
-    const jumbotron = document.querySelector(".jumbotron");
-    if (jumbotron) {
-        jumbotron.style.display = "none";
-        jumbotronVisible = false;
+function hideJumbotron(event) {
+    if (event.code === "Space") {
+        const jumbotron = document.querySelector(".jumbotron");
+        if (jumbotron) {
+            jumbotron.style.display = "none";
+            jumbotronVisible = false;
 
-        // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
-        document.removeEventListener("keydown", hideJumbotron);
+            // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
+            document.removeEventListener("keydown", hideJumbotron);
+        }
+        
+        // Starten der Hintergrundmusik, falls sie nicht bereits spielt
+        if (!themeSoundIsPlaying) {
+            playThemeSound();
+            themeSoundIsPlaying = true;
+        }
+
+        // Starte den Timer und aktualisiere die Zeit jede Sekunde
+        updateTimeInterval = setInterval(updateTime, 1000);
+
+        // Rufe die Funktion sofort auf, um den initialen Wert zu setzen
+        updateTime();
     }
-    
-    // Starten der Hintergrundmusik, falls sie nicht bereits spielt
-    if (!themeSoundIsPlaying) {
-        playThemeSound();
-        themeSoundIsPlaying = true;
-    }
-
-    // Starte den Timer und aktualisiere die Zeit jede Sekunde
-    updateTimeInterval = setInterval(updateTime, 1000);
-
-    // Rufe die Funktion sofort auf, um den initialen Wert zu setzen
-    updateTime();
 }
 
 // Event-Listener hinzufügen, um das Jumbotron zu verstecken

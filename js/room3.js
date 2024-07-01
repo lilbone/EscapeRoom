@@ -135,9 +135,13 @@ function toggleLightRoom3() {
 function showWardrobe(event) {
    // Überprüft, ob die gedrückte Taste die Leertaste ist
    if (event.code === "Space") {
-      const wardrobeElem = document.getElementById("wardrobe-open");
-      wardrobeElem.style.display = "block"; // Schrank anzeigen
-      readLdr(true); // Beginnt, den LDR-Sensor zu lesen
+      if (wardrobeElem.style.display == block) {
+         wardrobeElem.style.display = "none";
+      }else {
+         const wardrobeElem = document.getElementById("wardrobe-open");
+         wardrobeElem.style.display = "block"; // Schrank anzeigen
+         readLdr(true); // Beginnt, den LDR-Sensor zu lesen
+      }
    }
 }
 
@@ -278,6 +282,7 @@ function checkRfid(event) {
            }, 1000);
 
          } else if (rfidCount >= 3) {
+            looseSound.play();
             jumbotronElem.innerHTML = `
                   <h2>!Mission gescheitert!</h2>
                   <h3>Das Haus bleibt nun für immer verschlossen!</h3>
