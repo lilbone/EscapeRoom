@@ -146,6 +146,9 @@ function hideJumbotron(event) {
 
             // Entferne den Event-Listener, um Mehrfachausführungen zu verhindern
             document.removeEventListener("keydown", hideJumbotron);
+
+            const videoBtnElem = document.getElementById("video-btn");
+            videoBtnElem.style.display = "block";
         }
         
         // Starten der Hintergrundmusik, falls sie nicht bereits spielt

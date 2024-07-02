@@ -64,6 +64,7 @@
   }
   #rfid-chip:hover {
     background-color: #fafad2;
+    cursor: pointer;
   }
 }
 

@@ -70,19 +70,19 @@ function checkCollisionWithObjects(playerPosition, playerPositionBefore, room) {
 
         // Überprüfung, ob der Spieler mit dem Objekt kollidiert
 
-        if (playerPositionBefore.left >= objectRight && playerPosition.left < objectRight && playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom ) {
+        if (playerPositionBefore.left >= objectRight && playerPosition.left < objectRight && playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom) {
             // Spieler kollidiert mit dem Objekt von rechts
             playerPosition.left = objectRight;
             return true;
-        } else if (playerPositionBefore.left + playerSize <= objectLeft && playerPosition.left + playerSize > objectLeft && playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom ) {
+        } else if (playerPositionBefore.left + playerSize <= objectLeft && playerPosition.left + playerSize > objectLeft && playerPosition.top + playerSize > objectTop && playerPosition.top < objectBottom) {
             // Spieler kollidiert mit dem Objekt von links
             playerPosition.left = objectLeft - playerSize;
             return true;
-        } else if (playerPositionBefore.top >= objectBottom && playerPosition.top < objectBottom && playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight ) {
+        } else if (playerPositionBefore.top >= objectBottom && playerPosition.top < objectBottom && playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight) {
             // Spieler kollidiert mit dem Objekt von unten
             playerPosition.top = objectBottom;
             return true;
-        } else if (playerPositionBefore.top + playerSize <= objectTop && playerPosition.top + playerSize > objectTop && playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight ) {
+        } else if (playerPositionBefore.top + playerSize <= objectTop && playerPosition.top + playerSize > objectTop && playerPosition.left + playerSize > objectLeft && playerPosition.left < objectRight) {
             // Spieler kollidiert mit dem Objekt von oben
             playerPosition.top = objectTop - playerSize;
             return true;
@@ -106,19 +106,19 @@ function checkCollisionWithItems(playerPosition, playerPositionBefore) {
         const itemBottom = item.top + item.height;
 
         // Überprüfung, ob der Spieler mit dem Gegenstand kollidiert
-        if ( playerPositionBefore.left >= itemRight && playerPosition.left < itemRight && playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom ) {
+        if (playerPositionBefore.left >= itemRight && playerPosition.left < itemRight && playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
-        } else if ( playerPositionBefore.left + playerSize <= itemLeft && playerPosition.left + playerSize > itemLeft && playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom ) {
+        } else if (playerPositionBefore.left + playerSize <= itemLeft && playerPosition.left + playerSize > itemLeft && playerPosition.top + playerSize > itemTop && playerPosition.top < itemBottom) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
-        } else if ( playerPositionBefore.top >= itemBottom && playerPosition.top < itemBottom && playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight ) {
+        } else if (playerPositionBefore.top >= itemBottom && playerPosition.top < itemBottom && playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
-        } else if ( playerPositionBefore.top + playerSize <= itemTop && playerPosition.top + playerSize > itemTop && playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight ) {
+        } else if (playerPositionBefore.top + playerSize <= itemTop && playerPosition.top + playerSize > itemTop && playerPosition.left + playerSize > itemLeft && playerPosition.left < itemRight) {
             document.getElementById(item.backpackId).style.display = "block"; // Gegenstand in den Rucksack verschieben
             document.getElementById(item.id).style.display = "none"; // Gegenstand aus dem Raum entfernen
             return true;
@@ -129,7 +129,7 @@ function checkCollisionWithItems(playerPosition, playerPositionBefore) {
     return false;
 }
 
-function restartGame(){
+function restartGame() {
     // Reset aller mqttt-subs
     message = new Paho.MQTT.Message("0");
     message.destinationName = TOPIC_SEND_LDR;
@@ -142,7 +142,31 @@ function restartGame(){
     message.retained = true;
     console.log("< PUB", message.destinationName, "0");
     client.send(message);
-    
+
 
     window.location.reload();
 }
+
+const videoBtnElem = document.getElementById("video-btn");
+videoBtnElem.addEventListener("click", (e) => {
+    if (jumbotronVisible) {
+        jumbotronElem.style.display = "none";
+        jumbotronVisible = false;
+    } else {
+        let jumbotronElem = document.querySelector(".jumbotron");
+
+        jumbotronElem.innerHTML = `
+                    <video src="./images/general/Esp-Video.mp4" controls="true" height="450"></video>
+                    <button type="button" class="blue-btn" id="close-btn">Schließen</button>
+                `;
+
+        jumbotronElem.style.display = "flex";
+        jumbotronVisible = true;
+
+        const closeElem = document.getElementById("close-btn");
+        closeElem.addEventListener("click", () => {
+            jumbotronElem.style.display = "none";
+            jumbotronVisible = false;
+        });
+    }
+});
