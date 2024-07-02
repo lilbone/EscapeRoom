@@ -134,11 +134,11 @@ function toggleLightRoom3() {
 // Funktion zum Anzeigen des Schranks
 function showWardrobe(event) {
    // Überprüft, ob die gedrückte Taste die Leertaste ist
+   const wardrobeElem = document.getElementById("wardrobe-open");
    if (event.code === "Space") {
-      if (wardrobeElem.style.display == block) {
+      if (wardrobeElem.style.display == "block") {
          wardrobeElem.style.display = "none";
       }else {
-         const wardrobeElem = document.getElementById("wardrobe-open");
          wardrobeElem.style.display = "block"; // Schrank anzeigen
          readLdr(true); // Beginnt, den LDR-Sensor zu lesen
       }
@@ -268,7 +268,7 @@ function checkRfid(event) {
             jumbotronElem.style.display = "flex";
             jumbotronVisible = true;
 
-            let countdown = 10;
+            let countdown = 15;
             const countdownElem = document.getElementById("countdown");
 
             const countdownInterval = setInterval(() => {
