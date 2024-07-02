@@ -110,7 +110,7 @@ function onMessageArrived(message) {
 
   // Aktualisieren der Elemente der Webseite basierend auf dem Thema der Nachricht
   if (message.destinationName == LDR_TOPIC) {
-    if (message.payloadString >= 450) {
+    if (message.payloadString >= 400) {
       showRfidChip(true);
     } else {
       showRfidChip(false);

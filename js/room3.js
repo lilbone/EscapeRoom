@@ -177,6 +177,7 @@ function showRfidChip(state) {
       if (rfidElem) {
          // RFID-Chip sichtbar machen
          rfidElem.style.opacity = "1";
+         rfidElem.style.zIndex = "6";
 
          // Event-Listener hinzufügen, um den RFID-Chip beim Klicken zu entfernen
          rfidElem.addEventListener("click", (e) => {
@@ -192,6 +193,7 @@ function showRfidChip(state) {
       if (rfidElem) {
          // RFID-Chip unsichtbar machen
          rfidElem.style.opacity = "0";
+         rfidElem.style.zIndex = "0";
       }
    }
 }
