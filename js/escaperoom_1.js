@@ -39,23 +39,50 @@ const itemObjects = [
     { id: 'lightSwitchLabel', backpackId: 'lightSwitchLabel-bag', top: 390, left: 10, width: 13, height: 50 },
 ];
 
+//Delete LocalStorage remove line comment
+//localStorage.removeItem("playerNames");
+
+//read localstorage playernames and write it in p tags
+const playerNameList = document.getElementById("player-list");
+playerNameList.innerHTML = "";
+const storedPlayerNames = JSON.parse(localStorage.getItem("playerNames")) || [];
+storedPlayerNames.forEach((player) => {
+    const p = document.createElement("p");
+    p.innerHTML = `<span>${player.name}:</span><span>${player.time}</span>`;
+    playerNameList.appendChild(p);
+});
+
 // Jumbotron-Element
 let jumbotronElem = document.querySelector(".jumbotron");
 
 // Willkommensnachricht im Jumbotron anzeigen
 jumbotronElem.innerHTML = `
-    <h2>Willkommen</h2>
-    <p>
-        Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger Rätsel mit Hilfe eines Microcontrollers lösen. Nutze die versteckten Hinweise und zeige, dass du scharfsinnig genug bist, um den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?
-    </p>
-    <p>Tipp: Schau das Video zum Microcontroller.</p>
-    <video src="./images/general/Esp-Video.mp4" height="300" controls="true"></video>
+    <div id="welcome">
+        <div style="display: flex; gap: 6px; flex-direction: column;">
+            <h2>Willkommen</h2>
+            <p><b>Bitte gib deinen/eure Namen ein</b></p>
+            <input type="text" id="player-name" maxlength="22">
+            <p style="text-align:justify;">
+                Du bist in einem alten, verlassenen Herrenhaus gefangen. Um zu entkommen, musst du eine Reihe kniffliger
+                Rätsel mit
+                Hilfe eines Microcontrollers lösen. Nutze die versteckten Hinweise und zeige, dass du scharfsinnig genug
+                bist, um
+                den Weg nach draußen zu finden. Deine Zeit läuft - kannst du das Geheimnis des Hauses lüften und entkommen?
+            </p>
+            <p>Tipp: Schau das Video zum Microcontroller.</p>
+            
+        </div>
+        <div>
+            <video src="./images/general/Esp-Video.mp4" height="320" controls="true"></video>
+        </div>
+    </div>
     <p style="display: flex; gap: 10px;">
-        <img src="images/control/space_bar.png" height="20" alt="">
-        <span>Drücke die Leer-Taste zum Starten</span>
+        <img src="images/control/enter-key.png" height="20" alt="">
+        <span>Drücke die Enter-Taste zum Starten</span>
     </p>
 `;
 jumbotronElem.style.display = "flex"; // Jumbotron sichtbar machen
+jumbotronElem.style.maxWidth = "600px";
 jumbotronVisible = true; // Zustand aktualisieren
 
 // Funktion zur Zeitformatierung
@@ -94,7 +121,7 @@ function updateTime() {
             newNotificationSound.play();
             morseCodePuzzleHelpElem.style.display = "block";
         }
-    } else if(!hexagonPuzzleFirstHelp && !morseCodePuzzleFirstHelp){
+    } else if (!hexagonPuzzleFirstHelp && !morseCodePuzzleFirstHelp) {
         morseCodePuzzleHelpElem.style.display = "none";
     }
 
@@ -138,7 +165,15 @@ function updateTime() {
 
 // Funktion zum Verstecken des Jumbotrons
 function hideJumbotron(event) {
-    if (event.code === "Space") {
+    if (event.code === "Enter") {
+        const playerNameInput = document.getElementById("player-name");
+        const playerName = playerNameInput.value.trim();
+
+        if (playerName.trim() === "") {
+            alert("Bitte gib deinen Namen ein!");
+            return;
+        }
+
         const jumbotron = document.querySelector(".jumbotron");
         if (jumbotron) {
             jumbotron.style.display = "none";
@@ -150,12 +185,14 @@ function hideJumbotron(event) {
             const videoBtnElem = document.getElementById("video-btn");
             videoBtnElem.style.display = "block";
         }
-        
+
         // Starten der Hintergrundmusik, falls sie nicht bereits spielt
         if (!themeSoundIsPlaying) {
             playThemeSound();
             themeSoundIsPlaying = true;
         }
+
+        playerNameInput.value = "";
 
         // Starte den Timer und aktualisiere die Zeit jede Sekunde
         updateTimeInterval = setInterval(updateTime, 1000);

@@ -188,7 +188,7 @@ div[data-state="open"] {
 #exit {
   position: absolute;
   left: calc(50% - 17px);
-  top: -32px;
+  top: -35px;
   font-size: 18px;
   font-weight: 700;
   font-family: cursive;
@@ -197,6 +197,17 @@ div[data-state="open"] {
 #time {
   margin-bottom: 10px;
   color: #4682b4;
+}
+
+#scoreboard{
+  margin-right: 20px;
+}
+#player-list > p{
+  display: flex;
+  justify-content: space-between;
+}
+#player-list{
+  width: 230px;
 }
 
 #control {
@@ -216,6 +227,11 @@ div[data-state="open"] {
       margin-right: 10px;
     }
   }
+}
+
+#welcome{
+  display: flex;
+  gap: 15px;
 }
 
 .blue-btn {

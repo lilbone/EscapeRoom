@@ -118,10 +118,10 @@ function toggleLightRoom3() {
       lightRoom3State = true;
       lightSwitchRoom3.style.backgroundColor = "#fdf300";
       //if (canMoveThroughDoor(3)) {
-         lightRoom3.style.backgroundColor = "transparent";
-         lightSwitch3Puzzle = true;
-         lightSwitch3PuzzleFirstHelp = false;
-         puzzleSeconds = 0;
+      lightRoom3.style.backgroundColor = "transparent";
+      lightSwitch3Puzzle = true;
+      lightSwitch3PuzzleFirstHelp = false;
+      puzzleSeconds = 0;
       //}
    } else {
       // Wenn der Lichtschalter an ist, ändere ihn zu weiß und schalte das Licht aus
@@ -138,7 +138,7 @@ function showWardrobe(event) {
    if (event.code === "Space") {
       if (wardrobeElem.style.display == "block") {
          wardrobeElem.style.display = "none";
-      }else {
+      } else {
          wardrobeElem.style.display = "block"; // Schrank anzeigen
          readLdr(true); // Beginnt, den LDR-Sensor zu lesen
       }
@@ -215,7 +215,7 @@ function checkRoom3ReaderPos(playerPosition, playerPositionBefore) {
          client.send(message);
 
          subscribe_topic(RFID_UID_TOPIC);
-      } 
+      }
 
       // Füge den Event-Listener für das Tastaturereignis "keydown" hinzu
       document.addEventListener("keydown", checkRfid);
@@ -260,6 +260,35 @@ function checkRfid(event) {
             // Formatiere die Zeit
             const formattedTime = `${pad(minutes)}:${pad(secs)}`;
 
+            // Spielername und formatierte Zeit als Objekt speichern
+            const playerNameWithTime = {
+               name: playerName,
+               time: formattedTime
+            };
+
+            // Spieler-Array aus dem localStorage holen oder neues Array erstellen
+            const playerNames = JSON.parse(localStorage.getItem("playerNames")) || [];
+
+            // Neues Spielerobjekt hinzufügen
+            playerNames.push(playerNameWithTime);
+
+            // Aktualisiertes Spieler-Array im localStorage speichern
+            localStorage.setItem("playerNames", JSON.stringify(playerNames));
+            /* const playerNames = JSON.parse(localStorage.getItem("playerNames")) || [];
+            playerNames.push(playerName);
+            localStorage.setItem("playerNames", JSON.stringify(playerNames)); */
+
+            //read localstorage playernames and write it in p tags
+            const playerNameList = document.getElementById("player-list");
+            playerNameList.innerHTML = "";
+            const storedPlayerNames = JSON.parse(localStorage.getItem("playerNames")) || [];
+            storedPlayerNames.forEach((player) => {
+               const p = document.createElement("p");
+               p.innerHTML = `<span>${player.name}:</span><span>${player.time}</span>`;
+               playerNameList.appendChild(p);
+           });
+
+
             jumbotronElem.innerHTML = `
                   <h2>👌 Mission Erfolgreich</h2>
                   <h3>Du hast alle Rätsel erfolgreich gelöst</h3>
@@ -276,12 +305,12 @@ function checkRfid(event) {
             const countdownInterval = setInterval(() => {
                countdown--;
                countdownElem.textContent = countdown;
-       
+
                if (countdown === 0) {
-                   clearInterval(countdownInterval);
-                   restartGame();
+                  clearInterval(countdownInterval);
+                  restartGame();
                }
-           }, 1000);
+            }, 1000);
 
          } else if (rfidCount >= 3) {
             looseSound.play();
@@ -301,12 +330,12 @@ function checkRfid(event) {
             const countdownInterval = setInterval(() => {
                countdown--;
                countdownElem.textContent = countdown;
-       
+
                if (countdown === 0) {
-                   clearInterval(countdownInterval);
-                   restartGame();
+                  clearInterval(countdownInterval);
+                  restartGame();
                }
-           }, 1000);
+            }, 1000);
          } else {
 
             jumbotronElem.innerHTML = `
