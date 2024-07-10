@@ -33,6 +33,8 @@ let wardrobePuzzleFirstHelp = false;
 
 let updateTimeInterval;
 
+let playerName
+
 // Liste der Gegenstandsobjekte
 const itemObjects = [
     { id: 'morse-code', backpackId: 'morse-code-bag', top: 178, left: 183, width: 21, height: 36 },
@@ -105,7 +107,7 @@ function updateTime() {
     // Überprüfe die Zeit für die jeweiligen Rätsel und zeige Hilfetexte an
     const mirrorPuzzleHelpElem = document.getElementById("puzzle-helper-room1");
     if (!mirrorPuzzle) {
-        if (puzzleSeconds == 10 && !mirrorPuzzleFirstHelp) {
+        if (puzzleSeconds == 70 && !mirrorPuzzleFirstHelp) {
             mirrorPuzzleFirstHelp = true;
             newNotificationSound.play();
             mirrorPuzzleHelpElem.style.display = "block";
@@ -116,7 +118,7 @@ function updateTime() {
 
     const morseCodePuzzleHelpElem = document.getElementById("puzzle-helper-room2");
     if (!morseCodePuzzle && mirrorPuzzle) {
-        if (puzzleSeconds == 10 && !morseCodePuzzleFirstHelp) {
+        if (puzzleSeconds == 60 && !morseCodePuzzleFirstHelp) {
             morseCodePuzzleFirstHelp = true;
             newNotificationSound.play();
             morseCodePuzzleHelpElem.style.display = "block";
@@ -127,7 +129,7 @@ function updateTime() {
 
     const hexagonPuzzleHelpElem = document.getElementById("puzzle-helper-room2");
     if (!hexagonPuzzle && mirrorPuzzle && morseCodePuzzle) {
-        if (puzzleSeconds == 10 && !hexagonPuzzleFirstHelp) {
+        if (puzzleSeconds == 60 && !hexagonPuzzleFirstHelp) {
             hexagonPuzzleFirstHelp = true;
             newNotificationSound.play();
             hexagonPuzzleHelpElem.style.display = "block";
@@ -138,7 +140,7 @@ function updateTime() {
 
     const lightSwitch3PuzzleHelpElem = document.getElementById("puzzle-helper-room1");
     if (!lightSwitch3Puzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle) {
-        if (puzzleSeconds == 10 && !lightSwitch3PuzzleFirstHelp) {
+        if (puzzleSeconds == 50 && !lightSwitch3PuzzleFirstHelp) {
             lightSwitch3PuzzleFirstHelp = true;
             newNotificationSound.play();
             lightSwitch3PuzzleHelpElem.style.display = "block";
@@ -149,7 +151,7 @@ function updateTime() {
 
     const wardrobePuzzleHelpElem = document.getElementById("puzzle-helper-room3");
     if (!wardrobePuzzle && mirrorPuzzle && morseCodePuzzle && hexagonPuzzle && lightSwitch3Puzzle) {
-        if (puzzleSeconds == 10 && !wardrobePuzzleFirstHelp) {
+        if (puzzleSeconds == 65 && !wardrobePuzzleFirstHelp) {
             wardrobePuzzleFirstHelp = true;
             newNotificationSound.play();
             wardrobePuzzleHelpElem.style.display = "block";
@@ -167,7 +169,7 @@ function updateTime() {
 function hideJumbotron(event) {
     if (event.code === "Enter") {
         const playerNameInput = document.getElementById("player-name");
-        const playerName = playerNameInput.value.trim();
+        playerName = playerNameInput.value.trim();
 
         if (playerName.trim() === "") {
             alert("Bitte gib deinen Namen ein!");
