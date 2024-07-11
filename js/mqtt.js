@@ -8,9 +8,12 @@ var client = null; // MQTT-Client
 var led_is_on = false; // Status der LED, benötigt für led_toggle()
 
 // Konfigurationen
-const HOSTNAME = "192.168.4.1";
+//const HOSTNAME = "192.168.4.1";
+const HOSTNAME = "192.168.43.215";
 const PORT = "80";
-const PATH = "/ws";
+//const PORT = "1883";
+//const PATH = "/ws";
+const PATH = "/";
 const CLIENTID = "mqtt_js_" + parseInt(Math.random() * 100000, 10);
 
 const LDR_TOPIC = "esp/brightness"; // Thema für den Helligkeitssensor

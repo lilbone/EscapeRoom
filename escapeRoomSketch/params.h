@@ -9,7 +9,7 @@
 // MQTT-Parameter
 //const char* MQTT_BROKER = "192.168.4.1";
 //const char* MQTT_BROKER = "192.168.43.133";
-const char* MQTT_BROKER = "192.168.100.39";
+const char* MQTT_BROKER = "192.168.43.215";
 const uint16_t PORT = 1883;
 
 WiFiClient espClient;
